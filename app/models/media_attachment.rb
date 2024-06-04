@@ -181,7 +181,8 @@ class MediaAttachment < ApplicationRecord
   has_attached_file :file,
                     styles: ->(f) { file_styles f },
                     processors: ->(f) { file_processors f },
-                    convert_options: GLOBAL_CONVERT_OPTIONS
+                    convert_options: GLOBAL_CONVERT_OPTIONS,
+                    validate_media_type: false
 
   before_file_validate :set_type_and_extension
   before_file_validate :check_video_dimensions
@@ -193,7 +194,8 @@ class MediaAttachment < ApplicationRecord
   has_attached_file :thumbnail,
                     styles: THUMBNAIL_STYLES,
                     processors: [:lazy_thumbnail, :blurhash_transcoder, :color_extractor],
-                    convert_options: GLOBAL_CONVERT_OPTIONS
+                    convert_options: GLOBAL_CONVERT_OPTIONS,
+                    validate_media_type: false
 
   validates_attachment_content_type :thumbnail, content_type: IMAGE_MIME_TYPES
   validates_attachment_size :thumbnail, less_than: IMAGE_LIMIT
