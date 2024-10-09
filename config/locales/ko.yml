@@ -1778,6 +1778,7 @@ ko:
     mastodon-bird-ui-light: 파랑새 (밝음)
     mastodon-bird-ui-contrast: 파랑새 (고대비)
     system: 자동 (시스템 테마 사용)
+    mustard-theme: 머스타드 (어두움)
   time:
     formats:
       default: "%Y-%m-%d %H:%M"

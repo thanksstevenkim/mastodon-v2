@@ -1807,6 +1807,7 @@ en:
     mastodon-light: Mastodon (Light)
     mastodon-dark: Mastodon (Dark)
     system: Automatic (use system theme)
+    mustard-theme: Mustard Theme (Dark)
   time:
     formats:
       default: "%b %d, %Y, %H:%M"
