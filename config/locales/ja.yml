@@ -1763,7 +1763,8 @@ ja:
     does_not_match_previous_name: 以前の名前と一致しません
   themes:
     contrast: Mastodon (ハイコントラスト)
-    default: Mastodon (ダーク)
+    default: Mastodon Bird UI (ダーク)
+    mastodon-dark: Mastodon (ダーク)
     mastodon-light: Mastodon (ライト)
     mastodon-bird-ui-light: Mastodon Bird UI (ライト)
     mastodon-bird-ui-contrast: Mastodon Bird UI (ハイコントラスト)

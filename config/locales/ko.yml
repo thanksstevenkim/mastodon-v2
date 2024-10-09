@@ -1772,7 +1772,8 @@ ko:
     does_not_match_previous_name: 이전 이름과 맞지 않습니다
   themes:
     contrast: 마스토돈 (고대비)
-    default: 마스토돈 (어두움)
+    default: 파랑새 (어두움)
+    mastodon-dark: 마스토돈 (어두움)
     mastodon-light: 마스토돈 (밝음)
     mastodon-bird-ui-light: 파랑새 (밝음)
     mastodon-bird-ui-contrast: 파랑새 (고대비)
