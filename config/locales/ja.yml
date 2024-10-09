@@ -1765,6 +1765,8 @@ ja:
     contrast: Mastodon (ハイコントラスト)
     default: Mastodon (ダーク)
     mastodon-light: Mastodon (ライト)
+    mastodon-bird-ui-light: Mastodon Bird UI (ライト)
+    mastodon-bird-ui-contrast: Mastodon Bird UI (ハイコントラスト)
     system: 自動 (システムのテーマを使用)
   time:
     formats:
