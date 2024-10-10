@@ -3,17 +3,17 @@ $black: #000000; // Black
 $white: #ffffff; // White
 $red-600: #b7253d !default; // Deep Carmine
 $red-500: #df405a !default; // Cerise
-$blurple-600: hsl(40, 70%, 40%); // Iris
-$blurple-500: hsl(41, 72%, 45%); // Brand purple
-$blurple-400: hsl(42, 74%, 50%); // Medium slate blue
-$blurple-300: hsl(43, 76%, 55%); // Faded Blue
+$blurple-600: hsl(40deg, 70%, 40%); // Iris
+$blurple-500: hsl(41deg, 72%, 45%); // Brand purple
+$blurple-400: hsl(42deg, 74%, 50%); // Medium slate blue
+$blurple-300: hsl(43deg, 76%, 55%); // Faded Blue
 $grey-600: hsl(240deg, 8%, 33%); // Trout
 $grey-100: hsl(240deg, 51%, 90%); // Topaz
 
 $success-green: #79bd9a !default; // Padua
 $error-red: $red-500 !default; // Cerise
 $warning-red: #ff5050 !default; // Sunset Orange
-$gold-star: hsl(42, 90%, 55%) !default; // Dark Goldenrod
+$gold-star: hsl(42deg, 90%, 55%) !default; // Dark Goldenrod
 
 $red-bookmark: $warning-red;
 
