@@ -126,17 +126,19 @@ RUN \
 # Create temporary build layer from base image
 FROM ruby AS build
 
-RUN apt-get update && apt-get install -y nodejs npm
+ENV NODE_VERSION 20.18.0
+RUN curl -fsSL https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.gz | tar xz -C /usr/local --strip-components=1 && \
+    corepack enable
 
-RUN npm install -g corepack && corepack enable && corepack prepare yarn@4.5.0 --activate
+RUN corepack prepare yarn@4.5.0 --activate
 
 WORKDIR /opt/mastodon
 # Copy Node package configuration files into working directory
-COPY package.json .yarnrc.yml ./
+COPY package.json yarn.lock .yarnrc.yml ./
 COPY .yarn ./.yarn
-RUN rm -f yarn.lock && yarn install --production && yarn cache clean
+COPY streaming streaming
 
-COPY . .
+RUN yarn install
 
 COPY --from=node /usr/local/bin /usr/local/bin
 COPY --from=node /usr/local/lib /usr/local/lib
@@ -300,11 +302,8 @@ COPY streaming/package.json /opt/mastodon/streaming/
 COPY .yarn /opt/mastodon/.yarn
 
 # hadolint ignore=DL3008
-RUN \
---mount=type=cache,id=yarn-cache-${TARGETPLATFORM},target=/usr/local/share/.cache/yarn,sharing=locked \
-# Install Node packages
-  yarn workspaces focus --all --production && \
-  cd streaming && yarn install --production && cd ..
+RUN --mount=type=cache,id=yarn-cache-${TARGETPLATFORM},target=/usr/local/share/.cache/yarn,sharing=locked \
+    yarn workspaces focus --all --production
 
 # Create temporary assets build layer from build layer
 FROM build AS precompiler
@@ -334,6 +333,11 @@ RUN \
 FROM ruby AS mastodon
 
 ARG TARGETPLATFORM
+
+ENV NODE_VERSION 20.18.0
+RUN curl -fsSL https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.gz | tar xz -C /usr/local --strip-components=1 && \
+    corepack enable && \
+    corepack prepare yarn@4.5.0 --activate
 
 # hadolint ignore=DL3008
 RUN \
@@ -383,11 +387,6 @@ RUN \
     libx265-199 \
   ;
 
-RUN apt-get update && apt-get install -y nodejs npm && \
-    npm install -g corepack && \
-    corepack enable && \
-    corepack prepare yarn@4.5.0 --activate
-
 # Copy Mastodon sources into final layer
 COPY . /opt/mastodon/
 
@@ -404,7 +403,7 @@ COPY --from=ffmpeg /usr/local/ffmpeg/bin /usr/local/bin
 COPY --from=ffmpeg /usr/local/ffmpeg/lib /usr/local/lib
 
 COPY --from=yarn /opt/mastodon/node_modules /opt/mastodon/node_modules
-COPY --from=yarn /opt/mastodon/streaming/node_modules /opt/mastodon/streaming/node_modules
+COPY --from=yarn /opt/mastodon/streaming /opt/mastodon/streaming
 
 RUN \
   ldconfig; \
