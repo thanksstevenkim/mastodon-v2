@@ -23,6 +23,11 @@ FROM docker.io/node:${NODE_MAJOR_VERSION}-${DEBIAN_VERSION}-slim AS node
 # Ruby image to use for base image based on combined variables (ex: 3.3.x-slim-bookworm)
 FROM docker.io/ruby:${RUBY_VERSION}-slim-${DEBIAN_VERSION} AS ruby
 
+COPY --from=node /usr/local/bin/node /usr/local/bin/
+COPY --from=node /usr/local/lib/node_modules /usr/local/lib/node_modules
+RUN ln -s /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm && \
+    ln -s /usr/local/lib/node_modules/npm/bin/npx-cli.js /usr/local/bin/npx
+
 # Resulting version string is vX.X.X-MASTODON_VERSION_PRERELEASE+MASTODON_VERSION_METADATA
 # Example: v4.3.0-nightly.2023.11.09+pr-123456
 # Overwrite existence of 'alpha.X' in version.rb [--build-arg MASTODON_VERSION_PRERELEASE="nightly.2023.11.09"]
@@ -121,9 +126,17 @@ RUN \
 # Create temporary build layer from base image
 FROM ruby AS build
 
+RUN apt-get update && apt-get install -y nodejs npm
+
+RUN npm install -g corepack && corepack enable && corepack prepare yarn@4.5.0 --activate
+
+WORKDIR /opt/mastodon
 # Copy Node package configuration files into working directory
-COPY package.json yarn.lock .yarnrc.yml /opt/mastodon/
-COPY .yarn /opt/mastodon/.yarn
+COPY package.json yarn.lock .yarnrc.yml ./
+COPY .yarn ./.yarn
+RUN yarn workspaces focus --all --production && yarn cache clean
+
+COPY . .
 
 COPY --from=node /usr/local/bin /usr/local/bin
 COPY --from=node /usr/local/lib /usr/local/lib
@@ -288,10 +301,9 @@ COPY .yarn /opt/mastodon/.yarn
 
 # hadolint ignore=DL3008
 RUN \
---mount=type=cache,id=corepack-cache-${TARGETPLATFORM},target=/usr/local/share/.cache/corepack,sharing=locked \
 --mount=type=cache,id=yarn-cache-${TARGETPLATFORM},target=/usr/local/share/.cache/yarn,sharing=locked \
 # Install Node packages
-  yarn workspaces focus --production @mastodon/mastodon;
+  yarn workspaces focus --all --production
 
 # Create temporary assets build layer from build layer
 FROM build AS precompiler
@@ -330,6 +342,7 @@ RUN \
 # Mount Corepack and Yarn caches from Docker buildx caches
 --mount=type=cache,id=corepack-cache-${TARGETPLATFORM},target=/usr/local/share/.cache/corepack,sharing=locked \
 --mount=type=cache,id=yarn-cache-${TARGETPLATFORM},target=/usr/local/share/.cache/yarn,sharing=locked \
+
 # Apt update install non-dev versions of necessary components
   apt-get install -y --no-install-recommends \
     libexpat1 \
@@ -368,6 +381,11 @@ RUN \
     libx264-164 \
     libx265-199 \
   ;
+
+RUN apt-get update && apt-get install -y nodejs npm && \
+    npm install -g corepack && \
+    corepack enable && \
+    corepack prepare yarn@4.5.0 --activate
 
 # Copy Mastodon sources into final layer
 COPY . /opt/mastodon/
