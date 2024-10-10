@@ -1764,12 +1764,12 @@ ja:
   themes:
     contrast: Mastodon (ハイコントラスト)
     default: Mastodon Bird UI (ダーク)
+    mastodon-bird-ui-contrast: Mastodon Bird UI (ハイコントラスト)
+    mastodon-bird-ui-light: Mastodon Bird UI (ライト)
     mastodon-dark: Mastodon (ダーク)
     mastodon-light: Mastodon (ライト)
-    mastodon-bird-ui-light: Mastodon Bird UI (ライト)
-    mastodon-bird-ui-contrast: Mastodon Bird UI (ハイコントラスト)
-    system: 自動 (システムのテーマを使用)
     mustard-theme: Mustard Theme (ダーク)
+    system: 自動 (システムのテーマを使用)
   time:
     formats:
       default: "%Y年%m月%d日 %H:%M"

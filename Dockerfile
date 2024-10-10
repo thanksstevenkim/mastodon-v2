@@ -132,9 +132,9 @@ RUN npm install -g corepack && corepack enable && corepack prepare yarn@4.5.0 --
 
 WORKDIR /opt/mastodon
 # Copy Node package configuration files into working directory
-COPY package.json yarn.lock .yarnrc.yml ./
+COPY package.json .yarnrc.yml ./
 COPY .yarn ./.yarn
-RUN yarn workspaces focus --all --production && yarn cache clean
+RUN rm -f yarn.lock && yarn install --production && yarn cache clean
 
 COPY . .
 
@@ -303,7 +303,8 @@ COPY .yarn /opt/mastodon/.yarn
 RUN \
 --mount=type=cache,id=yarn-cache-${TARGETPLATFORM},target=/usr/local/share/.cache/yarn,sharing=locked \
 # Install Node packages
-  yarn workspaces focus --all --production
+  yarn workspaces focus --all --production && \
+  cd streaming && yarn install --production && cd ..
 
 # Create temporary assets build layer from build layer
 FROM build AS precompiler
@@ -401,6 +402,9 @@ COPY --from=libvips /usr/local/libvips/lib /usr/local/lib
 # Copy ffpmeg components to layer
 COPY --from=ffmpeg /usr/local/ffmpeg/bin /usr/local/bin
 COPY --from=ffmpeg /usr/local/ffmpeg/lib /usr/local/lib
+
+COPY --from=yarn /opt/mastodon/node_modules /opt/mastodon/node_modules
+COPY --from=yarn /opt/mastodon/streaming/node_modules /opt/mastodon/streaming/node_modules
 
 RUN \
   ldconfig; \
