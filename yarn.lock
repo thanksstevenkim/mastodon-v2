@@ -191,7 +191,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/helper-module-imports@npm:^7.0.0-beta.49, @babel/helper-module-imports@npm:^7.10.4, @babel/helper-module-imports@npm:^7.16.7, @babel/helper-module-imports@npm:^7.24.7":
+"@babel/helper-module-imports@npm:^7.10.4, @babel/helper-module-imports@npm:^7.16.7, @babel/helper-module-imports@npm:^7.24.7":
   version: 7.24.7
   resolution: "@babel/helper-module-imports@npm:7.24.7"
   dependencies:
@@ -1521,7 +1521,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@babel/types@npm:^7.0.0, @babel/types@npm:^7.0.0-beta.49, @babel/types@npm:^7.12.11, @babel/types@npm:^7.12.6, @babel/types@npm:^7.20.7, @babel/types@npm:^7.24.7, @babel/types@npm:^7.24.8, @babel/types@npm:^7.25.0, @babel/types@npm:^7.25.2, @babel/types@npm:^7.25.4, @babel/types@npm:^7.3.3, @babel/types@npm:^7.4.4":
+"@babel/types@npm:^7.0.0, @babel/types@npm:^7.12.11, @babel/types@npm:^7.12.6, @babel/types@npm:^7.20.7, @babel/types@npm:^7.24.7, @babel/types@npm:^7.24.8, @babel/types@npm:^7.25.0, @babel/types@npm:^7.25.2, @babel/types@npm:^7.25.4, @babel/types@npm:^7.3.3, @babel/types@npm:^7.4.4":
   version: 7.25.4
   resolution: "@babel/types@npm:7.25.4"
   dependencies:
@@ -2851,7 +2851,6 @@ __metadata:
     babel-jest: "npm:^29.5.0"
     babel-loader: "npm:^8.3.0"
     babel-plugin-formatjs: "npm:^10.5.1"
-    babel-plugin-lodash: "patch:babel-plugin-lodash@npm%3A3.3.4#~/.yarn/patches/babel-plugin-lodash-npm-3.3.4-c7161075b6.patch"
     babel-plugin-preval: "npm:^5.1.0"
     babel-plugin-transform-react-remove-prop-types: "npm:^0.4.24"
     blurhash: "npm:^2.0.5"
@@ -2866,7 +2865,7 @@ __metadata:
     css-loader: "npm:^5.2.7"
     cssnano: "npm:^7.0.0"
     detect-passive-events: "npm:^2.0.3"
-    emoji-mart: "npm:emoji-mart-lazyload@latest"
+    emoji-mart: "npm:^3.0.1"
     escape-html: "npm:^1.0.3"
     eslint: "npm:^8.41.0"
     eslint-define-config: "npm:^2.0.0"
@@ -5282,32 +5281,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"babel-plugin-lodash@npm:3.3.4":
-  version: 3.3.4
-  resolution: "babel-plugin-lodash@npm:3.3.4"
-  dependencies:
-    "@babel/helper-module-imports": "npm:^7.0.0-beta.49"
-    "@babel/types": "npm:^7.0.0-beta.49"
-    glob: "npm:^7.1.1"
-    lodash: "npm:^4.17.10"
-    require-package-name: "npm:^2.0.1"
-  checksum: 10c0/1a1db624f70c1e9badd3ca112bc6819157e75768aab949c424cfabe562765d7f22cf93e5e088e820d5d5b1da7b2bd9d045cb54a5790616b65da1f84eda2ecc08
-  languageName: node
-  linkType: hard
-
-"babel-plugin-lodash@patch:babel-plugin-lodash@npm%3A3.3.4#~/.yarn/patches/babel-plugin-lodash-npm-3.3.4-c7161075b6.patch":
-  version: 3.3.4
-  resolution: "babel-plugin-lodash@patch:babel-plugin-lodash@npm%3A3.3.4#~/.yarn/patches/babel-plugin-lodash-npm-3.3.4-c7161075b6.patch::version=3.3.4&hash=201e99"
-  dependencies:
-    "@babel/helper-module-imports": "npm:^7.0.0-beta.49"
-    "@babel/types": "npm:^7.0.0-beta.49"
-    glob: "npm:^7.1.1"
-    lodash: "npm:^4.17.10"
-    require-package-name: "npm:^2.0.1"
-  checksum: 10c0/61fe073dcb381141d5cce766582750f487609bea3ad1c6725d736287f2ccd270e14d14190a7bd2700945a39acf8d58fdbee3ab7f80a7eb2a65980cf77185226c
-  languageName: node
-  linkType: hard
-
 "babel-plugin-macros@npm:^3.0.1, babel-plugin-macros@npm:^3.1.0":
   version: 3.1.0
   resolution: "babel-plugin-macros@npm:3.1.0"
@@ -7506,16 +7479,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"emoji-mart@npm:emoji-mart-lazyload@latest":
-  version: 3.0.1-j
-  resolution: "emoji-mart-lazyload@npm:3.0.1-j"
+"emoji-mart@npm:^3.0.1":
+  version: 3.0.1
+  resolution: "emoji-mart@npm:3.0.1"
   dependencies:
     "@babel/runtime": "npm:^7.0.0"
-    intersection-observer: "npm:^0.12.0"
     prop-types: "npm:^15.6.0"
   peerDependencies:
     react: ^0.14.0 || ^15.0.0-0 || ^16.0.0 || ^17.0.0
-  checksum: 10c0/be673a03292d6a79db38fa0f5ad525a82a642ee5211b8ff32630dfce70988627bb9724695c60f11d635a5631a539beabbddd1185f0986f06890f4266e9cedee2
+  checksum: 10c0/340460a1c1b06747ebab901d862eda54012786fc05348183c43aa37572ef4a2918232474622dd5a274d75c4efa5b24331cb419717e4e8e649eacde039be321f3
   languageName: node
   linkType: hard
 
@@ -9081,7 +9053,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"glob@npm:^7.0.3, glob@npm:^7.1.1, glob@npm:^7.1.3, glob@npm:^7.1.4, glob@npm:^7.1.6":
+"glob@npm:^7.0.3, glob@npm:^7.1.3, glob@npm:^7.1.4, glob@npm:^7.1.6":
   version: 7.2.3
   resolution: "glob@npm:7.2.3"
   dependencies:
@@ -9815,13 +9787,6 @@ __metadata:
   version: 1.4.0
   resolution: "interpret@npm:1.4.0"
   checksum: 10c0/08c5ad30032edeec638485bc3f6db7d0094d9b3e85e0f950866600af3c52e9fd69715416d29564731c479d9f4d43ff3e4d302a178196bdc0e6837ec147640450
-  languageName: node
-  linkType: hard
-
-"intersection-observer@npm:^0.12.0":
-  version: 0.12.2
-  resolution: "intersection-observer@npm:0.12.2"
-  checksum: 10c0/9591f46b2b742f5801ed69dbc8860f487771b4af8361e7a5dcb28a377beff2ba56336a2b090af261825430d225dae9417121496d2e6925e000e4a469958843ff
   languageName: node
   linkType: hard
 
@@ -11624,7 +11589,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lodash@npm:^4.17.10, lodash@npm:^4.17.11, lodash@npm:^4.17.14, lodash@npm:^4.17.20, lodash@npm:^4.17.21":
+"lodash@npm:^4.17.11, lodash@npm:^4.17.14, lodash@npm:^4.17.20, lodash@npm:^4.17.21":
   version: 4.17.21
   resolution: "lodash@npm:4.17.21"
   checksum: 10c0/d8cbea072bb08655bb4c989da418994b073a608dffa608b09ac04b43a791b12aeae7cd7ad919aa4c925f33b48490b5cfe6c1f71d827956071dae2e7bb3a6b74c
@@ -15184,13 +15149,6 @@ __metadata:
   version: 2.0.0
   resolution: "require-main-filename@npm:2.0.0"
   checksum: 10c0/db91467d9ead311b4111cbd73a4e67fa7820daed2989a32f7023785a2659008c6d119752d9c4ac011ae07e537eb86523adff99804c5fdb39cd3a017f9b401bb6
-  languageName: node
-  linkType: hard
-
-"require-package-name@npm:^2.0.1":
-  version: 2.0.1
-  resolution: "require-package-name@npm:2.0.1"
-  checksum: 10c0/2da87caecdd2157489deaf8add246696dc9cbcebd89ef49b062ad1183594b979f96f8194d4b0f5447a92ad72d39b9fae2df38ec5b9ecef9c7c0157af38eeecbc
   languageName: node
   linkType: hard
 
