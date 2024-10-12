@@ -2933,6 +2933,7 @@ __metadata:
     stacktrace-js: "npm:^2.0.2"
     stringz: "npm:^2.1.0"
     stylelint: "npm:^16.0.2"
+    stylelint-actions-formatters: "npm:^16.3.1"
     stylelint-config-prettier-scss: "npm:^1.0.0"
     stylelint-config-standard-scss: "npm:^13.0.0"
     substring-trie: "npm:^1.0.2"
@@ -16622,6 +16623,21 @@ __metadata:
   languageName: node
   linkType: hard
 
+"stylelint-actions-formatters@npm:^16.3.1":
+  version: 16.3.1
+  resolution: "stylelint-actions-formatters@npm:16.3.1"
+  dependencies:
+    is-plain-object: "npm:^5.0.0"
+    picocolors: "npm:^1.0.0"
+    string-width: "npm:^4.2.3"
+    supports-hyperlinks: "npm:^3.0.0"
+    table: "npm:^6.8.1"
+  peerDependencies:
+    stylelint: ^16.3.1
+  checksum: 10c0/4dfca7cd19a6fc439747fcb8703cd2b33f43513a137fc78cc862e57c37256fa773b562588c41e8900564c4f0b49de75e512d1346d5e5c2d4831cb368067c0d75
+  languageName: node
+  linkType: hard
+
 "stylelint-config-prettier-scss@npm:^1.0.0":
   version: 1.0.0
   resolution: "stylelint-config-prettier-scss@npm:1.0.0"
@@ -16801,7 +16817,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"supports-hyperlinks@npm:^3.1.0":
+"supports-hyperlinks@npm:^3.0.0, supports-hyperlinks@npm:^3.1.0":
   version: 3.1.0
   resolution: "supports-hyperlinks@npm:3.1.0"
   dependencies:
@@ -16889,7 +16905,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"table@npm:^6.8.2":
+"table@npm:^6.8.1, table@npm:^6.8.2":
   version: 6.8.2
   resolution: "table@npm:6.8.2"
   dependencies:

@@ -193,6 +193,7 @@
     "prettier": "^3.3.3",
     "react-test-renderer": "^18.2.0",
     "stylelint": "^16.0.2",
+    "stylelint-actions-formatters": "^16.3.1",
     "stylelint-config-prettier-scss": "^1.0.0",
     "stylelint-config-standard-scss": "^13.0.0",
     "typescript": "^5.0.4",
