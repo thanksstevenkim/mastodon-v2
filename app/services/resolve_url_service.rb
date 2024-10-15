@@ -7,7 +7,7 @@ class ResolveURLService < BaseService
   USERNAME_STATUS_RE = %r{/@(?<username>#{Account::USERNAME_RE})/(?<status_id>[0-9]+)\Z}
 
   def call(url, on_behalf_of: nil)
-    @url          = url
+    @url          = expand_youtube_url(url)
     @on_behalf_of = on_behalf_of
 
     if local_url?
@@ -20,6 +20,15 @@ class ResolveURLService < BaseService
   end
 
   private
+
+  def expand_youtube_url(url)
+    uri = Addressable::URI.parse(url)
+    if uri.host == 'youtu.be'
+      "https://www.youtube.com/watch?v=#{uri.path[1..]}"
+    else
+      url
+    end
+  end
 
   def process_url
     if equals_or_includes_any?(type, ActivityPub::FetchRemoteActorService::SUPPORTED_TYPES)

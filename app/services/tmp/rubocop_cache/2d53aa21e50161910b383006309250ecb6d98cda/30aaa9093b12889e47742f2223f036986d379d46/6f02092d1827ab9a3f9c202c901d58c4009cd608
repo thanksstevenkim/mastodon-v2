@@ -1,0 +1,1 @@
+[{"severity":"convention","location":{"begin_pos":4277,"end_pos":6149},"message":"Metrics/AbcSize: Assignment Branch Condition size for attempt_oembed is too high. [<25, 76, 22> 82.98/82] (http://c2.com/cgi/wiki?AbcMetric, https://en.wikipedia.org/wiki/ABC_Software_Metric)","cop_name":"Metrics/AbcSize","status":"unsupported"}]

@@ -78,7 +78,7 @@ class FetchLinkCardService < BaseService
 
   def parse_urls
     urls = if @status.local?
-             @status.text.scan(URL_PATTERN).map { |array| Addressable::URI.parse(array[1]).normalize }
+             @status.text.scan(URL_PATTERN).map { |array| expand_youtube_url(Addressable::URI.parse(array[1]).normalize) }
            else
              document = Nokogiri::HTML5(@status.text)
              links = document.css('a')
@@ -87,6 +87,14 @@ class FetchLinkCardService < BaseService
            end
 
     urls.reject { |uri| bad_url?(uri) }.first
+  end
+
+  def expand_youtube_url(uri)
+    if uri.host == 'youtu.be'
+      Addressable::URI.parse("https://www.youtube.com/watch?v=#{uri.path[1..]}")
+    else
+      uri
+    end
   end
 
   def bad_url?(uri)
@@ -106,17 +114,26 @@ class FetchLinkCardService < BaseService
   end
 
   def attempt_oembed
+    embed = fetch_embed
+    return false if embed.nil?
+
+    url = Addressable::URI.parse(service.endpoint_url)
+    set_card_attributes(embed, url)
+    process_card_by_type(embed, url)
+  end
+
+  def fetch_embed
     service         = FetchOEmbedService.new
     url_domain      = Addressable::URI.parse(@url).normalized_host
+    @url = expand_youtube_url(@url) if url_domain == 'youtu.be'
     cached_endpoint = Rails.cache.read("oembed_endpoint:#{url_domain}")
 
     embed   = service.call(@url, cached_endpoint: cached_endpoint) unless cached_endpoint.nil?
     embed ||= service.call(@url, html: html) unless html.nil?
+    embed
+  end
 
-    return false if embed.nil?
-
-    url = Addressable::URI.parse(service.endpoint_url)
-
+  def set_card_attributes(embed, url)
     @card.type          = embed[:type]
     @card.title         = embed[:title]         || ''
     @card.author_name   = embed[:author_name]   || ''
@@ -125,28 +142,42 @@ class FetchLinkCardService < BaseService
     @card.provider_url  = embed[:provider_url].present? ? (url + embed[:provider_url]).to_s : ''
     @card.width         = 0
     @card.height        = 0
+  end
 
+  def process_card_by_type(embed, url)
     case @card.type
     when 'link'
-      @card.image_remote_url = (url + embed[:thumbnail_url]).to_s if embed[:thumbnail_url].present?
+      process_link_card(embed, url)
     when 'photo'
-      return false if embed[:url].blank?
-
-      @card.embed_url        = (url + embed[:url]).to_s
-      @card.image_remote_url = (url + embed[:url]).to_s
-      @card.width            = embed[:width].presence  || 0
-      @card.height           = embed[:height].presence || 0
+      process_photo_card(embed, url)
     when 'video'
-      @card.width            = embed[:width].presence  || 0
-      @card.height           = embed[:height].presence || 0
-      @card.html             = Sanitize.fragment(embed[:html], Sanitize::Config::MASTODON_OEMBED)
-      @card.image_remote_url = (url + embed[:thumbnail_url]).to_s if embed[:thumbnail_url].present?
+      process_video_card(embed, url)
     when 'rich'
       # Most providers rely on <script> tags, which is a no-no
       return false
     end
 
     @card.save_with_optional_image!
+  end
+
+  def process_link_card(embed, url)
+    @card.image_remote_url = (url + embed[:thumbnail_url]).to_s if embed[:thumbnail_url].present?
+  end
+
+  def process_photo_card(embed, url)
+    return false if embed[:url].blank?
+
+    @card.embed_url        = (url + embed[:url]).to_s
+    @card.image_remote_url = (url + embed[:url]).to_s
+    @card.width            = embed[:width].presence  || 0
+    @card.height           = embed[:height].presence || 0
+  end
+
+  def process_video_card(embed, url)
+    @card.width            = embed[:width].presence  || 0
+    @card.height           = embed[:height].presence || 0
+    @card.html             = Sanitize.fragment(embed[:html], Sanitize::Config::MASTODON_OEMBED)
+    @card.image_remote_url = (url + embed[:thumbnail_url]).to_s if embed[:thumbnail_url].present?
   end
 
   def attempt_opengraph
