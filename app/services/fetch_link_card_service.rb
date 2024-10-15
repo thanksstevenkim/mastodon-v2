@@ -117,7 +117,7 @@ class FetchLinkCardService < BaseService
     embed = fetch_embed
     return false if embed.nil?
 
-    url = Addressable::URI.parse(service.endpoint_url)
+    url = Addressable::URI.parse(embed[:url] || @url)
     set_card_attributes(embed, url)
     process_card_by_type(embed, url)
   end
