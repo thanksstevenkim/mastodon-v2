@@ -213,7 +213,7 @@ class FetchLinkCardService < BaseService
     return nil unless video_id
 
     response = Request.new(:get, uri.to_s).perform
-    return nil unless response.code == 200
+    return nil if response.nil? || response.code != 200
 
     html = Nokogiri::HTML(response.to_s)
     {
@@ -228,7 +228,7 @@ class FetchLinkCardService < BaseService
       html: "<iframe width=\"480\" height=\"270\" src=\"https://www.youtube.com/embed/#{video_id}\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>",
     }
   rescue HTTP::Error, OpenSSL::SSL::SSLError, Addressable::URI::InvalidURIError => e
-    Rails.logger.error "Error fetching YouTube metadata: #{e.message}"
+    Rails.logger.error "Error fetching YouTube metadata: #{uri}: #{e.class} - #{e.message}"
     nil
   end
 

@@ -9,13 +9,13 @@ RSpec.describe FetchOEmbedService do
     stub_request(:get, 'https://host.test/provider.json').to_return(status: 404)
     stub_request(:get, 'https://host.test/provider.xml').to_return(status: 404)
     stub_request(:get, 'https://host.test/empty_provider.json').to_return(status: 200)
-    # YouTube oEmbed 스터브 추가
+    # YouTube oembed 엔드포인트에 대한 더 구체적인 스터브 추가
     stub_request(:get, %r{https://www\.youtube\.com/oembed\?.*})
       .to_return(status: 200, body: '{"version":"1.0","type":"video","title":"YouTube Video"}', headers: { 'Content-Type' => 'application/json' })
 
-    # 캐시된 엔드포인트 테스트를 위한 스터브
-    stub_request(:get, 'http://www.youtube.com/oembed?format=json&url=https://www.youtube.com/watch?v=dqwpQarrDwk')
-      .to_return(status: 200, body: '{"version":"1.0","type":"video","title":"Cached YouTube Video"}', headers: { 'Content-Type' => 'application/json' })
+    # YouTube Music oembed 엔드포인트에 대한 스터브 추가
+    stub_request(:get, %r{https://music\.youtube\.com/oembed\?.*})
+      .to_return(status: 200, body: '{"version":"1.0","type":"video","title":"YouTube Music Track"}', headers: { 'Content-Type' => 'application/json' })
   end
 
   describe 'discover_provider' do
