@@ -216,8 +216,8 @@ class FetchLinkCardService < BaseService
     return nil if response.nil? || response.code != 200
 
     html = Nokogiri::HTML(response.to_s)
-    {
-      title: html.at_css('meta[property="og:title"]')&.[]('content'),
+    metadata = {
+      title: html.at_css('meta[property="og:title"]')&.[]('content') || 'YouTube Video',
       description: html.at_css('meta[property="og:description"]')&.[]('content'),
       thumbnail_url: html.at_css('meta[property="og:image"]')&.[]('content') || "https://img.youtube.com/vi/#{video_id}/0.jpg",
       author_name: html.at_css('meta[name="author"]')&.[]('content'),

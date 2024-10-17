@@ -31,7 +31,7 @@ class FetchOEmbedService
 
   def fetch_youtube_oembed
     @format = :json
-    @endpoint_url = 'https://www.youtube.com/oembed'
+    @endpoint_url = 'https://www.youtube.com/oembed?format=json&url={url}'
     cache_endpoint!
   end
 
@@ -90,7 +90,7 @@ class FetchOEmbedService
     }
 
     # 디버그 로그 추가
-    Rails.logger.debug { "Caching OEmbed endpoint: #{endpoint_hash.inspect} for domain: #{url_domain}" }
+    Rails.logger.debug { "Caching OEmbed endpoint: #{endpoint_hash.inspect} for domain: #{url_domain}" } if Rails.env.development?
 
     Rails.cache.write("oembed_endpoint:#{url_domain}", endpoint_hash, expires_in: ENDPOINT_CACHE_EXPIRES_IN)
   end

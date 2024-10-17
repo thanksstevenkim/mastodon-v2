@@ -5,10 +5,9 @@ require 'rails_helper'
 RSpec.describe FetchLinkCardService do
   subject { described_class.new }
 
-  let(:html) { '<!doctype html><title>Hello world</title>' }
-  let(:oembed_cache) { nil }
-
   before do
+    allow(Rails.logger).to receive(:error)
+    allow(Rails.logger).to receive(:debug)
     stub_request(:get, 'http://example.com/html').to_return(headers: { 'Content-Type' => 'text/html' }, body: html)
     stub_request(:get, 'http://example.com/not-found').to_return(status: 404, headers: { 'Content-Type' => 'text/html' }, body: html)
     stub_request(:get, 'http://example.com/text').to_return(status: 404, headers: { 'Content-Type' => 'text/plain' }, body: 'Hello')
@@ -58,6 +57,9 @@ RSpec.describe FetchLinkCardService do
 
     subject.call(status)
   end
+
+  let(:html) { '<!doctype html><title>Hello world</title>' }
+  let(:oembed_cache) { nil }
 
   context 'with a local status' do
     context 'with URL of a regular HTML page' do
@@ -370,8 +372,6 @@ RSpec.describe FetchLinkCardService do
 
       before do
         stub_request(:get, invalid_youtube_url).to_return(status: 404)
-        allow(Rails.logger).to receive(:error)
-        allow(Rails.logger).to receive(:error)
       end
 
       it 'does not create a preview card' do
@@ -381,7 +381,7 @@ RSpec.describe FetchLinkCardService do
 
       it 'logs an error' do
         subject.call(status)
-        expect(Rails.logger).to have_received(:error).with(/Error fetching YouTube metadata:/)
+        expect(Rails.logger).to have_received(:error).with(/Error fetching YouTube metadata for #{invalid_url}:/)
       end
     end
   end
