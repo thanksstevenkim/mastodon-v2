@@ -3,6 +3,7 @@
 class FetchOEmbedService
   ENDPOINT_CACHE_EXPIRES_IN = 24.hours.freeze
   URL_REGEX                 = %r{(=(https?(%3A|:)(//|%2F%2F)))([^&]*)}i
+  YOUTUBE_DOMAINS           = ['youtube.com', 'www.youtube.com', 'youtu.be', 'music.youtube.com'].freeze
 
   attr_reader :url, :options, :format, :endpoint_url
 
@@ -10,7 +11,9 @@ class FetchOEmbedService
     @url     = url
     @options = options
 
-    if @options[:cached_endpoint]
+    if youtube_url?
+      fetch_youtube_oembed
+    elsif @options[:cached_endpoint]
       parse_cached_endpoint!
     else
       discover_endpoint!
@@ -20,6 +23,17 @@ class FetchOEmbedService
   end
 
   private
+
+  def youtube_url?
+    uri = Addressable::URI.parse(@url)
+    YOUTUBE_DOMAINS.include?(uri.host)
+  end
+
+  def fetch_youtube_oembed
+    @format = :json
+    @endpoint_url = 'https://www.youtube.com/oembed'
+    cache_endpoint!
+  end
 
   def discover_endpoint!
     return if html.nil?
@@ -85,8 +99,26 @@ class FetchOEmbedService
       res.code == 200 ? res.body_with_limit : nil
     end
 
-    validate(parse_for_format(body)) if body.present?
+    if youtube_url?
+      parse_youtube_oembed(body)
+    elsif body.present?
+      validate(parse_for_format(body))
+    end
   rescue Oj::ParseError, Ox::ParseError
+    nil
+  end
+
+  def parse_youtube_oembed(body)
+    data = Oj.load(body, mode: :strict)&.with_indifferent_access
+    return nil unless data
+
+    data[:provider_name] = @url.include?('music.youtube.com') ? 'YouTube Music' : 'YouTube'
+    data[:provider_url] = 'https://www.youtube.com'
+    data[:type] = 'video'
+
+    validate(data)
+  rescue Oj::ParseError => e
+    Rails.logger.error "Error parsing YouTube OEmbed data: #{e.message}"
     nil
   end
 

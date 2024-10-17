@@ -301,6 +301,69 @@ RSpec.describe FetchLinkCardService do
         expect(status.preview_card.title).to eq 'Webserver Configs R Us'
       end
     end
+
+    context 'with a YouTube URL' do
+      let(:youtube_url) { 'https://www.youtube.com/watch?v=dQw4w9WgXcQ' }
+      let(:status) { Fabricate(:status, text: youtube_url) }
+
+      before do
+        stub_request(:get, youtube_url).to_return(
+          status: 200,
+          body: '<html><head><meta property="og:title" content="Rick Astley - Never Gonna Give You Up (Official Music Video)"><meta property="og:description" content="The official video for "Never Gonna Give You Up" by Rick Astley"><meta property="og:image" content="https://i.ytimg.com/vi/dQw4w9WgXcQ/maxresdefault.jpg"></head></html>',
+          headers: { 'Content-Type' => 'text/html' }
+        )
+      end
+
+      it 'creates a preview card with YouTube metadata' do
+        subject.call(status)
+        expect(status.preview_card).to_not be_nil
+        expect(status.preview_card.provider_name).to eq('YouTube')
+        expect(status.preview_card.title).to eq('Rick Astley - Never Gonna Give You Up (Official Music Video)')
+        expect(status.preview_card.image_remote_url).to eq('https://i.ytimg.com/vi/dQw4w9WgXcQ/maxresdefault.jpg')
+      end
+    end
+
+    context 'with a YouTube Music URL' do
+      let(:youtube_music_url) { 'https://music.youtube.com/watch?v=dQw4w9WgXcQ' }
+      let(:status) { Fabricate(:status, text: youtube_music_url) }
+
+      before do
+        stub_request(:get, youtube_music_url).to_return(
+          status: 200,
+          body: '<html><head><meta property="og:title" content="Never Gonna Give You Up"><meta property="og:description" content="Provided to YouTube by Sony Music Entertainment"><meta property="og:image" content="https://lh3.googleusercontent.com/TY8x12EzPTvM8gA9OOIVFguHv4Di5BuZe6plYGVz2Q-OghEgEYEIYsz7pEcD_o1bFBMDQPmEpA=w544-h544-p-l90-rj"></head></html>',
+          headers: { 'Content-Type' => 'text/html' }
+        )
+      end
+
+      it 'creates a preview card with YouTube Music metadata' do
+        subject.call(status)
+        expect(status.preview_card).to_not be_nil
+        expect(status.preview_card.provider_name).to eq('YouTube Music')
+        expect(status.preview_card.title).to eq('Never Gonna Give You Up')
+        expect(status.preview_card.image_remote_url).to include('lh3.googleusercontent.com')
+      end
+    end
+
+    context 'with an invalid YouTube URL' do
+      let(:invalid_youtube_url) { 'https://www.youtube.com/watch?v=invalid' }
+      let(:status) { Fabricate(:status, text: invalid_youtube_url) }
+
+      before do
+        stub_request(:get, invalid_youtube_url).to_return(status: 404)
+        allow(Rails.logger).to receive(:error)
+        allow(Rails.logger).to receive(:error)
+      end
+
+      it 'does not create a preview card' do
+        subject.call(status)
+        expect(status.preview_card).to be_nil
+      end
+
+      it 'logs an error' do
+        subject.call(status)
+        expect(Rails.logger).to have_received(:error).with(/Error fetching YouTube metadata:/)
+      end
+    end
   end
 
   context 'with a remote status' do

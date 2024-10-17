@@ -90,8 +90,16 @@ class FetchLinkCardService < BaseService
   end
 
   def expand_youtube_url(uri)
-    if uri.host == 'youtu.be'
+    uri = Addressable::URI.parse(uri) if uri.is_a?(String)
+    case uri.host
+    when 'youtu.be'
       Addressable::URI.parse("https://www.youtube.com/watch?v=#{uri.path[1..]}")
+    when 'youtube.com', 'www.youtube.com', 'music.youtube.com'
+      if uri.path.start_with?('/shorts/')
+        Addressable::URI.parse("https://www.youtube.com/watch?v=#{uri.path.split('/').last}")
+      else
+        uri
+      end
     else
       uri
     end
@@ -124,12 +132,18 @@ class FetchLinkCardService < BaseService
 
   def fetch_embed
     service         = FetchOEmbedService.new
-    url_domain      = Addressable::URI.parse(@url).normalized_host
-    @url = expand_youtube_url(@url) if url_domain == 'youtu.be'
+    original_url    = Addressable::URI.parse(@url)
+    expanded_url    = expand_youtube_url(original_url)
+    @url            = expanded_url.to_s
+    url_domain      = expanded_url.normalized_host
+
     cached_endpoint = Rails.cache.read("oembed_endpoint:#{url_domain}")
 
     embed   = service.call(@url, cached_endpoint: cached_endpoint) unless cached_endpoint.nil?
     embed ||= service.call(@url, html: html) unless html.nil?
+
+    embed = fetch_youtube_metadata(expanded_url) if embed.nil? && ['youtube.com', 'www.youtube.com', 'music.youtube.com'].include?(url_domain)
+
     embed
   end
 
@@ -192,5 +206,40 @@ class FetchLinkCardService < BaseService
     @card.assign_attributes(link_details_extractor.to_preview_card_attributes)
     @card.author_account = linked_account if linked_account&.can_be_attributed_from?(domain) || provider&.trendable?
     @card.save_with_optional_image! unless @card.title.blank? && @card.html.blank?
+  end
+
+  def fetch_youtube_metadata(uri)
+    video_id = uri.query_values['v']
+    return nil unless video_id
+
+    response = Request.new(:get, uri.to_s).perform
+    return nil unless response.code == 200
+
+    html = Nokogiri::HTML(response.to_s)
+    {
+      title: html.at_css('meta[property="og:title"]')&.[]('content'),
+      description: html.at_css('meta[property="og:description"]')&.[]('content'),
+      thumbnail_url: html.at_css('meta[property="og:image"]')&.[]('content') || "https://img.youtube.com/vi/#{video_id}/0.jpg",
+      author_name: html.at_css('meta[name="author"]')&.[]('content'),
+      author_url: html.at_css('link[rel="canonical"]')&.[]('href')&.then { |url| url.split('/').first(4).join('/') },
+      provider_name: uri.host == 'music.youtube.com' ? 'YouTube Music' : 'YouTube',
+      provider_url: 'https://www.youtube.com',
+      type: 'video',
+      html: "<iframe width=\"480\" height=\"270\" src=\"https://www.youtube.com/embed/#{video_id}\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>",
+    }
+  rescue HTTP::Error, OpenSSL::SSL::SSLError, Addressable::URI::InvalidURIError => e
+    Rails.logger.error "Error fetching YouTube metadata: #{e.message}"
+    nil
+  end
+
+  def fetch_youtube_title(uri)
+    response = Request.new(:get, uri.to_s).perform
+    if response.code == 200
+      html = Nokogiri::HTML(response.to_s)
+      html.at_css('title')&.content
+    end
+  rescue HTTP::Error, OpenSSL::SSL::SSLError, Addressable::URI::InvalidURIError => e
+    Rails.logger.error "Error fetching YouTube metadata: #{e.message}"
+    nil
   end
 end
