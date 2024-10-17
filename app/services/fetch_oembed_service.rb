@@ -89,6 +89,9 @@ class FetchOEmbedService
       format: @format,
     }
 
+    # 디버그 로그 추가
+    Rails.logger.debug { "Caching OEmbed endpoint: #{endpoint_hash.inspect} for domain: #{url_domain}" }
+
     Rails.cache.write("oembed_endpoint:#{url_domain}", endpoint_hash, expires_in: ENDPOINT_CACHE_EXPIRES_IN)
   end
 

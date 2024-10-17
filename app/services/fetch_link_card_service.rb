@@ -227,6 +227,10 @@ class FetchLinkCardService < BaseService
       type: 'video',
       html: "<iframe width=\"480\" height=\"270\" src=\"https://www.youtube.com/embed/#{video_id}\" frameborder=\"0\" allow=\"accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture\" allowfullscreen></iframe>",
     }
+
+    Rails.logger.debug { "Fetched YouTube metadata: #{metadata.inspect}" }
+
+    metadata
   rescue HTTP::Error, OpenSSL::SSL::SSLError, Addressable::URI::InvalidURIError => e
     Rails.logger.error "Error fetching YouTube metadata for #{uri}: #{e.class} - #{e.message}"
     nil

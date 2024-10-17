@@ -17,8 +17,16 @@ RSpec.describe BackupService do
     file = Paperclip.io_adapters.for(backup.dump)
     Zip::File.open(file) do |zipfile|
       entry = zipfile.glob(filename).first
-      return entry.get_input_stream.read
+      if entry
+        return entry.get_input_stream.read
+      else
+        Rails.logger.warn "File not found in zip: #{filename}"
+        return nil
+      end
     end
+  rescue => e
+    Rails.logger.error "Error reading zip file: #{e.message}"
+    nil
   end
 
   context 'when the user has an avatar and header' do
