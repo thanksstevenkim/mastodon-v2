@@ -9,6 +9,13 @@ RSpec.describe FetchOEmbedService do
     stub_request(:get, 'https://host.test/provider.json').to_return(status: 404)
     stub_request(:get, 'https://host.test/provider.xml').to_return(status: 404)
     stub_request(:get, 'https://host.test/empty_provider.json').to_return(status: 200)
+    # YouTube oEmbed 스터브 추가
+    stub_request(:get, %r{https://www\.youtube\.com/oembed\?.*})
+      .to_return(status: 200, body: '{"version":"1.0","type":"video","title":"YouTube Video"}', headers: { 'Content-Type' => 'application/json' })
+
+    # 캐시된 엔드포인트 테스트를 위한 스터브
+    stub_request(:get, 'http://www.youtube.com/oembed?format=json&url=https://www.youtube.com/watch?v=dqwpQarrDwk')
+      .to_return(status: 200, body: '{"version":"1.0","type":"video","title":"Cached YouTube Video"}', headers: { 'Content-Type' => 'application/json' })
   end
 
   describe 'discover_provider' do
@@ -163,11 +170,12 @@ RSpec.describe FetchOEmbedService do
       end
 
       it 'returns new provider without fetching original URL first' do
-        subject.call('https://www.youtube.com/watch?v=dqwpQarrDwk', cached_endpoint: { endpoint: 'http://www.youtube.com/oembed?format=json&url={url}', format: :json })
+        result = subject.call('https://www.youtube.com/watch?v=dqwpQarrDwk', cached_endpoint: { endpoint: 'http://www.youtube.com/oembed?format=json&url={url}', format: :json })
         expect(a_request(:get, 'https://www.youtube.com/watch?v=dqwpQarrDwk')).to_not have_been_made
         expect(subject.endpoint_url).to eq 'http://www.youtube.com/oembed?format=json&url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DdqwpQarrDwk'
         expect(subject.format).to eq :json
         expect(a_request(:get, 'http://www.youtube.com/oembed?format=json&url=https%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3DdqwpQarrDwk')).to have_been_made
+        expect(result).to_not be_nil
       end
     end
 

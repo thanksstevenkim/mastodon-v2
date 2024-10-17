@@ -34,6 +34,30 @@ RSpec.describe FetchLinkCardService do
     stub_request(:get, 'http://example.com/long_canonical_url').to_return(request_fixture('long_canonical_url.txt'))
     stub_request(:get, 'http://example.com/alternative_utf8_spelling_in_header').to_return(request_fixture('alternative_utf8_spelling_in_header.txt'))
 
+    # YouTube 관련 스터브 추가
+    stub_request(:get, %r{https://www\.youtube\.com/oembed\?.*})
+      .to_return(status: 200, body: '{"version":"1.0","type":"video","title":"YouTube Video","author_name":"YouTube User"}', headers: { 'Content-Type' => 'application/json' })
+
+    stub_request(:get, %r{https://music\.youtube\.com/oembed\?.*})
+      .to_return(status: 200, body: '{"version":"1.0","type":"video","title":"YouTube Music Track","author_name":"Artist"}', headers: { 'Content-Type' => 'application/json' })
+
+    # 이미 존재하는 YouTube 스터브 수정
+    stub_request(:get, 'https://www.youtube.com/watch?v=dQw4w9WgXcQ').to_return(
+      status: 200,
+      body: '<html><head><meta property="og:title" content="Rick Astley - Never Gonna Give You Up (Official Music Video)"><meta property="og:description" content="The official video for "Never Gonna Give You Up" by Rick Astley"><meta property="og:image" content="https://i.ytimg.com/vi/dQw4w9WgXcQ/maxresdefault.jpg"></head></html>',
+      headers: { 'Content-Type' => 'text/html' }
+    )
+
+    # YouTube Music 스터브 추가
+    stub_request(:get, 'https://music.youtube.com/watch?v=dQw4w9WgXcQ').to_return(
+      status: 200,
+      body: '<html><head><meta property="og:title" content="Never Gonna Give You Up"><meta property="og:description" content="Provided to YouTube by Sony Music Entertainment"><meta property="og:image" content="https://lh3.googleusercontent.com/TY8x12EzPTvM8gA9OOIVFguHv4Di5BuZe6plYGVz2Q-OghEgEYEIYsz7pEcD_o1bFBMDQPmEpA=w544-h544-p-l90-rj"></head></html>',
+      headers: { 'Content-Type' => 'text/html' }
+    )
+
+    # 잘못된 YouTube URL에 대한 스터브
+    stub_request(:get, 'https://www.youtube.com/watch?v=invalid').to_return(status: 404)
+
     Rails.cache.write('oembed_endpoint:example.com', oembed_cache) if oembed_cache
 
     subject.call(status)
