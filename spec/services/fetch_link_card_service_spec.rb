@@ -35,12 +35,8 @@ RSpec.describe FetchLinkCardService do
     stub_request(:get, 'http://example.com/alternative_utf8_spelling_in_header').to_return(request_fixture('alternative_utf8_spelling_in_header.txt'))
 
     # YouTube 관련 스터브 추가
-    stub_request(:get, %r{https://www\.youtube\.com/oembed\?.*})
-      .to_return(status: 200, body: '{"version":"1.0","type":"video","title":"YouTube Video","author_name":"YouTube User"}', headers: { 'Content-Type' => 'application/json' })
-
-    stub_request(:get, %r{https://music\.youtube\.com/oembed\?.*})
-      .to_return(status: 200, body: '{"version":"1.0","type":"video","title":"YouTube Music Track","author_name":"Artist"}', headers: { 'Content-Type' => 'application/json' })
-
+    stub_request(:get, %r{https://(?:www\.|music\.)?youtube\.com/oembed.*})
+      .to_return(status: 200, body: '{"version":"1.0","type":"video","title":"YouTube Video"}', headers: { 'Content-Type' => 'application/json' })
     # 이미 존재하는 YouTube 스터브 수정
     stub_request(:get, 'https://www.youtube.com/watch?v=dQw4w9WgXcQ').to_return(
       status: 200,
