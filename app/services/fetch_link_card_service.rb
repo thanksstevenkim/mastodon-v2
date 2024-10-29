@@ -83,17 +83,44 @@ class FetchLinkCardService < BaseService
              document = Nokogiri::HTML5(@status.text)
              links = document.css('a')
 
-             links.filter_map { |a| Addressable::URI.parse(a['href']) unless skip_link?(a) }.filter_map(&:normalize)
+             links.filter_map do |a|
+               uri = Addressable::URI.parse(a['href']) unless skip_link?(a)
+               uri ? expand_youtube_url(uri.normalize) : nil
+             end
            end
 
     urls.reject { |uri| bad_url?(uri) }.first
   end
 
   def expand_youtube_url(uri)
-    if uri.host == 'youtu.be'
-      Addressable::URI.parse("https://www.youtube.com/watch?v=#{uri.path[1..]}")
+    return uri if uri.nil?
+
+    normalized_host = uri.host.to_s.downcase
+    return uri unless ['youtu.be', 'youtube.com', 'www.youtube.com'].include?(normalized_host)
+
+    # YouTube URL 정규화
+    video_id = extract_youtube_video_id(uri, normalized_host)
+    return uri if video_id.nil?
+
+    Addressable::URI.parse("https://www.youtube.com/watch?v=#{video_id}")
+  end
+
+  def extract_youtube_video_id(uri, normalized_host)
+    if normalized_host == 'youtu.be'
+      uri.path[1..]
     else
-      uri
+      path = uri.path.to_s.downcase
+      query = Rack::Utils.parse_query(uri.query)
+
+      case path
+      when '/watch'
+        query['v']
+      else
+        # shorts, v, embed 패턴을 하나의 정규식으로 처리
+        if (match = path.match(%r{^/(?:shorts|v|embed)/([^/]+)}))
+          match[1]
+        end
+      end
     end
   end
 
@@ -125,7 +152,7 @@ class FetchLinkCardService < BaseService
   def fetch_embed
     service         = FetchOEmbedService.new
     url_domain      = Addressable::URI.parse(@url).normalized_host
-    @url = expand_youtube_url(@url) if url_domain == 'youtu.be'
+    # youtu.be 확장 코드 제거 (이미 parse_urls에서 처리됨)
     cached_endpoint = Rails.cache.read("oembed_endpoint:#{url_domain}")
 
     embed   = service.call(@url, cached_endpoint: cached_endpoint) unless cached_endpoint.nil?
@@ -174,10 +201,36 @@ class FetchLinkCardService < BaseService
   end
 
   def process_video_card(embed, url)
-    @card.width            = embed[:width].presence  || 0
-    @card.height           = embed[:height].presence || 0
-    @card.html             = Sanitize.fragment(embed[:html], Sanitize::Config::MASTODON_OEMBED)
-    @card.image_remote_url = (url + embed[:thumbnail_url]).to_s if embed[:thumbnail_url].present?
+    @card.width  = embed[:width].presence  || 0
+    @card.height = embed[:height].presence || 0
+    @card.html = process_video_html(embed[:html], url) if embed[:html].present?
+    @card.image_remote_url = process_card_url(embed[:thumbnail_url], url) if embed[:thumbnail_url].present?
+  end
+
+  def process_video_html(html, base_url)
+    processed_html = html.gsub(%r{src=["'](?!https?://)([^"']+)["']}) do
+      src = ::Regexp.last_match(1)
+      absolute_url = process_card_url(src, base_url)
+      "src=\"#{absolute_url}\""
+    end
+
+    Sanitize.fragment(processed_html, Sanitize::Config::MASTODON_OEMBED)
+  end
+
+  def process_card_url(url_str, base_url)
+    return '' if url_str.blank?
+    return url_str if url_str.start_with?('http://', 'https://')
+
+    begin
+      if url_str.start_with?('//')
+        "https:#{url_str}"
+      else
+        (base_url + url_str).to_s
+      end
+    rescue => e
+      Rails.logger.warn "Failed to process card URL: #{e.message}"
+      url_str
+    end
   end
 
   def attempt_opengraph
