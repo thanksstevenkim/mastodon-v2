@@ -348,10 +348,9 @@ RUN \
 # Mount Corepack and Yarn caches from Docker buildx caches
 --mount=type=cache,id=corepack-cache-${TARGETPLATFORM},target=/usr/local/share/.cache/corepack,sharing=locked \
 --mount=type=cache,id=yarn-cache-${TARGETPLATFORM},target=/usr/local/share/.cache/yarn,sharing=locked \
-
 # Apt update install non-dev versions of necessary components
   apt-get install -y --no-install-recommends \
-    li bexpat1 \
+    libexpat1 \
     libglib2.0-0 \
     libicu72 \
     libidn12 \
@@ -380,7 +379,7 @@ RUN \
     libopus0 \
     libsnappy1v5 \
     libtheora0 \
-   libvorbis0a \
+    libvorbis0a \
     libvorbisenc2 \
     libvorbisfile3 \
     libvpx7 \
