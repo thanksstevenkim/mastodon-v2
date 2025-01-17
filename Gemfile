@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 ruby '>= 3.1.0'
 
 gem 'propshaft'
-gem 'puma', '~> 6.3'
+gem 'puma', '~> 6.5.0', require: false
 gem 'rack', '~> 2.2.7'
 gem 'rails', '~> 7.1.5.1'
 gem 'thor', '~> 1.2'
