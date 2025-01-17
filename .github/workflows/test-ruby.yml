@@ -124,8 +124,8 @@ jobs:
       fail-fast: false
       matrix:
         ruby-version:
-          - '3.1'
           - '3.2'
+          - '3.3'
           - '.ruby-version'
     steps:
       - uses: actions/checkout@v4
@@ -226,8 +226,8 @@ jobs:
       fail-fast: false
       matrix:
         ruby-version:
-          - '3.1'
           - '3.2'
+          - '3.3'
           - '.ruby-version'
     steps:
       - uses: actions/checkout@v4
@@ -305,8 +305,8 @@ jobs:
       fail-fast: false
       matrix:
         ruby-version:
-          - '3.1'
           - '3.2'
+          - '3.3'
           - '.ruby-version'
 
     steps:
@@ -422,8 +422,8 @@ jobs:
       fail-fast: false
       matrix:
         ruby-version:
-          - '3.1'
           - '3.2'
+          - '3.3'
           - '.ruby-version'
         search-image:
           - docker.elastic.co/elasticsearch/elasticsearch:7.17.13
