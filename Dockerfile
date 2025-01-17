@@ -126,7 +126,7 @@ RUN \
 # Create temporary build layer from base image
 FROM ruby AS build
 
-ENV NODE_VERSION 20.18.0
+ENV NODE_VERSION=20.18.0
 RUN curl -fsSL https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.gz | tar xz -C /usr/local --strip-components=1 && \
     corepack enable
 
@@ -335,7 +335,7 @@ FROM ruby AS mastodon
 
 ARG TARGETPLATFORM
 
-ENV NODE_VERSION 20.18.0
+ENV NODE_VERSION=20.18.0
 RUN curl -fsSL https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.gz | tar xz -C /usr/local --strip-components=1 && \
     corepack enable && \
     corepack prepare yarn@4.5.0 --activate
@@ -351,7 +351,7 @@ RUN \
 
 # Apt update install non-dev versions of necessary components
   apt-get install -y --no-install-recommends \
-    libexpat1 \
+    li bexpat1 \
     libglib2.0-0 \
     libicu72 \
     libidn12 \
@@ -380,13 +380,12 @@ RUN \
     libopus0 \
     libsnappy1v5 \
     libtheora0 \
-    libvorbis0a \
+   libvorbis0a \
     libvorbisenc2 \
     libvorbisfile3 \
     libvpx7 \
     libx264-164 \
-    libx265-199 \
-  ;
+    libx265-199;
 
 # Copy Mastodon sources into final layer
 COPY . /opt/mastodon/
