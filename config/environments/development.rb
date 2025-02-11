@@ -92,6 +92,20 @@ Rails.application.configure do
 
   # Raise error when a before_action's only/except options reference missing actions
   config.action_controller.raise_on_missing_callback_actions = true
+
+  # 기존 logger 설정을 제거하고 새로운 설정으로 대체
+  config.log_level = :debug
+
+  log_path = Rails.root.join('log', 'development.log')
+  FileUtils.touch(log_path) unless File.exist?(log_path)
+
+  logger = ActiveSupport::Logger.new(log_path)
+  logger.formatter = proc { |severity, datetime, _progname, msg|
+    "#{datetime}: [#{severity}] #{msg}\n"
+  }
+
+  config.logger = ActiveSupport::TaggedLogging.new(logger)
+  config.active_record.verbose_query_logs = true
 end
 
 Redis.raise_deprecations = true

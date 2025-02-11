@@ -226,3 +226,6 @@ gem 'rubyzip', '~> 2.3'
 gem 'hcaptcha', '~> 7.1'
 
 gem 'mail', '~> 2.8'
+
+# YouTube API client
+gem 'google-api-client', require: 'google/apis/youtube_v3'
