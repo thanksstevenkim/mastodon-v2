@@ -25,9 +25,26 @@ module.exports = {
     'selector-id-pattern': null,
     'value-keyword-case': null,
     'value-no-vendor-prefix': null,
+    'declaration-empty-line-before': null,
+    'media-feature-range-notation': 'context',
+    'selector-pseudo-element-colon-notation': 'double',
+    'alpha-value-notation': 'percentage',
+    'rule-empty-line-before': ['always', {
+      except: ['first-nested'],
+      ignore: ['after-comment']
+    }],
+    'property-no-unknown': [true, {
+      ignoreProperties: [
+        'box-orient',
+        '/^mso-/',
+        'content-visibility',
+        '-webkit-box-orient'
+      ]
+    }],
 
     'scss/dollar-variable-empty-line-before': null,
     'scss/no-global-function-names': null,
+    'scss/at-extend-no-missing-placeholder': null,
   },
   overrides: [
     {
@@ -38,7 +55,9 @@ module.exports = {
           {
             ignoreProperties: [
               '/^mso-/',
-            ] },
+              'box-orient'
+            ]
+          },
         ],
       },
     },

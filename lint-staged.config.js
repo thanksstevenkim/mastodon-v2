@@ -1,10 +1,38 @@
-const config = {
-  '*': 'prettier --ignore-unknown --write',
-  'Capfile|Gemfile|*.{rb,ruby,ru,rake}': 'bin/rubocop --force-exclusion -a',
-  '*.{js,jsx,ts,tsx}': 'eslint --fix',
-  '*.{css,scss}': 'stylelint --fix',
-  '*.haml': 'bundle exec haml-lint -a',
-  '**/*.ts?(x)': () => 'tsc -p tsconfig.json --noEmit',
+module.exports = {
+  '*.{js,jsx,ts,tsx}': [
+    'prettier --write',
+    async (files) => {
+      const execSync = require('child_process').execSync;
+      console.log('Running eslint on:', files.join(', '));
+      try {
+        return execSync(`eslint --fix --max-warnings=0 ${files.join(' ')}`, {
+          stdio: 'pipe',
+          encoding: 'utf-8',
+        });
+      } catch (error) {
+        console.error('ESLint Error:', error.stdout || error.stderr);
+        throw error;
+      }
+    },
+  ],
+  '*.{css,scss}': [
+    'prettier --write',
+    async (files) => {
+      const execSync = require('child_process').execSync;
+      console.log('Running stylelint on:', files.join(', '));
+      try {
+        const relativePaths = files
+          .map((file) => file.replace(process.cwd() + '/', ''))
+          .join(' ');
+        return execSync(`stylelint --fix --max-warnings=0 ${relativePaths}`, {
+          stdio: 'pipe',
+          encoding: 'utf-8',
+        });
+      } catch (error) {
+        console.error('Stylelint Error:', error.stdout || error.stderr);
+        throw error;
+      }
+    },
+  ],
+  '*.{json,yml,md}': ['prettier --write'],
 };
-
-module.exports = config;

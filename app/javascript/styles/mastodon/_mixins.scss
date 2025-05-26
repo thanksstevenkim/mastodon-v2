@@ -11,7 +11,9 @@
   border: 1px solid var(--background-border-color);
   line-height: normal;
   margin: 0;
-  transition: border-color 0.2s ease, background-color 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease;
 
   &:focus {
     border-color: $highlight-text-color;
@@ -26,6 +28,7 @@
 // 검색 입력 필드
 @mixin search-input {
   @include base-input;
+
   background: $ui-base-color;
   color: $darker-text-color;
   font-size: 17px;
@@ -43,6 +46,7 @@
 // 검색 팝업
 @mixin search-popout {
   @include popup-container;
+
   margin-top: 10px;
 
   h4 {
@@ -68,7 +72,12 @@
 }
 
 // 플렉스 박스 레이아웃
-@mixin flex-container($direction: row, $justify: flex-start, $align: center, $gap: 0) {
+@mixin flex-container(
+  $direction: row,
+  $justify: flex-start,
+  $align: center,
+  $gap: 0
+) {
   display: flex;
   flex-direction: $direction;
   justify-content: $justify;
@@ -84,7 +93,9 @@
   font-family: inherit;
   font-weight: 500;
   text-decoration: none;
-  transition: background-color 0.2s ease, color 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
 
   &:disabled {
     opacity: 0.7;
@@ -95,11 +106,17 @@
 // 반응형 미디어 쿼리
 @mixin responsive($breakpoint) {
   @if $breakpoint == mobile {
-    @media (max-width: 767px) { @content; }
+    @media (width <= 767px) {
+      @content;
+    }
   } @else if $breakpoint == tablet {
-    @media (min-width: 768px) and (max-width: 1023px) { @content; }
+    @media (width >= 768px) and (width <= 1023px) {
+      @content;
+    }
   } @else if $breakpoint == desktop {
-    @media (min-width: 1024px) { @content; }
+    @media (width >= 1024px) {
+      @content;
+    }
   }
 }
 

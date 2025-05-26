@@ -1,31 +1,31 @@
 @use 'sass:color';
 
 // Base Colors
-$white: #ffffff;
-$black: #000000;
+$white: #fff;
+$black: #000;
 
 // Brand Colors
-$classic-base-color: hsl(240deg, 16%, 19%);
-$classic-primary-color: hsl(240deg, 29%, 70%);
-$classic-secondary-color: hsl(255deg, 25%, 88%);
-$classic-highlight-color: hsl(240deg, 100%, 69%);
+$classic-base-color: hsl(240deg 16% 19%);
+$classic-primary-color: hsl(240deg 29% 70%);
+$classic-secondary-color: hsl(255deg 25% 88%);
+$classic-highlight-color: hsl(240deg 100% 69%);
 
 // Blurple Color Scale
-$blurple-600: hsl(252deg, 59%, 51%); // Iris
-$blurple-500: hsl(240deg, 100%, 69%); // Brand purple
-$blurple-400: hsl(239deg, 100%, 72%); // Medium slate blue
-$blurple-300: hsl(237deg, 92%, 75%); // Faded Blue
+$blurple-600: hsl(252deg 59% 51%); // Iris
+$blurple-500: hsl(240deg 100% 69%); // Brand purple
+$blurple-400: hsl(239deg 100% 72%); // Medium slate blue
+$blurple-300: hsl(237deg 92% 75%); // Faded Blue
 
 // Gray Scale
-$gray-900: hsl(240deg, 8%, 20%);
-$gray-800: hsl(240deg, 8%, 25%);
-$gray-700: hsl(240deg, 8%, 30%);
-$gray-600: hsl(240deg, 8%, 33%);
-$gray-500: hsl(240deg, 8%, 40%);
-$gray-400: hsl(240deg, 8%, 50%);
-$gray-300: hsl(240deg, 8%, 60%);
-$gray-200: hsl(240deg, 8%, 70%);
-$gray-100: hsl(240deg, 51%, 90%);
+$gray-900: hsl(240deg 8% 20%);
+$gray-800: hsl(240deg 8% 25%);
+$gray-700: hsl(240deg 8% 30%);
+$gray-600: hsl(240deg 8% 33%);
+$gray-500: hsl(240deg 8% 40%);
+$gray-400: hsl(240deg 8% 50%);
+$gray-300: hsl(240deg 8% 60%);
+$gray-200: hsl(240deg 8% 70%);
+$gray-100: hsl(240deg 51% 90%);
 
 // Semantic Colors
 $success-green: #79bd9a;
@@ -80,8 +80,9 @@ $light-text-color: $ui-primary-color !default;
 
 // Shadows
 $base-shadow-color: $black !default;
-$dropdown-shadow: 0 20px 25px -5px rgba($base-shadow-color, 0.1),
-                 0 8px 10px -6px rgba($base-shadow-color, 0.1) !default;
+$dropdown-shadow:
+  0 20px 25px -5px rgba($base-shadow-color, 0.1),
+  0 8px 10px -6px rgba($base-shadow-color, 0.1) !default;
 
 // Breakpoints
 $no-gap-breakpoint: 1175px;
@@ -93,7 +94,7 @@ $font-display: 'mastodon-font-display' !default;
 $font-monospace: 'mastodon-font-monospace' !default;
 
 // Languages that use CJK fonts
-$cjk-langs: ja, ko, zh-CN, zh-HK, zh-TW;
+$cjk-langs: ja, ko, zh-cn, zh-hk, zh-tw;
 
 // Components
 $media-modal-media-max-width: 100%;
@@ -103,35 +104,47 @@ $media-modal-media-max-height: 80%;
 :root {
   // Transition
   --transition-timing: 0.2s ease;
-  
+
   // Dropdown
   --dropdown-border-color: #{color.adjust($ui-base-color, $lightness: 4%)};
-  --dropdown-background-color: #{rgba(color.adjust($ui-base-color, $lightness: -8%), 0.9)};
+  --dropdown-background-color: #{rgba(
+      color.adjust($ui-base-color, $lightness: -8%),
+      0.9
+    )};
   --dropdown-shadow: #{$dropdown-shadow};
-  
+
   // Modal
-  --modal-background-color: #{rgba(color.adjust($ui-base-color, $lightness: 8%), 0.7)};
+  --modal-background-color: #{rgba(
+      color.adjust($ui-base-color, $lightness: 8%),
+      0.7
+    )};
   --modal-background-variant-color: #{rgba($ui-base-color, 0.7)};
   --modal-border-color: #{color.adjust($ui-base-color, $lightness: 4%)};
-  
+
   // Background
   --background-border-color: #{color.adjust($ui-base-color, $lightness: 4%)};
   --background-filter: blur(10px) saturate(180%) contrast(75%) brightness(70%);
   --background-color: #{color.adjust($ui-base-color, $lightness: -8%)};
-  --background-color-tint: #{rgba(color.adjust($ui-base-color, $lightness: -8%), 0.8)};
-  
+  --background-color-tint: #{rgba(
+      color.adjust($ui-base-color, $lightness: -8%),
+      0.8
+    )};
+
   // Surface
   --surface-background-color: #{color.adjust($ui-base-color, $lightness: 4%)};
   --surface-variant-background-color: #{$ui-base-color};
-  --surface-variant-active-background-color: #{color.adjust($ui-base-color, $lightness: 4%)};
-  
+  --surface-variant-active-background-color: #{color.adjust(
+      $ui-base-color,
+      $lightness: 4%
+    )};
+
   // Avatar
   --avatar-border-radius: 4px;
-  
+
   // Media
   --media-outline-color: #{rgba($white, 0.15)};
   --overlay-icon-shadow: drop-shadow(0 0 8px rgba($base-shadow-color, 0.25));
-  
+
   // Error
   --error-background-color: #{color.adjust($error-red, $lightness: -16%)};
   --error-active-background-color: #{color.adjust($error-red, $lightness: -12%)};

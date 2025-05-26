@@ -52,15 +52,17 @@
 @mixin modal-animation {
   animation: modal-pop 0.25s cubic-bezier(0.1, 0.7, 0.1, 1);
   @keyframes modal-pop {
-    from { 
+    from {
       opacity: 0;
       transform: scale(0.95) translateY(10px);
     }
-    to { 
-      opacity: 1; 
+
+    to {
+      opacity: 1;
       transform: scale(1) translateY(0);
     }
   }
+
   .reduce-motion & {
     animation: none;
   }
@@ -121,8 +123,7 @@
 @mixin modal-content {
   padding: 20px;
   flex: 1 1 auto;
-  overflow-y: auto;
-  overflow-x: hidden;
+  overflow: hidden auto;
   -webkit-overflow-scrolling: touch;
   overscroll-behavior: contain;
 }
@@ -164,8 +165,10 @@
   color: $primary-text-color;
   font-size: 15px;
   line-height: 20px;
-  transition: border-color var(--transition-timing), background-color var(--transition-timing);
-  -webkit-appearance: none;
+  transition:
+    border-color var(--transition-timing),
+    background-color var(--transition-timing);
+  appearance: none;
 
   &::placeholder {
     color: $darker-text-color;
@@ -185,7 +188,7 @@
     cursor: not-allowed;
   }
 
-  @media screen and (max-width: 600px) {
+  @media screen and (width <= 600px) {
     font-size: 16px;
   }
 }
@@ -196,6 +199,7 @@
 
 @mixin form-textarea {
   @include form-field-base;
+
   resize: vertical;
   min-height: 100px;
   max-height: 50vh;
@@ -204,8 +208,11 @@
 
 @mixin form-select {
   @include form-field-base;
+
   padding-right: 30px;
-  background: $ui-base-color url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='24' height='24' fill='none' stroke='currentColor' stroke-width='2'><path d='M6 9l6 6 6-6'></path></svg>") no-repeat right 8px center;
+  background: $ui-base-color
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='24' height='24' fill='none' stroke='currentColor' stroke-width='2'><path d='M6 9l6 6 6-6'></path></svg>")
+    no-repeat right 8px center;
   background-size: 16px;
 }
 
@@ -252,6 +259,7 @@
 
 @mixin form-radio {
   @include form-checkbox;
+
   border-radius: 50%;
 
   &:checked::after {
@@ -335,6 +343,7 @@
 
 @mixin button-primary {
   @include button-base;
+
   background: $ui-highlight-color;
   color: $primary-text-color;
 
@@ -345,6 +354,7 @@
 
 @mixin button-secondary {
   @include button-base;
+
   background: $ui-base-color;
   color: $secondary-text-color;
 

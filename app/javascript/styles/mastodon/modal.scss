@@ -62,7 +62,7 @@
   height: auto;
   max-width: 100%;
   max-height: 100%;
-  
+
   .modal-root__overlay {
     background: rgba($black, 0.9);
   }
@@ -92,7 +92,9 @@
     background: transparent;
     border: 0;
     cursor: pointer;
-    transition: color var(--transition-timing), opacity var(--transition-timing);
+    transition:
+      color var(--transition-timing),
+      opacity var(--transition-timing);
     opacity: 0.5;
 
     &:hover {
@@ -119,7 +121,7 @@
     background: linear-gradient(transparent, rgba($black, 0.7));
     padding: 20px;
     z-index: 2;
-    
+
     .picture-in-picture__footer {
       background: transparent;
       border: 0;

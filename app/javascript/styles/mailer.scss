@@ -7,7 +7,6 @@ body {
   margin: 0;
   background-color: #f3f2f5;
   padding: 0;
-  -webkit-text-size-adjust: none;
   text-size-adjust: none;
 }
 
@@ -65,7 +64,7 @@ table + p {
 
 .email-card-td {
   overflow: hidden;
-  box-shadow: 0 4px 16px 0 rgba(23, 6, 59, 4%);
+  box-shadow: 0 4px 16px 0 rgb(23 6 59 / 4%);
   background-color: #fff;
 }
 
@@ -80,7 +79,7 @@ table + p {
 .email-inner-card-td {
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 4px 16px 0 rgba(23, 6, 59, 8%);
+  box-shadow: 0 4px 16px 0 rgb(23 6 59 / 8%);
   background-color: #fff;
   border: 1px solid #dfdee3;
 }
@@ -357,7 +356,7 @@ table + p {
   border-radius: 12px;
   background-color: #fff;
   border: 2px solid #fff;
-  box-shadow: 0 4px 16px 0 rgba(23, 6, 59, 8%);
+  box-shadow: 0 4px 16px 0 rgb(23 6 59 / 8%);
 }
 
 .email-header-card {
@@ -426,9 +425,9 @@ table + p {
   background-repeat: no-repeat;
 }
 
-.email-body-padding-td {
-  padding: 0 32px 32px;
-  #{$mso-property}: 32px;
+.email-body {
+  background: #fff;
+  padding: 20px;
 }
 
 .email-body-columns-td {
@@ -442,6 +441,9 @@ table + p {
 }
 
 .email-body-padding-td {
+  padding: 0 32px 32px;
+  #{$mso-property}: 32px;
+
   & > p {
     font-size: 14px;
     line-height: 20px;
@@ -527,10 +529,7 @@ table + p {
 .email-btn-a {
   display: block;
   border-radius: 8px;
-  padding-left: 35px;
-  padding-right: 35px;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  padding: 10px 35px;
   text-align: center;
   font-family: Inter, 'Lucida Grande', sans-serif;
   font-size: 14px;
@@ -748,7 +747,6 @@ table + p {
   }
 
   .email-btn-td {
-    /* stylelint-disable-next-line property-no-unknown */
     #{"mso-padding-alt"}: 10px;
   }
 
@@ -845,21 +843,21 @@ table + p {
 }
 
 .email-mini-follow-btn-td {
-    width: 68px;
-    vertical-align: top;
+  width: 68px;
+  vertical-align: top;
 
-    .email-btn-table {
-      width: 100%;
-    }
+  .email-btn-table {
+    width: 100%;
+  }
 
-    .email-btn-td {
-      #{$mso-property}: 10px;
-    }
+  .email-btn-td {
+    #{$mso-property}: 10px;
+  }
 
-    .email-btn-a {
-      padding-left: 10px;
-      padding-right: 10px;
-    }
+  .email-btn-a {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
 }
 
 .email-mini-hashtag-td {
@@ -948,13 +946,11 @@ table + p {
 
 // MSO property mixin for email client compatibility
 @mixin mso-padding($value) {
-  /* stylelint-disable-next-line property-no-unknown */
   #{'-ms-office-padding-alt'}: $value;
-  /* stylelint-disable-next-line property-no-unknown */
   #{'mso-padding-alt'}: $value;
 }
 
-$mso-property: unquote("mso-padding-alt") !global;
+$mso-property: unquote('mso-padding-alt') !global;
 
 // Responsive
 /* stylelint-disable-next-line media-feature-range-notation -- Basic media queries have better support across email clients. */

@@ -9,7 +9,8 @@
   --emoji-menu-radius: 5px;
   --emoji-picker-transition: 200ms ease;
   --emoji-hover-bg: var(--dropdown-border-color);
-  --emoji-focus-outline: 2px solid var(--highlight-color, #{$highlight-text-color});
+  --emoji-focus-outline: 2px solid
+    var(--highlight-color, #{$highlight-text-color});
   --emoji-focus-offset: 2px;
 }
 
@@ -75,7 +76,7 @@
           outline-offset: var(--emoji-focus-offset);
         }
 
-        &[aria-pressed="true"] {
+        &[aria-pressed='true'] {
           background: $ui-highlight-color;
           color: $primary-text-color;
         }
@@ -88,7 +89,7 @@
 .emoji-mart {
   font-size: 13px;
   display: inline-block;
-  
+
   &,
   * {
     box-sizing: border-box;
@@ -168,7 +169,7 @@
         outline-offset: var(--emoji-focus-offset);
       }
 
-      &[aria-selected="true"] {
+      &[aria-selected='true'] {
         color: $highlight-text-color;
 
         .emoji-mart-anchor-bar {
@@ -184,7 +185,8 @@
     height: var(--emoji-picker-height);
     max-height: 35vh;
     padding: 0 6px 6px;
-    scrollbar-color: rgba($action-button-color, 0.25) var(--background-border-color);
+    scrollbar-color: rgba($action-button-color, 0.25)
+      var(--background-border-color);
     scrollbar-width: thin;
 
     @supports (scrollbar-gutter: stable) {
@@ -232,7 +234,7 @@
     outline-offset: var(--emoji-focus-offset);
   }
 
-  &[aria-selected="true"]::before {
+  &[aria-selected='true']::before {
     background-color: rgba($highlight-text-color, 0.2);
   }
 
@@ -303,7 +305,7 @@
   color: $dark-text-color;
   text-align: center;
   padding: 70px 6px 5px;
-  
+
   .emoji-mart-emoji {
     cursor: default;
 
@@ -341,6 +343,7 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
@@ -361,11 +364,11 @@
 // Dark mode specific styles
 @media (prefers-color-scheme: dark) {
   :root {
-    --emoji-hover-bg: rgba(255, 255, 255, 0.1);
+    --emoji-hover-bg: rgb(255 255 255 / 10%);
   }
 
   .emoji-mart-search input {
-    background: rgba(0, 0, 0, 0.1);
+    background: rgb(0 0 0 / 10%);
   }
 }
 
@@ -379,7 +382,7 @@
     background-color: Highlight;
   }
 
-  .emoji-mart-anchors__item[aria-selected="true"] {
+  .emoji-mart-anchors__item[aria-selected='true'] {
     background-color: Highlight;
     color: HighlightText;
   }

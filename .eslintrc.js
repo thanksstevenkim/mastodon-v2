@@ -294,6 +294,7 @@ module.exports = defineConfig({
 
       rules: {
         'import/no-commonjs': 'off',
+        'no-console': 'off',
       },
     },
     {

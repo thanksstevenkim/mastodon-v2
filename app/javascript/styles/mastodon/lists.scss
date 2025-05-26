@@ -47,10 +47,12 @@
 // Account Lists
 .accounts-list {
   @include list-base;
+
   margin-bottom: 24px;
 
   &__item {
     @include list-item-base;
+
     display: flex;
     align-items: center;
     padding: 12px 16px;
@@ -65,11 +67,13 @@
 // Timeline Lists
 .timeline-list {
   @include list-base;
+
   border: 1px solid var(--background-border-color);
   border-radius: 4px;
 
   &__item {
     @include list-item-base;
+
     position: relative;
     padding: 16px;
 
@@ -100,8 +104,9 @@
     border: 1px solid var(--background-border-color);
     border-radius: 4px;
     overflow: hidden;
-    transition: transform var(--transition-timing),
-                box-shadow var(--transition-timing);
+    transition:
+      transform var(--transition-timing),
+      box-shadow var(--transition-timing);
 
     &.interactive {
       cursor: pointer;
@@ -122,12 +127,14 @@
 // Action Lists
 .action-list {
   @include list-base;
+
   border: 1px solid var(--background-border-color);
   border-radius: 4px;
   overflow: hidden;
 
   &__item {
     @include list-item-base;
+
     display: flex;
     align-items: center;
     justify-content: space-between;
