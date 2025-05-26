@@ -1,0 +1,371 @@
+@mixin modal-layout {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+@mixin modal-overlay {
+  background: rgba($base-overlay-background, 0.7);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  pointer-events: auto;
+  transition: opacity var(--transition-timing);
+}
+
+@mixin modal-base {
+  position: relative;
+  flex: 1 1 auto;
+  background: var(--modal-background-color);
+  border: 1px solid var(--modal-border-color);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  backdrop-filter: var(--background-filter);
+  margin: 20px;
+  max-height: calc(100vh - 40px);
+  max-width: 600px;
+  width: 100%;
+  overflow: hidden;
+  pointer-events: auto;
+  z-index: 10000;
+
+  @media screen and (max-width: $mobile-breakpoint) {
+    margin: 0;
+    max-width: 100%;
+    max-height: 100vh;
+    border-radius: 0;
+    border-width: 1px 0;
+  }
+}
+
+@mixin modal-animation {
+  animation: modal-pop 0.25s cubic-bezier(0.1, 0.7, 0.1, 1);
+  @keyframes modal-pop {
+    from { 
+      opacity: 0;
+      transform: scale(0.95) translateY(10px);
+    }
+    to { 
+      opacity: 1; 
+      transform: scale(1) translateY(0);
+    }
+  }
+  .reduce-motion & {
+    animation: none;
+  }
+}
+
+@mixin modal-close-button {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  padding: 8px;
+  font-size: 24px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  color: $darker-text-color;
+  background: transparent;
+  border: 0;
+  z-index: 1;
+  cursor: pointer;
+  transition: all var(--transition-timing);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    color: $primary-text-color;
+    background: var(--dropdown-border-color);
+  }
+
+  .icon {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+@mixin modal-header {
+  border-bottom: 1px solid var(--background-border-color);
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex: 0 0 auto;
+
+  h3 {
+    font-size: 20px;
+    line-height: 24px;
+    font-weight: 500;
+    margin: 0;
+  }
+
+  .icon {
+    width: 24px;
+    height: 24px;
+    color: $ui-highlight-color;
+  }
+}
+
+@mixin modal-content {
+  padding: 20px;
+  flex: 1 1 auto;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+@mixin modal-action-bar {
+  background: var(--background-color);
+  border-top: 1px solid var(--background-border-color);
+  padding: 16px 20px;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: flex-end;
+  flex: 0 0 auto;
+
+  .button {
+    &.button-primary {
+      @include button-primary;
+    }
+
+    &.button-secondary {
+      @include button-secondary;
+    }
+  }
+
+  @media screen and (max-width: $mobile-breakpoint) {
+    padding: 12px 16px;
+  }
+}
+
+// Form Mixins
+@mixin form-field-base {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--background-border-color);
+  border-radius: 4px;
+  background: $ui-base-color;
+  color: $primary-text-color;
+  font-size: 15px;
+  line-height: 20px;
+  transition: border-color var(--transition-timing), background-color var(--transition-timing);
+  -webkit-appearance: none;
+
+  &::placeholder {
+    color: $darker-text-color;
+  }
+
+  &:focus {
+    border-color: $ui-highlight-color;
+    outline: none;
+  }
+
+  &:invalid {
+    border-color: $error-red;
+  }
+
+  &:disabled {
+    background: color.adjust($ui-base-color, $lightness: -5%);
+    cursor: not-allowed;
+  }
+
+  @media screen and (max-width: 600px) {
+    font-size: 16px;
+  }
+}
+
+@mixin form-input {
+  @include form-field-base;
+}
+
+@mixin form-textarea {
+  @include form-field-base;
+  resize: vertical;
+  min-height: 100px;
+  max-height: 50vh;
+  font-family: inherit;
+}
+
+@mixin form-select {
+  @include form-field-base;
+  padding-right: 30px;
+  background: $ui-base-color url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' width='24' height='24' fill='none' stroke='currentColor' stroke-width='2'><path d='M6 9l6 6 6-6'></path></svg>") no-repeat right 8px center;
+  background-size: 16px;
+}
+
+@mixin form-checkbox {
+  appearance: none;
+  position: relative;
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--background-border-color);
+  border-radius: 4px;
+  background: $ui-base-color;
+  cursor: pointer;
+  transition: all var(--transition-timing);
+  vertical-align: middle;
+
+  &:checked {
+    background: $ui-highlight-color;
+    border-color: $ui-highlight-color;
+
+    &::after {
+      content: '';
+      display: block;
+      position: absolute;
+      top: 2px;
+      left: 6px;
+      width: 3px;
+      height: 8px;
+      border: solid $white;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+    }
+  }
+
+  &:focus {
+    border-color: $ui-highlight-color;
+    outline: none;
+  }
+
+  &:disabled {
+    background: color.adjust($ui-base-color, $lightness: -5%);
+    cursor: not-allowed;
+  }
+}
+
+@mixin form-radio {
+  @include form-checkbox;
+  border-radius: 50%;
+
+  &:checked::after {
+    top: 3px;
+    left: 3px;
+    width: 8px;
+    height: 8px;
+    border: none;
+    border-radius: 50%;
+    background: $white;
+    transform: none;
+  }
+}
+
+@mixin form-label {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  color: $primary-text-color;
+  margin-bottom: 8px;
+
+  &.required::after {
+    content: '*';
+    color: $error-red;
+    margin-left: 4px;
+  }
+}
+
+@mixin form-hint {
+  display: block;
+  font-size: 12px;
+  line-height: 16px;
+  color: $darker-text-color;
+  margin-top: 4px;
+
+  &.error {
+    color: $error-red;
+  }
+}
+
+@mixin form-fieldset {
+  border: 0;
+  padding: 0;
+  margin: 0 0 24px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+@mixin form-group {
+  margin-bottom: 24px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+@mixin button-base {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 16px;
+  border: 0;
+  border-radius: 4px;
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 20px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color var(--transition-timing);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+@mixin button-primary {
+  @include button-base;
+  background: $ui-highlight-color;
+  color: $primary-text-color;
+
+  &:hover {
+    background: color.adjust($ui-highlight-color, $lightness: 8%);
+  }
+}
+
+@mixin button-secondary {
+  @include button-base;
+  background: $ui-base-color;
+  color: $secondary-text-color;
+
+  &:hover {
+    background: color.adjust($ui-base-color, $lightness: 8%);
+  }
+}
+
+@mixin responsive-container {
+  margin: 0 auto;
+  padding: 20px;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 800px;
+
+  @media screen and (max-width: $no-gap-breakpoint) {
+    padding: 10px;
+  }
+}
+
+@mixin focus-ring {
+  outline: none;
+  box-shadow: 0 0 0 2px $ui-highlight-color;
+}

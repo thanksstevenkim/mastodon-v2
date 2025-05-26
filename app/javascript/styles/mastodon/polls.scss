@@ -2,12 +2,6 @@
 
 .poll {
   margin-top: 16px;
-  font-size: 14px;
-
-  li {
-    margin-bottom: 10px;
-    position: relative;
-  }
 
   &__chart {
     border-radius: 4px;
@@ -15,40 +9,18 @@
     background: color.adjust($ui-primary-color, $lightness: -5%);
     height: 5px;
     min-width: 1%;
+    transition: width 0.4s ease-in-out;
 
     &.leading {
       background: $ui-highlight-color;
     }
   }
 
-  progress {
-    border: 0;
-    display: block;
-    width: 100%;
-    height: 5px;
-    appearance: none;
-    background: transparent;
-
-    &::-webkit-progress-bar {
-      background: transparent;
-    }
-
-    // Those rules need to be entirely separate or they won't work, hence the
-    // duplication
-    &::-moz-progress-bar {
-      border-radius: 4px;
-      background: color.adjust($ui-primary-color, $lightness: -5%);
-    }
-
-    &::-ms-fill {
-      border-radius: 4px;
-      background: color.adjust($ui-primary-color, $lightness: -5%);
-    }
-
-    &::-webkit-progress-value {
-      border-radius: 4px;
-      background: color.adjust($ui-primary-color, $lightness: -5%);
-    }
+  &__options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 16px;
   }
 
   &__option {
@@ -57,24 +29,22 @@
     align-items: flex-start;
     gap: 8px;
     padding: 6px 0;
-    line-height: 18px;
     cursor: default;
-    overflow: hidden;
+
+    &.selectable {
+      cursor: pointer;
+    }
+
+    &.editable {
+      align-items: center;
+      overflow: visible;
+    }
 
     &__text {
       display: inline-block;
       word-wrap: break-word;
       overflow-wrap: break-word;
       max-width: calc(100% - 45px - 25px);
-    }
-
-    input[type='radio'],
-    input[type='checkbox'] {
-      display: none;
-    }
-
-    .autosuggest-input {
-      flex: 1 1 auto;
     }
 
     input[type='text'] {
@@ -89,25 +59,17 @@
       border: 1px solid $darker-text-color;
       border-radius: 4px;
       padding: 8px 12px;
+      transition: border-color var(--transition-timing), background-color var(--transition-timing);
 
       &:focus {
         border-color: $ui-highlight-color;
       }
 
-      @media screen and (width <= 600px) {
+      @media screen and (max-width: 600px) {
         font-size: 16px;
         line-height: 24px;
         letter-spacing: 0.5px;
       }
-    }
-
-    &.selectable {
-      cursor: pointer;
-    }
-
-    &.editable {
-      align-items: center;
-      overflow: visible;
     }
   }
 
@@ -116,120 +78,157 @@
     position: relative;
     border: 1px solid $ui-primary-color;
     box-sizing: border-box;
-    width: 17px;
-    height: 17px;
-    border-radius: 50%;
+    width: 18px;
+    height: 18px;
     flex: 0 0 auto;
+    margin-top: 2px;
+    transition: border-color var(--transition-timing), background-color var(--transition-timing);
 
     &.checkbox {
       border-radius: 4px;
     }
 
+    &.radio {
+      border-radius: 50%;
+    }
+
     &:active,
     &:focus,
     &:hover {
-      border-color: color.adjust($valid-value-color, $lightness: 15%);
-      border-width: 4px;
+      border-color: $ui-highlight-color;
+      background: rgba($ui-highlight-color, 0.1);
     }
 
     &.active {
-      background-color: $valid-value-color;
-      border-color: $valid-value-color;
-    }
+      background: $ui-highlight-color;
+      border-color: $ui-highlight-color;
 
-    &::-moz-focus-inner {
-      outline: 0 !important;
-      border: 0;
-    }
-
-    &:focus,
-    &:active {
-      outline: 0 !important;
-    }
-
-    &.disabled {
-      border-color: $dark-text-color;
-
-      &.active {
-        background: $dark-text-color;
+      &.checkbox::after {
+        content: '';
+        display: block;
+        position: absolute;
+        left: 5px;
+        top: 2px;
+        width: 3px;
+        height: 8px;
+        border: solid $white;
+        border-width: 0 2px 2px 0;
+        transform: rotate(45deg);
       }
 
-      &:active,
-      &:focus,
-      &:hover {
-        border-color: $dark-text-color;
-        border-width: 1px;
+      &.radio::after {
+        content: '';
+        display: block;
+        position: absolute;
+        left: 3px;
+        top: 3px;
+        width: 10px;
+        height: 10px;
+        background: $white;
+        border-radius: 50%;
       }
-    }
-  }
-
-  &__option.editable &__input {
-    &:active,
-    &:focus,
-    &:hover {
-      border-color: $ui-primary-color;
-      border-width: 1px;
-    }
-  }
-
-  &__number {
-    display: inline-block;
-    width: 45px;
-    font-weight: 700;
-    flex: 0 0 45px;
-  }
-
-  &__voted {
-    padding: 0 5px;
-    display: inline-block;
-
-    &__mark {
-      font-size: 18px;
     }
   }
 
   &__footer {
-    padding-top: 6px;
-    padding-bottom: 5px;
-    color: $dark-text-color;
-  }
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding-top: 8px;
 
-  &__link {
-    display: inline;
-    background: transparent;
-    padding: 0;
-    margin: 0;
-    border: 0;
-    color: $dark-text-color;
-    text-decoration: underline;
-    font-size: inherit;
-
-    &:hover {
-      text-decoration: none;
+    &__timestamp {
+      color: $darker-text-color;
+      font-size: 13px;
+      opacity: 0.8;
     }
 
-    &:active,
-    &:focus {
-      background-color: rgba($dark-text-color, 0.1);
+    &__stats {
+      color: $darker-text-color;
+      font-size: 13px;
+      opacity: 0.8;
+
+      strong {
+        color: $primary-text-color;
+        font-weight: 500;
+      }
     }
   }
 
-  .button {
-    height: 36px;
-    padding: 0 16px;
-    margin-inline-end: 10px;
-    font-size: 14px;
+  &.expired {
+    .poll__input {
+      cursor: default;
+      opacity: 0.5;
+
+      &:active,
+      &:focus,
+      &:hover {
+        border-color: $ui-primary-color;
+        background: transparent;
+      }
+    }
   }
 }
 
-.muted .poll {
-  color: $dark-text-color;
+// Poll Creation Form
+.poll-form {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid var(--background-border-color);
 
-  &__chart {
-    background: rgba(color.adjust($ui-primary-color, $lightness: -14%), 0.7);
+  &__option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
 
-    &.leading {
-      background: rgba($ui-highlight-color, 0.5);
+    input[type='text'] {
+      @include form-input;
+    }
+
+    button {
+      flex: 0 0 auto;
+      padding: 8px;
+      color: $darker-text-color;
+      background: transparent;
+      border: 0;
+      cursor: pointer;
+
+      &:hover {
+        color: $error-red;
+      }
+    }
+  }
+
+  &__footer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    margin-top: 20px;
+
+    &__duration {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      select {
+        @include form-select;
+        width: auto;
+        min-width: 100px;
+      }
+    }
+
+    &__multiple {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+
+      input[type='checkbox'] {
+        @include form-checkbox;
+      }
     }
   }
 }

@@ -2,6 +2,7 @@ import { Map as ImmutableMap, List as ImmutableList } from 'immutable';
 
 import { blockAccountSuccess, muteAccountSuccess } from 'mastodon/actions/accounts';
 import { blockDomainSuccess } from 'mastodon/actions/domain_blocks';
+import { FETCH_CONVERSATION_MESSAGES_SUCCESS } from '../constants';
 
 import {
   CONVERSATIONS_MOUNT,
@@ -12,11 +13,13 @@ import {
   CONVERSATIONS_UPDATE,
   CONVERSATIONS_READ,
   CONVERSATIONS_DELETE_SUCCESS,
+  SEND_MESSAGE_SUCCESS,
 } from '../actions/conversations';
 import { compareId } from '../compare_id';
 
 const initialState = ImmutableMap({
   items: ImmutableList(),
+  messages: ImmutableMap(),
   isLoading: false,
   hasMore: true,
   mounted: false,
@@ -46,31 +49,37 @@ const expandNormalizedConversations = (state, conversations, next, isLoadingRece
   return state.withMutations(mutable => {
     if (!items.isEmpty()) {
       mutable.update('items', list => {
-        list = list.map(oldItem => {
-          const newItemIndex = items.findIndex(x => x.get('id') === oldItem.get('id'));
+        // If loading recent items, add them at the beginning
+        if (isLoadingRecent) {
+          const newIds = items.map(item => item.get('id'));
+          list = list.filterNot(item => newIds.includes(item.get('id')));
+          list = items.concat(list);
+        } else {
+          // If loading older items, merge with existing
+          list = list.map(oldItem => {
+            const newItemIndex = items.findIndex(x => x.get('id') === oldItem.get('id'));
+            if (newItemIndex === -1) {
+              return oldItem;
+            }
+            const newItem = items.get(newItemIndex);
+            items = items.delete(newItemIndex);
+            return newItem;
+          });
 
-          if (newItemIndex === -1) {
-            return oldItem;
-          }
+          list = list.concat(items);
+        }
 
-          const newItem = items.get(newItemIndex);
-          items = items.delete(newItemIndex);
-
-          return newItem;
-        });
-
-        list = list.concat(items);
-
+        // Sort by last_status id to maintain chronological order
         return list.sortBy(x => x.get('last_status'), (a, b) => {
           if(a === null || b === null) {
             return -1;
           }
-
           return compareId(a, b) * -1;
         });
       });
     }
 
+    // Update hasMore flag based on presence of next page
     if (!next && !isLoadingRecent) {
       mutable.set('hasMore', false);
     }
@@ -85,6 +94,14 @@ const filterConversations = (state, accountIds) => {
 
 export default function conversations(state = initialState, action) {
   switch (action.type) {
+  case FETCH_CONVERSATION_MESSAGES_SUCCESS:
+    return state.setIn(['messages', action.payload.conversationId], ImmutableMap(action.payload.messages));
+  case SEND_MESSAGE_SUCCESS:
+    return state.updateIn(
+      ['messages', action.payload.conversationId],
+      ImmutableMap(),
+      messages => messages.set(action.payload.message.id, action.payload.message)
+    );
   case CONVERSATIONS_FETCH_REQUEST:
     return state.set('isLoading', true);
   case CONVERSATIONS_FETCH_FAIL:

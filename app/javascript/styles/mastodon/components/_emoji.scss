@@ -1,0 +1,93 @@
+// Base emoji styles for use across the app
+.emojione {
+  font-size: inherit;
+  vertical-align: middle;
+  object-fit: contain;
+  margin: -0.2ex 0.15em 0.2ex;
+  width: 16px;
+  height: 16px;
+
+  img {
+    width: auto;
+  }
+
+  // Different sizes for different contexts
+  .status__content & {
+    width: 20px;
+    height: 20px;
+    margin: -3px 0 0;
+  }
+
+  .reply-indicator__content &,
+  .edit-indicator__content & {
+    width: 18px;
+    height: 18px;
+    margin: -3px 0 0;
+  }
+
+  .display-name & {
+    width: 14px;
+    height: 14px;
+    margin: -2px 3px 0;
+  }
+
+  .announcements__item__content & {
+    width: 20px;
+    height: 20px;
+    margin: -3px 0 0;
+  }
+}
+
+// Emoji button styles
+.emoji-button {
+  display: block;
+  padding: 5px 2px 2px 5px;
+  outline: 0;
+  cursor: pointer;
+  border: 0;
+  background: transparent;
+
+  img {
+    filter: grayscale(100%);
+    opacity: 0.8;
+    display: block;
+    margin: 0;
+    width: 22px;
+    height: 22px;
+    transition: all var(--transition-timing);
+  }
+
+  &:hover,
+  &:active,
+  &:focus {
+    img {
+      opacity: 1;
+      filter: none;
+      transform: scale(1.1);
+    }
+  }
+
+  &:focus-visible img {
+    outline: $ui-button-icon-focus-outline;
+  }
+}
+
+// Active state for dropdown
+.dropdown--active .emoji-button img {
+  opacity: 1;
+  filter: none;
+}
+
+// Accessibility - Color inversion for specific emojis
+@each $emoji in $emojis-requiring-inversion {
+  .emojione[title=':#{$emoji}:'] {
+    filter: invert(1);
+  }
+}
+
+// Reduced motion preferences
+@media (prefers-reduced-motion: reduce) {
+  .emoji-button img {
+    transition: none;
+  }
+}

@@ -8,7 +8,9 @@ const config = ({ env }) => ({
         'logical-properties-and-values': false
       }
     }),
-    env === 'production' ? require('cssnano') : '',
+    env === 'production' ? require('cssnano')({
+      parser: require('postcss-safe-parser'),
+    }) : '',
   ],
 });
 

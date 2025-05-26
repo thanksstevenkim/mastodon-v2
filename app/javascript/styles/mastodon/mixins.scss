@@ -1,0 +1,20 @@
+// Modern media query mixin
+@mixin max-width($width) {
+  @media screen and (width <= #{$width}) {
+    @content;
+  }
+}
+
+// Line clamp mixin for cross-browser support
+@mixin line-clamp($lines) {
+  display: -webkit-box;
+  display: box;
+  -webkit-box-orient: vertical;
+  box-orient: vertical;
+  -webkit-line-clamp: $lines;
+  line-clamp: $lines;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+// ...existing code...

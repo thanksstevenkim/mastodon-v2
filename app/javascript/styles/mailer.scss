@@ -1,3 +1,4 @@
+/* stylelint-disable property-no-unknown */
 @import 'fonts/inter';
 
 body {
@@ -106,7 +107,7 @@ table + p {
 
 .email-account-banner-inner-td {
   padding: 24px 24px 0;
-  mso-padding-alt: 24px;
+  #{$mso-property}: 24px;
 }
 
 .email-account-banner-overlap-div {
@@ -132,7 +133,7 @@ table + p {
 
 .email-account-body-td {
   padding: 56px 24px 24px;
-  mso-padding-alt: 24px;
+  #{$mso-property}: 24px;
 }
 
 .email-account-name {
@@ -403,11 +404,7 @@ table + p {
   font-size: 12px;
   line-height: 16px;
   max-height: 32px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
+  @include line-clamp(2);
 }
 
 // To make the design work with images off
@@ -431,7 +428,7 @@ table + p {
 
 .email-body-padding-td {
   padding: 0 32px 32px;
-  mso-padding-alt: 32px;
+  #{$mso-property}: 32px;
 }
 
 .email-body-columns-td {
@@ -441,7 +438,7 @@ table + p {
 
 .email-body-huge-padding-td {
   padding: 110px 32px 32px;
-  mso-padding-alt: 32px;
+  #{$mso-property}: 32px;
 }
 
 .email-body-padding-td {
@@ -523,7 +520,7 @@ table + p {
 .email-btn-td {
   height: 40px;
   text-align: center;
-  mso-padding-alt: 0 35px;
+  #{$mso-property}: 0 35px;
   word-break: normal;
 }
 
@@ -751,7 +748,8 @@ table + p {
   }
 
   .email-btn-td {
-    mso-padding-alt: 10px;
+    /* stylelint-disable-next-line property-no-unknown */
+    #{"mso-padding-alt"}: 10px;
   }
 
   .email-btn-a {
@@ -847,21 +845,21 @@ table + p {
 }
 
 .email-mini-follow-btn-td {
-  width: 68px;
-  vertical-align: top;
+    width: 68px;
+    vertical-align: top;
 
-  .email-btn-table {
-    width: 100%;
-  }
+    .email-btn-table {
+      width: 100%;
+    }
 
-  .email-btn-td {
-    mso-padding-alt: 10px;
-  }
+    .email-btn-td {
+      #{$mso-property}: 10px;
+    }
 
-  .email-btn-a {
-    padding-left: 10px;
-    padding-right: 10px;
-  }
+    .email-btn-a {
+      padding-left: 10px;
+      padding-right: 10px;
+    }
 }
 
 .email-mini-hashtag-td {
@@ -947,6 +945,16 @@ table + p {
   border: 1px solid #e8e6eb;
   border-radius: 12px;
 }
+
+// MSO property mixin for email client compatibility
+@mixin mso-padding($value) {
+  /* stylelint-disable-next-line property-no-unknown */
+  #{'-ms-office-padding-alt'}: $value;
+  /* stylelint-disable-next-line property-no-unknown */
+  #{'mso-padding-alt'}: $value;
+}
+
+$mso-property: unquote("mso-padding-alt") !global;
 
 // Responsive
 /* stylelint-disable-next-line media-feature-range-notation -- Basic media queries have better support across email clients. */
