@@ -74,7 +74,7 @@
   }
 
   svg {
-    fill: currentColor;
+    fill: currentcolor;
     max-height: 18px;
   }
 }
@@ -169,7 +169,7 @@
 .emoji-mart-category-label {
   z-index: 2;
   position: relative;
-  position: -webkit-sticky;
+  position: sticky;
   position: sticky;
   top: 0;
 

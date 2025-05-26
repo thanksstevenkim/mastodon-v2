@@ -159,7 +159,7 @@ $content-width: 840px;
     flex: 1 1 auto;
   }
 
-  @media screen and (max-width: $content-width + $sidebar-width) {
+  @media screen and (max-width: ($content-width + $sidebar-width)) {
     .sidebar-wrapper--empty {
       display: none;
     }
@@ -179,8 +179,7 @@ $content-width: 840px;
   .content {
     padding-top: 55px;
     padding-bottom: 20px;
-    padding-inline-start: 25px;
-    padding-inline-end: 15px;
+    padding-inline: 25px 15px;
 
     @media screen and (max-width: $no-columns-breakpoint) {
       max-width: none;
@@ -627,7 +626,7 @@ body,
   flex-wrap: wrap;
   margin-bottom: 5px;
 
-  #form_status_batch_action {
+  #form-status-batch-action {
     margin: 0 5px 5px 0;
     font-size: 14px;
   }

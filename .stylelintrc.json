@@ -18,6 +18,10 @@
     "selector-class-pattern": null,
     "no-descending-specificity": null,
     "scss/no-global-function-names": null,
-    "scss/at-extend-no-missing-placeholder": null
+    "scss/at-extend-no-missing-placeholder": null,
+    "no-duplicate-selectors": null,
+    "number-max-precision": null,
+    "selector-id-pattern": null,
+    "declaration-block-no-shorthand-property-overrides": null
   }
 }

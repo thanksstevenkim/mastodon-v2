@@ -163,6 +163,7 @@
 
     .error {
       @include form-hint;
+
       color: $error-red;
     }
   }

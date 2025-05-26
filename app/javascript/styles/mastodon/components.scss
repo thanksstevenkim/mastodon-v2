@@ -15,12 +15,14 @@ $breakpoint-minus-286: calc($breakpoint-1 - 286px);
 
 .app-body {
   @include custom-scrollbar;
+
   -webkit-overflow-scrolling: touch;
   -ms-overflow-style: -ms-autohiding-scrollbar;
 }
 
 .animated-number {
   @include flex-container(column, flex-start, stretch);
+
   overflow: hidden;
   position: relative;
 }
@@ -237,7 +239,7 @@ $breakpoint-minus-286: calc($breakpoint-1 - 286px);
   aspect-ratio: 1;
 
   path {
-    fill: currentColor;
+    fill: currentcolor;
   }
 }
 
@@ -730,7 +732,7 @@ body > [data-popper-placement] {
     .icon-button {
       flex: 0 0 auto;
       color: $white;
-      background: rgba(0, 0, 0, 75%);
+      background: rgb(0 0 0 / 75%);
       border-radius: 6px;
       font-size: 12px;
       line-height: 16px;
@@ -758,13 +760,12 @@ body > [data-popper-placement] {
       position: absolute;
       z-index: 2;
       bottom: 0;
-      inset-inline-start: 0;
-      inset-inline-end: 0;
+      inset-inline: 0;
       padding: 8px;
 
       .icon-button.active {
         color: #ffbe2e;
-        background: rgba(0, 0, 0, 75%);
+        background: rgb(0 0 0 / 75%);
       }
     }
   }
@@ -859,8 +860,7 @@ body > [data-popper-placement] {
       display: flex;
       align-items: center;
       gap: 16px;
-      padding-inline-start: 37px;
-      padding-inline-end: 40px;
+      padding-inline: 37px 40px;
 
       &__sep {
         width: 1px;
@@ -1117,14 +1117,12 @@ body > [data-popper-placement] {
 
   .detailed-status__display-avatar {
     grid-column-start: 1;
-    grid-row-start: 1;
-    grid-row-end: span 1;
+    grid-row: 1 / span 1;
   }
 
   &__main {
     grid-column-start: 2;
-    grid-row-start: 1;
-    grid-row-end: span 2;
+    grid-row: 1 / span 2;
   }
 
   .display-name {
@@ -1138,8 +1136,7 @@ body > [data-popper-placement] {
 
   &__line {
     grid-column-start: 1;
-    grid-row-start: 2;
-    grid-row-end: span 1;
+    grid-row: 2 / span 1;
     position: relative;
 
     &::before {
@@ -1235,6 +1232,7 @@ body > [data-popper-placement] {
     letter-spacing: 0.25px;
     padding-top: 0 !important;
     @include line-clamp(4);
+
     max-height: 4 * 20px;
 
     a {
@@ -2039,6 +2037,7 @@ body > [data-popper-placement] {
     overflow: hidden;
     text-overflow: ellipsis;
     @include line-clamp(1);
+
     margin-top: 10px;
     color: $darker-text-color;
 
@@ -2930,8 +2929,7 @@ $ui-header-logo-wordmark-width: 99px;
   .drawer {
     flex: 0 0 auto;
     padding: 10px;
-    padding-inline-start: 5px;
-    padding-inline-end: 5px;
+    padding-inline: 5px;
 
     &:first-child {
       padding-inline-start: 10px;
@@ -2945,8 +2943,7 @@ $ui-header-logo-wordmark-width: 99px;
   .columns-area > div {
     .column,
     .drawer {
-      padding-inline-start: 5px;
-      padding-inline-end: 5px;
+      padding-inline: 5px;
     }
   }
 }

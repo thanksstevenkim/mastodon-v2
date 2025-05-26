@@ -14,7 +14,7 @@
   --color-brand-mastodon-links: #858afa;
   --color-brand-mastodon-bg: #1e2028;
   --color-brand-mastodon-dim: #717c9b;
-  --color-brand-mastodon-mud: rgba(39, 44, 64, 50%);
+  --color-brand-mastodon-mud: rgb(39 44 64 / 50%);
   --color-brand-mastodon-dark: #232543;
   --color-brand-mastodon-threaded-line: #434264;
   --color-brand-mastodon-text-light: #8493a7;
@@ -58,8 +58,8 @@
   --color-hashtag: var(--color-accent);
   --color-mention: var(--color-accent);
   --color-link: var(--color-accent);
-  --color-bg-compose-form: rgba(39, 44, 64, 40%);
-  --color-bg-compose-form-focus: rgba(39, 44, 64, 80%);
+  --color-bg-compose-form: rgb(39 44 64 / 40%);
+  --color-bg-compose-form-focus: rgb(39 44 64 / 80%);
 
   /* In the original UI this color is lighten($ui-base-color, 12%) */
   --color-outer-space: #42485a;
@@ -93,20 +93,20 @@
   --badges-distance-from-edge: 12px;
 
   /* Misc */
-  --active-header-box-shadow: 0 1px 0 rgba(140, 141, 255, 30%);
+  --active-header-box-shadow: 0 1px 0 rgb(140 141 255 / 30%);
   --active-header-radial-gradient: radial-gradient(
     ellipse,
-    rgba(99, 100, 255, 23%) 0,
-    rgba(99, 100, 255, 0%) 60%
+    rgb(99 100 255 / 23%) 0,
+    rgb(99 100 255 / 0%) 60%
   );
   --compose-form-linear-gradient: linear-gradient(
     180deg,
-    rgba(30, 32, 40, 100%) 0%,
-    rgba(30, 32, 40, 100%) 53%,
-    rgba(30, 32, 40, 81.4%) 76%,
-    rgba(30, 32, 40, 70.8%) 87%,
-    rgba(30, 32, 40, 45.8%) 97%,
-    rgba(30, 32, 40, 0%) 100%
+    rgb(30 32 40 / 100%) 0%,
+    rgb(30 32 40 / 100%) 53%,
+    rgb(30 32 40 / 81.4%) 76%,
+    rgb(30 32 40 / 70.8%) 87%,
+    rgb(30 32 40 / 45.8%) 97%,
+    rgb(30 32 40 / 0%) 100%
   );
 
   /* Logo */
@@ -273,7 +273,7 @@ body.theme-mastodon-bird-ui-light.layout-multiple-columns {
   --color-red: #e0245e;
   --color-red-75: #e0245ebf;
   --color-light-shade: #00000005;
-  --color-focusable-toot: rgba(0, 0, 0, 3.5%);
+  --color-focusable-toot: rgb(0 0 0 / 3.5%);
   --color-light-text: #1f1b23;
   --color-mud: #e5e1ed;
   --color-black-coral: #9188a6;
@@ -288,20 +288,20 @@ body.theme-mastodon-bird-ui-light.layout-multiple-columns {
   --color-bg-75: #ffffffbf;
   --color-accent: var(--color-accent-dark);
   --color-ghost-button-text: var(--color-accent-dark);
-  --color-bg-compose-form: rgba(147, 136, 166, 20%);
-  --color-bg-compose-form-focus: rgba(147, 136, 166, 30%);
+  --color-bg-compose-form: rgb(147 136 166 / 20%);
+  --color-bg-compose-form-focus: rgb(147 136 166 / 30%);
   --color-hashtag: var(--color-accent-dark);
   --color-mention: var(--color-accent-dark);
 
   /* Misc */
   --compose-form-linear-gradient: linear-gradient(
     180deg,
-    rgba(255, 255, 255, 100%) 0%,
-    rgba(255, 255, 255, 100%) 53%,
-    rgba(255, 255, 255, 81.4%) 76%,
-    rgba(255, 255, 255, 70.8%) 87%,
-    rgba(255, 255, 255, 45.8%) 97%,
-    rgba(255, 255, 255, 0%) 100%
+    rgb(255 255 255 / 100%) 0%,
+    rgb(255 255 255 / 100%) 53%,
+    rgb(255 255 255 / 81.4%) 76%,
+    rgb(255 255 255 / 70.8%) 87%,
+    rgb(255 255 255 / 45.8%) 97%,
+    rgb(255 255 255 / 0%) 100%
   );
 
   /* Icons for light theme */
@@ -612,7 +612,7 @@ body.layout-multiple-columns {
 }
 
 .layout-multiple-columns .list-editor .drawer__inner.backdrop {
-  box-shadow: 2px 4px 15px rgba(0, 0, 0, 20%);
+  box-shadow: 2px 4px 15px rgb(0 0 0 / 20%);
 }
 
 .layout-multiple-columns .list-editor .list__display-name,
@@ -1102,11 +1102,10 @@ body
 }
 
 body .content-warning .link-button {
-  align-self: flex-start;
+  place-self: flex-start flex-end;
   color: var(--color-fg);
   font-size: var(--font-size-mid);
   font-weight: var(--font-weight-semibold);
-  justify-self: flex-end;
   text-align: right;
   white-space: nowrap;
 }
@@ -1146,17 +1145,11 @@ body .content-warning::before {
 
 .layout-multiple-columns .status__wrapper.status__wrapper--filtered button {
   background-color: rgb(255 255 255 / 0%);
-  border-bottom-left-radius: 9999px;
-  border-bottom-right-radius: 9999px;
-  border-top-left-radius: 9999px;
-  border-top-right-radius: 9999px;
+  border-radius: 9999px;
   color: var(--color-fg);
   font-weight: var(--font-weight-semibold);
   margin-left: auto;
-  padding-bottom: 8px;
-  padding-left: 12px;
-  padding-right: 12px;
-  padding-top: 8px;
+  padding: 8px 12px;
   transition: 200ms background;
   white-space: nowrap;
 }
@@ -1900,10 +1893,7 @@ body.embed .detailed-status__meta .detailed-status__link .icon-retweet,
 
 /* Icon buttons */
 .layout-multiple-columns .icon-button {
-  border-bottom-left-radius: 9999px;
-  border-bottom-right-radius: 9999px;
-  border-top-left-radius: 9999px;
-  border-top-right-radius: 9999px;
+  border-radius: 9999px;
   color: var(--color-dim);
 }
 
@@ -2374,10 +2364,7 @@ body.embed .detailed-status__meta .detailed-status__link .icon-retweet,
   font-weight: var(--font-weight-semibold);
   gap: var(--gap-column-link);
   overflow: visible;
-  padding-bottom: 8px;
-  padding-left: var(--gap-column-link);
-  padding-right: calc(var(--gap-column-link) * 1.5);
-  padding-top: 8px;
+  padding: 8px calc(var(--gap-column-link) * 1.5) 8px var(--gap-column-link);
   transition: all 100ms;
 }
 
@@ -2444,10 +2431,7 @@ body.embed .detailed-status__meta .detailed-status__link .icon-retweet,
 .layout-multiple-columns .notification__filter-bar button.active::after {
   background-color: var(--color-accent);
   border: 0;
-  border-bottom-left-radius: 9999px;
-  border-bottom-right-radius: 9999px;
-  border-top-left-radius: 9999px;
-  border-top-right-radius: 9999px;
+  border-radius: 9999px;
   bottom: -1px;
   content: '';
   display: block;
@@ -2479,9 +2463,8 @@ body.embed .detailed-status__meta .detailed-status__link .icon-retweet,
 
 .layout-multiple-columns .notification-group .notification-group__icon .icon,
 .layout-multiple-columns .notification .notification__message .icon {
-  align-self: start;
+  place-self: start end;
   height: 27px;
-  justify-self: end;
   margin-right: 4px;
   max-width: 30px;
   width: 27px;
@@ -3403,10 +3386,7 @@ body.embed .button.logo-button,
 .layout-multiple-columns .account .account__relationship > .button,
 .layout-multiple-columns .notification .account__relationship > .button {
   background-color: transparent;
-  border-bottom-left-radius: 9999px;
-  border-bottom-right-radius: 9999px;
-  border-top-left-radius: 9999px;
-  border-top-right-radius: 9999px;
+  border-radius: 9999px;
   color: var(--color-light-text);
   font-size: var(--font-size);
   max-width: 36vw;
@@ -3439,10 +3419,7 @@ body.embed .button.logo-button,
 
 .layout-multiple-columns .account__header__tabs__buttons .icon-button {
   align-items: center;
-  border-bottom-left-radius: 9999px;
-  border-bottom-right-radius: 9999px;
-  border-top-left-radius: 9999px;
-  border-top-right-radius: 9999px;
+  border-radius: 9999px;
   display: inline-flex;
   height: 36px;
   justify-content: center;
@@ -3609,10 +3586,7 @@ body.embed .button.logo-button:hover,
 /* Default buttons */
 .layout-multiple-columns .compose-form__buttons button,
 .layout-multiple-columns .button {
-  border-bottom-left-radius: 9999px;
-  border-bottom-right-radius: 9999px;
-  border-top-left-radius: 9999px;
-  border-top-right-radius: 9999px;
+  border-radius: 9999px;
 }
 
 /* Compose hover and focus fix */
@@ -4439,12 +4413,10 @@ body .compose-form .compose-form__uploads {
   .layout-multiple-columns
     .columns-area__panels__pane--navigational
     .navigation-panel__menu {
-    flex-direction: row;
-    flex-wrap: nowrap;
+    flex-flow: row nowrap;
     gap: 0;
     height: 100%;
-    overflow-x: auto;
-    overflow-y: hidden;
+    overflow: auto hidden;
     padding: 0;
   }
 
@@ -4458,10 +4430,7 @@ body .compose-form .compose-form__uploads {
   .layout-multiple-columns .column-link {
     justify-content: center;
     margin-right: unset;
-    padding-bottom: 0;
-    padding-left: var(--gap-column-link);
-    padding-right: var(--gap-column-link);
-    padding-top: 0;
+    padding: 0 var(--gap-column-link) 0 var(--gap-column-link);
     width: 38px;
   }
 
