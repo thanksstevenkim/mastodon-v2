@@ -24,7 +24,7 @@
     "lint": "yarn lint:js && yarn lint:css",
     "lint-staged": "lint-staged",
     "postversion": "git push --tags",
-    "postinstall": "husky install",
+    "prepare": "test -d .git && husky install || echo 'Skip husky install'",
     "start": "node ./streaming/index.js",
     "test": "yarn lint && yarn run typecheck && yarn jest",
     "typecheck": "tsc --noEmit"
@@ -215,8 +215,5 @@
     "react-router-dom": {
       "optional": true
     }
-  },
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx,css,scss,json,yml,md}": "prettier --write"
   }
 }
