@@ -218,7 +218,7 @@ RSpec.describe FeedManager do
       end
     end
 
-    context 'with list feed' do
+    context 'with list feed (described)' do
       let(:list) { Fabricate(:list, account: bob) }
 
       before do
