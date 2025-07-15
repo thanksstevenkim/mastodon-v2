@@ -8207,13 +8207,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"intersection-observer@npm:^0.12.0":
-  version: 0.12.2
-  resolution: "intersection-observer@npm:0.12.2"
-  checksum: 10c0/9591f46b2b742f5801ed69dbc8860f487771b4af8361e7a5dcb28a377beff2ba56336a2b090af261825430d225dae9417121496d2e6925e000e4a469958843ff
-  languageName: node
-  linkType: hard
-
 "intl-messageformat@npm:10.7.16, intl-messageformat@npm:^10.7.16":
   version: 10.7.16
   resolution: "intl-messageformat@npm:10.7.16"

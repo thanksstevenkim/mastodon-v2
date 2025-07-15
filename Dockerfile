@@ -24,11 +24,6 @@ FROM ${BASE_REGISTRY}/node:${NODE_MAJOR_VERSION}-${DEBIAN_VERSION}-slim AS node
 # Ruby image to use for base image based on combined variables (ex: 3.4.x-slim-bookworm)
 FROM ${BASE_REGISTRY}/ruby:${RUBY_VERSION}-slim-${DEBIAN_VERSION} AS ruby
 
-COPY --from=node /usr/local/bin/node /usr/local/bin/
-COPY --from=node /usr/local/lib/node_modules /usr/local/lib/node_modules
-RUN ln -s /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm && \
-    ln -s /usr/local/lib/node_modules/npm/bin/npx-cli.js /usr/local/bin/npx
-
 # Resulting version string is vX.X.X-MASTODON_VERSION_PRERELEASE+MASTODON_VERSION_METADATA
 # Example: v4.3.0-nightly.2023.11.09+pr-123456
 # Overwrite existence of 'alpha.X' in version.rb [--build-arg MASTODON_VERSION_PRERELEASE="nightly.2023.11.09"]
@@ -191,7 +186,7 @@ FROM build AS libvips
 
 # libvips version to compile, change with [--build-arg VIPS_VERSION="8.15.2"]
 # renovate: datasource=github-releases depName=libvips packageName=libvips/libvips
-ARG VIPS_VERSION=8.17.0
+ARG VIPS_VERSION=8.17.1
 # libvips download URL, change with [--build-arg VIPS_URL="https://github.com/libvips/libvips/releases/download"]
 ARG VIPS_URL=https://github.com/libvips/libvips/releases/download
 
@@ -321,11 +316,6 @@ FROM ruby AS mastodon
 
 ARG TARGETPLATFORM
 
-ENV NODE_VERSION=20.18.0
-RUN curl -fsSL https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.gz | tar xz -C /usr/local --strip-components=1 && \
-    corepack enable && \
-    corepack prepare yarn@4.5.0 --activate
-
 # hadolint ignore=DL3008
 RUN \
   # Mount Apt cache and lib directories from Docker buildx caches
@@ -387,9 +377,6 @@ COPY --from=libvips /usr/local/libvips/lib /usr/local/lib
 # Copy ffpmeg components to layer
 COPY --from=ffmpeg /usr/local/ffmpeg/bin /usr/local/bin
 COPY --from=ffmpeg /usr/local/ffmpeg/lib /usr/local/lib
-
-COPY --from=node /opt/mastodon/node_modules /opt/mastodon/node_modules
-COPY --from=node /opt/mastodon/streaming /opt/mastodon/streaming
 
 RUN \
   ldconfig; \

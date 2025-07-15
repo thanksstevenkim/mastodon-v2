@@ -1048,7 +1048,7 @@ DEPENDENCIES
   prometheus_exporter (~> 2.2)
   propshaft
   public_suffix (~> 6.0)
-  puma (~> 6.5.0)
+  puma (~> 6.3)
   pundit (~> 2.3)
   rack-attack (~> 6.6)
   rack-cors

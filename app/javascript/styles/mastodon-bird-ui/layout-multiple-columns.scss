@@ -1,5 +1,5 @@
 /* Mastodon Bird UI by @rolle@mementomori.social
-   2.0.3 */
+   2.3.1 */
 
 /* CSS variables */
 :root {
@@ -14,7 +14,7 @@
   --color-brand-mastodon-links: #858afa;
   --color-brand-mastodon-bg: #1e2028;
   --color-brand-mastodon-dim: #717c9b;
-  --color-brand-mastodon-mud: rgba(39, 44, 64, 50%);
+  --color-brand-mastodon-mud: rgb(39 44 64 / 50%);
   --color-brand-mastodon-dark: #232543;
   --color-brand-mastodon-threaded-line: #434264;
   --color-brand-mastodon-text-light: #8493a7;
@@ -58,8 +58,8 @@
   --color-hashtag: var(--color-accent);
   --color-mention: var(--color-accent);
   --color-link: var(--color-accent);
-  --color-bg-compose-form: rgba(39, 44, 64, 40%);
-  --color-bg-compose-form-focus: rgba(39, 44, 64, 80%);
+  --color-bg-compose-form: rgb(39 44 64 / 40%);
+  --color-bg-compose-form-focus: rgb(39 44 64 / 80%);
 
   /* In the original UI this color is lighten($ui-base-color, 12%) */
   --color-outer-space: #42485a;
@@ -80,7 +80,7 @@
 
   /* Grids and gaps */
   --gap-default: 12px;
-  --gap-column-link: 12px;
+  --gap-column-link: 10px;
 
   /* Element sizes */
   --size-avatar: 48px;
@@ -288,8 +288,8 @@ body.theme-mastodon-bird-ui-light.layout-multiple-columns {
   --color-bg-75: #ffffffbf;
   --color-accent: var(--color-accent-dark);
   --color-ghost-button-text: var(--color-accent-dark);
-  --color-bg-compose-form: rgba(147, 136, 166, 20%);
-  --color-bg-compose-form-focus: rgba(147, 136, 166, 30%);
+  --color-bg-compose-form: rgb(147 136 166 / 20%);
+  --color-bg-compose-form-focus: rgb(147 136 166 / 30%);
   --color-hashtag: var(--color-accent-dark);
   --color-mention: var(--color-accent-dark);
 
@@ -704,11 +704,6 @@ body.layout-multiple-columns {
   display: inherit;
 }
 
-/* Hide empty status cards alltogether (Mastodon 4.1.5-2023-07-29) */
-.layout-multiple-columns .status-card:has(.icon-file-text) {
-  display: none;
-}
-
 /* Hide empty YouTube description */
 .layout-multiple-columns .status-card__description:empty {
   display: none;
@@ -818,6 +813,12 @@ body.layout-multiple-columns {
   color: var(--color-light-text);
 }
 
+/* Setting boxes */
+.layout-multiple-columns .column-header__collapsible-inner {
+  background-color: var(--color-bg);
+  border-color: var(--color-border);
+}
+
 /* Column-header border */
 .layout-multiple-columns .column-header__collapsible {
   border-bottom: 1px solid var(--color-border);
@@ -916,13 +917,6 @@ body.layout-multiple-columns {
   order: 1;
 }
 
-.layout-multiple-columns .columns-area__panels__pane,
-.layout-multiple-columns .columns-area__panels__pane__inner,
-.layout-multiple-columns .compose-panel {
-  min-width: var(--width-side-panel);
-  width: var(--width-side-panel);
-}
-
 .layout-multiple-columns .columns-area__panels__pane--compositional {
   flex-grow: 1;
   height: 100vh;
@@ -930,19 +924,6 @@ body.layout-multiple-columns {
   min-height: 880px;
   position: sticky;
   top: 0;
-}
-
-.layout-multiple-columns
-  .columns-area__panels__pane--compositional
-  .columns-area__panels__pane__inner {
-  position: static;
-}
-
-.layout-multiple-columns
-  .columns-area__panels__pane--compositional
-  .columns-area__panels__pane__inner,
-.compose-panel {
-  width: 100% !important;
 }
 
 .layout-multiple-columns .search {
@@ -1191,7 +1172,6 @@ body .content-warning::before {
 }
 
 /* Things like notification status update text that should be dim */
-
 .layout-multiple-columns
   .notification
   .status-link.mention:not(.hashtag, .mention),
@@ -1726,17 +1706,6 @@ body.embed .detailed-status,
   padding-left: calc(24px + var(--gap-default));
 }
 
-/* Media inside status update tinted to right */
-.layout-multiple-columns .status .audio-player,
-.layout-multiple-columns .status .video-player,
-.layout-multiple-columns .status .media-gallery {
-  margin-left: auto;
-
-  /* Need to override inline styles */
-
-  width: calc(100% - calc(var(--size-avatar) + var(--gap-default))) !important;
-}
-
 /* Fix aspect-ratio for some videos in mastodon v4.1.5-nightly-2023-07-26 */
 .layout-multiple-columns div[style*='aspect-ratio']:not([class]) {
   /* It's inlined so we have to use !important */
@@ -1763,6 +1732,11 @@ body.embed .detailed-status,
   width: unset !important;
 }
 
+/* When image is still loading up, reset width to 100%, Fixes #150 */
+body.layout-multiple-columns canvas[class='media-gallery__preview'] {
+  width: 100% !important;
+}
+
 .layout-multiple-columns
   .spoiler-button
   + .media-gallery__item
@@ -1770,6 +1744,22 @@ body.embed .detailed-status,
   margin-left: unset !important;
   max-height: unset !important;
   width: 100% !important;
+}
+
+.layout-multiple-columns
+  .media-gallery:has(.spoiler-button)
+  .media-gallery__preview {
+  width: 100% !important;
+}
+
+.layout-multiple-columns .media-gallery__gifv,
+.layout-multiple-columns .media-gallery__preview,
+.layout-multiple-columns .detailed-status .audio-player,
+.layout-multiple-columns .detailed-status .media-gallery,
+.layout-multiple-columns .detailed-status .media-gallery__gifv,
+.layout-multiple-columns .detailed-status .media-gallery__preview,
+.layout-multiple-columns .detailed-status .video-player {
+  margin-left: 0;
 }
 
 .layout-multiple-columns .media-gallery__preview {
@@ -2265,7 +2255,7 @@ body.embed .detailed-status__meta .detailed-status__link .icon-retweet,
 }
 
 .layout-multiple-columns .status__prepend {
-  padding-left: calc(var(--size-avatar) - 4px);
+  padding-left: calc(var(--size-avatar) + 2px);
 }
 
 .layout-multiple-columns
@@ -2338,10 +2328,6 @@ body.embed .detailed-status__meta .detailed-status__link .icon-retweet,
   height: 100%;
 }
 
-.layout-multiple-columns .navigation-panel__logo hr {
-  margin: 0;
-}
-
 /* Attempt to hide scrollbars for .navigation-panel for Firefox */
 .dropdown-menu__container__list--scrollable,
 .layout-multiple-columns .navigation-panel {
@@ -2350,7 +2336,6 @@ body.embed .detailed-status__meta .detailed-status__link .icon-retweet,
 
 /* Hide scrollbars for .navigation-panel for Chrome and Safari */
 .dropdown-menu__container__list--scrollable::-webkit-scrollbar,
-.layout-multiple-columns .navigation-panel__menu::-webkit-scrollbar,
 .layout-multiple-columns .navigation-panel::-webkit-scrollbar {
   display: none;
   width: 4px;
@@ -2639,6 +2624,12 @@ body.embed .detailed-status__meta .detailed-status__link .icon-retweet,
   opacity: 1;
 }
 
+/* Search icon fix for 4.4.0-alpha.1+mementomods-2024-12-15 changes */
+.layout-multiple-columns .search__icon {
+  right: 0;
+  top: 0;
+}
+
 /* Search */
 .layout-multiple-columns .search .search__icon .icon-search {
   background-image: var(--icon-search);
@@ -2648,6 +2639,10 @@ body.embed .detailed-status__meta .detailed-status__link .icon-retweet,
   display: inline-block;
   height: 24px;
   width: 24px;
+}
+
+.layout-multiple-column .search__icon-wrapper.has-value .search__icon {
+  background-image: var(--icon-close-action-bar);
 }
 
 .layout-multiple-columns .search .search__icon .icon {
@@ -2796,7 +2791,6 @@ body.embed .detailed-status__meta .detailed-status__link .icon-retweet,
 }
 
 /* Make full width... */
-
 .layout-multiple-columns .account__header__bio .account__header__fields dl {
   width: 100%;
 }
@@ -3671,6 +3665,20 @@ body .compose-form .compose-form__uploads {
   color: var(--color-accent);
 }
 
+/* Override new warning button color (.dropdown-button.warning), v4.4.0-alpha.4+mementomods-2025-05-03 */
+.layout-multiple-columns .compose-form__dropdowns .dropdown-button.warning,
+.layout-multiple-columns
+  .compose-form__dropdowns
+  .dropdown-button.warning.active,
+.layout-multiple-columns
+  .compose-form__dropdowns
+  .dropdown-button.warning:hover,
+.layout-multiple-columns
+  .compose-form__dropdowns
+  .dropdown-button.warning:focus {
+  color: var(--color-yellow);
+}
+
 .layout-multiple-columns .compose-form__submit {
   flex: unset;
 }
@@ -3696,7 +3704,6 @@ body .compose-form .compose-form__uploads {
 }
 
 /* Add slight background color for the compose form */
-
 .layout-multiple-columns .compose-form__highlightable,
 .layout-multiple-columns
   .compose-form__highlightable
@@ -3805,14 +3812,6 @@ body .compose-form .compose-form__uploads {
   width: 30px !important;
 }
 
-.layout-multiple-columns .navigation-panel__logo {
-  order: 1;
-}
-
-.layout-multiple-columns .navigation-panel__menu {
-  order: 2;
-}
-
 @media screen and (width >= 890px) {
   .layout-multiple-columns .status__action-bar .icon-button {
     position: relative;
@@ -3827,6 +3826,19 @@ body .compose-form .compose-form__uploads {
   /* Fix list links if they are too short */
   .layout-multiple-columns .list-panel .column-link {
     display: flex;
+  }
+}
+
+/* New lists panel in v4.4.0-beta.1+mementomods-2025-06-14 */
+.layout-multiple-columns .navigation-panel__list-panel__header {
+  .column-link {
+    order: 1;
+  }
+
+  .icon-button {
+    order: 2;
+    position: absolute;
+    right: 0;
   }
 }
 
@@ -3925,6 +3937,12 @@ body .compose-form .compose-form__uploads {
 }
 
 /* Hide the original icon from behind */
+.layout-multiple-columns .ui__navigation-bar__item[href='/home'] svg path,
+.layout-multiple-columns
+  .ui__navigation-bar__item[href='/notifications']
+  svg
+  path,
+.layout-multiple-columns .ui__navigation-bar__item[href='/explore'] svg path,
 .layout-multiple-columns .list-adder__lists .icon-plus > path,
 .layout-multiple-columns .list-adder__lists .icon-times > path,
 .layout-multiple-columns .list-adder__lists .list__display-name svg > path,
@@ -3965,7 +3983,12 @@ body .compose-form .compose-form__uploads {
   > div:nth-child(2)
   path,
 .layout-multiple-columns .column-header__button .icon-sliders > path,
-.compose-form .icon-close > path {
+.compose-form .icon-close > path,
+.layout-multiple-columns .item-list .lists__item__title path,
+.layout-multiple-columns .lists__item .icon-button.active path,
+.layout-multiple-columns .dialog-modal__content .lists__item__title path,
+.layout-multiple-columns .hashtag-header__header__buttons .icon > path,
+.layout-multiple-columns .lists__item .icon-button svg > path {
   display: none;
 }
 
@@ -3973,6 +3996,7 @@ body .compose-form .compose-form__uploads {
 .layout-multiple-columns .icon-user-plus.column-link__icon path,
 .layout-multiple-columns .icon.icon-undefined path,
 .layout-multiple-columns .icon.icon-users path,
+.layout-multiple-columns .account__header__tabs__buttons .optional path,
 .layout-multiple-columns
   .account__header__tabs__buttons
   .icon.icon-user-plus
@@ -3984,18 +4008,28 @@ body .compose-form .compose-form__uploads {
 }
 
 /* Home icon */
+.layout-multiple-columns .ui__navigation-bar__item[href='/home'] .icon-home,
 .layout-multiple-columns .column-link .icon-home {
   background-image: var(--icon-home);
 }
 
+.layout-multiple-columns
+  .ui__navigation-bar__item[href='/home'].active
+  .icon-home,
 .layout-multiple-columns .column-link.active .icon-home {
   background-image: var(--icon-home-column-link-active);
 }
 
+.layout-multiple-columns
+  .ui__navigation-bar__item[href='/notifications']
+  .icon-home,
 .layout-multiple-columns .notification__filter-bar .icon-home {
   background-image: var(--icon-home-notification);
 }
 
+.layout-multiple-columns
+  .ui__navigation-bar__item[href='/notifications'].active
+  .icon-home,
 .layout-multiple-columns .notification__filter-bar .active .icon-home {
   background-image: var(--icon-home-notification-active);
 }
@@ -4032,11 +4066,17 @@ body .compose-form .compose-form__uploads {
 }
 
 /* Explore icon */
+.layout-multiple-columns
+  .ui__navigation-bar__item[href='/explore']
+  .icon-explore,
 .layout-multiple-columns .column-link .icon-explore,
 .layout-multiple-columns .column-link .icon-hashtag {
   background-image: var(--icon-hashtag);
 }
 
+.layout-multiple-columns
+  .ui__navigation-bar__item[href='/explore'].active
+  .icon-explore,
 .layout-multiple-columns .column-link.active .icon-explore,
 .layout-multiple-columns .column-link.active .icon-hashtag {
   background-image: var(--icon-hashtag-active);
@@ -4082,6 +4122,14 @@ body .compose-form .compose-form__uploads {
   --size-icon: 20px;
 
   background-image: var(--icon-sliders);
+}
+
+.layout-multiple-columns .column-header__button.active .icon-sliders {
+  /* Use contrast icon */
+  background-image: var(--icon-sliders-contrast);
+
+  /* Disable rotate */
+  transform: none;
 }
 
 /* Administration icon */
@@ -4292,10 +4340,15 @@ body .compose-form .compose-form__uploads {
 /* "More" icon */
 .layout-multiple-columns .icon-ellipsis-h {
   background-image: var(--icon-more-status-action-bar);
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
+.layout-multiple-columns .column-link .icon.icon-.column-link__icon,
 .layout-multiple-columns .icon-ellipsis-v {
   background-image: var(--icon-more);
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 /* Close icon */
@@ -4316,52 +4369,6 @@ body .compose-form .compose-form__uploads {
   opacity: 1;
 }
 
-/* iPad etc. */
-@media (width <= 1174px) {
-  .layout-multiple-columns .detailed-status__action-bar .icon-button::after,
-  .layout-multiple-columns .status__action-bar .icon-button::after,
-  .layout-multiple-columns
-    .detailed-status__action-bar-dropdown
-    .icon-button::after {
-    display: none;
-  }
-
-  .layout-multiple-columns .ui__header,
-  .layout-multiple-columns .columns-area__panels__main > div.tabs-bar__wrapper,
-  .layout-multiple-columns .tabs-bar__wrapper {
-    backdrop-filter: unset;
-    background-color: transparent;
-    padding: 0;
-  }
-
-  .layout-multiple-columns .columns-area__panels__main {
-    width: calc(100% - var(--width-side-panel));
-  }
-}
-
-/* In-between breakpoint */
-@media (width >= 889px) and (width <= 1174px) {
-  .layout-multiple-columns .columns-area__panels__main > div {
-    border-right: 0;
-  }
-
-  .layout-multiple-columns .ui__header,
-  .layout-multiple-columns .columns-area__panels__main > div.tabs-bar__wrapper,
-  .layout-multiple-columns .tabs-bar__wrapper {
-    backdrop-filter: blur(12px);
-    background-color: var(--color-bg-75);
-    border-color: var(--color-border);
-  }
-
-  .layout-multiple-columns .columns-area__panels {
-    width: calc(100% - 1px);
-  }
-
-  .layout-multiple-columns .columns-area__panels__main > .tabs-bar__wrapper {
-    border-right: 0;
-  }
-}
-
 /* iPad */
 @media screen and (width <= 889px) {
   .layout-multiple-columns .ui__header {
@@ -4370,266 +4377,6 @@ body .compose-form .compose-form__uploads {
 
   .layout-multiple-columns .ui::after {
     display: none;
-  }
-}
-
-/* Mobile */
-@media screen and (width <= 630px) {
-  /* Better blur overlay for ui-header */
-  .layout-multiple-columns .ui::after {
-    backdrop-filter: blur(12px);
-    background-color: var(--color-bg-75);
-    content: '';
-
-    /* Height is .ui__header + .tabs-bar__wrapper */
-    height: calc(48px + 56px);
-    left: 0;
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 1;
-  }
-
-  /* Fix navigation-bar getting underneath layer */
-  .layout-multiple-columns .navigation-bar {
-    z-index: 2;
-  }
-
-  .layout-multiple-columns .tabs-bar__wrapper {
-    margin-right: 0;
-    position: sticky;
-    top: 55px;
-    z-index: 2;
-  }
-
-  .layout-multiple-columns .columns-area__panels__main {
-    order: 1;
-    position: unset;
-    width: 100%;
-  }
-
-  .layout-multiple-columns .columns-area__panels {
-    flex-direction: column;
-    justify-content: flex-start;
-  }
-
-  .layout-multiple-columns .columns-area__panels__main::-webkit-scrollbar {
-    display: none;
-  }
-
-  .layout-multiple-columns
-    .columns-area__panels__pane--navigational
-    .columns-area__panels__pane__inner {
-    background-color: var(--color-bg);
-    border-top: 1px solid var(--color-border);
-    bottom: 0;
-    height: 3.5rem;
-    left: 0;
-    max-height: 16vh;
-    width: 100vw;
-  }
-
-  .layout-multiple-columns
-    .columns-area__panels__pane--navigational
-    .navigation-panel {
-    display: block;
-    padding: 0;
-  }
-
-  .layout-multiple-columns
-    .columns-area__panels__pane--navigational
-    .navigation-panel__menu {
-    flex-direction: row;
-    flex-wrap: nowrap;
-    gap: 0;
-    height: 100%;
-    overflow-x: auto;
-    overflow-y: hidden;
-    padding: 0;
-  }
-
-  .layout-multiple-columns
-    .columns-area__panels__pane--navigational
-    .navigation-panel
-    .flex-spacer {
-    display: none;
-  }
-
-  .layout-multiple-columns .column-link {
-    justify-content: center;
-    margin-right: unset;
-    padding-bottom: 0;
-    padding-left: var(--gap-column-link);
-    padding-right: var(--gap-column-link);
-    padding-top: 0;
-    width: 38px;
-  }
-
-  .layout-multiple-columns .item-list .column-link {
-    padding-bottom: 4px;
-    padding-top: 4px;
-    width: unset;
-  }
-
-  .layout-multiple-columns .column-link:hover,
-  .layout-multiple-columns .column-link:focus {
-    background-color: transparent !important;
-  }
-
-  .columns-area__panels__pane--navigational .column-link__icon.icon-ellipsis-h {
-    background-image: var(--icon-more);
-    position: relative;
-  }
-
-  .layout-multiple-columns .columns-area__panels__main > div,
-  .layout-multiple-columns
-    .columns-area__panels__main
-    > div.columns-area.columns-area--mobile {
-    border: 0;
-  }
-
-  .layout-multiple-columns .ui__header {
-    align-items: center;
-    border-bottom: 0;
-    box-sizing: border-box;
-    display: flex;
-    height: 56px;
-    justify-content: space-between;
-    position: sticky;
-    top: 0;
-    width: 100%;
-    z-index: 2;
-  }
-
-  .layout-multiple-columns .account__header__bar .avatar .account__avatar {
-    /* It's inlined so we have to use !important */
-
-    height: 106px !important;
-
-    /* It's inlined so we have to use !important */
-
-    width: 106px !important;
-  }
-
-  .layout-multiple-columns .account__header__image {
-    height: 157px;
-  }
-
-  .layout-multiple-columns .column > .scrollable {
-    padding-bottom: 55px;
-  }
-
-  .layout-multiple-columns .actions-modal ul li:not(:empty) a {
-    color: var(--color-light-text);
-  }
-
-  /* "Your lists" view */
-  .layout-multiple-columns .column-subheading ~ article {
-    padding-bottom: calc(var(--gap-default) / 2);
-    padding-top: calc(var(--gap-default) / 2);
-  }
-
-  .layout-multiple-columns .compose-form {
-    padding-bottom: calc(3.5rem + calc(var(--gap-default) * 2));
-  }
-
-  /* Column items order */
-  .layout-multiple-columns .navigation-panel .column-link,
-  .layout-multiple-columns .navigation-panel .list-panel,
-  .layout-multiple-columns .navigation-panel hr,
-  .layout-multiple-columns .navigation-panel .navigation-panel__logo {
-    order: 99;
-  }
-
-  /* Make the column link 1/4 of width of the screen */
-  .layout-multiple-columns .navigation-panel .navigation-panel__legal,
-  .layout-multiple-columns .navigation-panel .column-link {
-    border: 0;
-    flex: 0 0 calc(100vw / 4);
-    margin-inline: 0;
-    padding: 0;
-    padding-inline: 0;
-  }
-
-  .layout-multiple-columns .navigation-panel .navigation-panel__legal {
-    display: flex;
-    justify-content: center;
-    order: 999;
-    text-align: center;
-  }
-
-  .layout-multiple-columns .navigation-panel .column-link:nth-child(1) {
-    order: 2;
-  }
-
-  /* Home */
-  .layout-multiple-columns .navigation-panel .column-link:nth-child(2) {
-    order: 1;
-  }
-
-  /* Notifications */
-  .layout-multiple-columns .navigation-panel .column-link:nth-child(3) {
-    order: 4;
-  }
-
-  /* Explore */
-  .layout-multiple-columns .navigation-panel .column-link:nth-child(4) {
-    order: 2;
-  }
-
-  .layout-multiple-columns .navigation-panel .column-link:nth-child(5) {
-    order: 5;
-  }
-
-  .layout-multiple-columns .navigation-panel .column-link:nth-child(6) {
-    order: 6;
-  }
-
-  .layout-multiple-columns .navigation-panel .column-link:nth-child(7) {
-    order: 7;
-  }
-
-  .layout-multiple-columns .navigation-panel .column-link:nth-child(8) {
-    order: 8;
-  }
-
-  .layout-multiple-columns .navigation-panel .column-link:nth-child(9) {
-    order: 9;
-  }
-
-  /* Lists */
-  .layout-multiple-columns .column-link[href='/lists'] {
-    order: 4;
-  }
-
-  .layout-multiple-columns .navigation-panel .column-link:nth-child(11) {
-    order: 11;
-  }
-
-  .layout-multiple-columns .navigation-panel .column-link:nth-child(12) {
-    order: 12;
-  }
-}
-
-/* Add bottom padding to the navigation panel for the
-   Safari PWA on iPhones with the portrait mode home bar */
-@media screen and (device-width <= 375px) and (device-height <= 812px) and (resolution >= 2dppx) and (orientation: portrait) and (display-mode: standalone),
-  /* iPhone 12,
-  iPhone 12 Pro,
-  iPhone 13,
-  iPhone 13 Pro,
-  and iPhone 14 */ screen and (device-width <= 390px) and (device-height <= 844px) and (resolution >= 3dppx) and (orientation: portrait) and (display-mode: standalone),
-  /* iPhone 14 Pro */ screen and (device-width <= 393px) and (device-height <= 852px) and (resolution >= 3dppx) and (orientation: portrait) and (display-mode: standalone),
-  /* iPhone XR and iPhone 11 */ screen and (device-width <= 414px) and (device-height <= 896px) and (resolution >= 2dppx) and (orientation: portrait) and (display-mode: standalone),
-  /* iPhone Xs Max and iPhone 11 Pro Max */ screen and (device-width <= 414px) and (device-height <= 896px) and (resolution >= 3dppx) and (orientation: portrait) and (display-mode: standalone),
-  /* iPhone 12 Pro Max,
-  iPhone 13 Pro Max,
-  and iPhone 14 Plus */ screen and (device-width <= 428px) and (device-height <= 926px) and (resolution >= 3dppx) and (orientation: portrait) and (display-mode: standalone),
-  /* iPhone 14 Pro Max */ screen and (device-width <= 430px) and (device-height <= 932px) and (resolution >= 3dppx) and (orientation: portrait) and (display-mode: standalone) {
-  .layout-multiple-columns
-    .columns-area__panels__pane--navigational
-    .columns-area__panels__pane__inner {
-    padding-bottom: 26px;
   }
 }
 
@@ -4653,6 +4400,14 @@ body .compose-form .compose-form__uploads {
   border: 1px solid var(--color-border);
   border-radius: var(--border-radius);
   overflow: hidden;
+}
+
+/* Fix double border on media */
+.layout-multiple-columns
+  .media-gallery
+  .media-gallery__item
+  .media-gallery__gifv {
+  border: 0;
 }
 
 /* Exception for your own profile media gallery */
@@ -4763,7 +4518,6 @@ body.embed .entry .detailed-status {
 /* Threaded line, actually */
 .layout-multiple-columns .status__line {
   border-inline-start: 2px solid var(--color-thread-line);
-  -webkit-border-start: 2px solid var(--color-thread-line);
 }
 
 .layout-multiple-columns .status__line--full::before {
@@ -4957,6 +4711,7 @@ div[tabindex='-1']
 .layout-multiple-columns .notification-group--favourite .icon-star,
 .layout-multiple-columns .notification-favourite .icon-star {
   background-image: var(--icon-heart-notification);
+  background-repeat: no-repeat;
 }
 
 .layout-multiple-columns .notification__filter-bar .icon-star,
@@ -5068,6 +4823,16 @@ div[tabindex='-1']
   height: 25.5px;
 }
 
+.layout-multiple-columns.no-reduce-motion
+  .star-icon.icon-button--with-counter.activate
+  .icon-button__counter {
+  margin-left: 20px;
+}
+
+.animated-number {
+  z-index: 99;
+}
+
 @media screen and (width <= 889px) {
   .layout-multiple-columns.no-reduce-motion
     .status
@@ -5111,6 +4876,7 @@ div[tabindex='-1']
 .layout-multiple-columns .notification-group--favourite .icon-star,
 .layout-multiple-columns .notification-favourite .icon-star {
   background-image: var(--icon-star-notification);
+  background-repeat: no-repeat;
 }
 
 .layout-multiple-columns .notification__filter-bar .active .icon-star {
@@ -5150,6 +4916,7 @@ div[tabindex='-1']
   top: 0;
   transform: none;
   width: unset;
+  height: unset !important;
 }
 
 .layout-multiple-columns.no-reduce-motion .icon-button.star-icon.active .icon-star {
@@ -5267,9 +5034,9 @@ div[tabindex='-1']
 }
 
 .layout-multiple-columns button.icon-button.icon-button--with-counter.activate.star-icon > .icon-star {
+  left: 0 !important;
   position: absolute !important;
   top: unset !important;
-  left: -34px !important;
 }
 
 @media (hover: none) {
