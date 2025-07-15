@@ -1,4 +1,5 @@
-@use 'sass:color';
+@use 'variables' as *;
+@use 'functions' as *;
 
 .poll {
   margin-top: 16px;
@@ -36,11 +37,6 @@
     // Those rules need to be entirely separate or they won't work, hence the
     // duplication
     &::-moz-progress-bar {
-      border-radius: 4px;
-      background: color.adjust($ui-primary-color, $lightness: -5%);
-    }
-
-    &::-ms-fill {
       border-radius: 4px;
       background: color.adjust($ui-primary-color, $lightness: -5%);
     }

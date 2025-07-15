@@ -1,4 +1,5 @@
-@use 'sass:color';
+@use 'functions' as *;
+@use 'variables' as *;
 
 .dashboard__counters {
   display: flex;

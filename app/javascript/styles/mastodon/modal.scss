@@ -1,4 +1,5 @@
-@use 'sass:color';
+@use 'variables' as *;
+@use 'functions' as *;
 
 .modal-layout {
   background: color.adjust($ui-base-color, $lightness: -4%)
