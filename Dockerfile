@@ -388,8 +388,8 @@ COPY --from=libvips /usr/local/libvips/lib /usr/local/lib
 COPY --from=ffmpeg /usr/local/ffmpeg/bin /usr/local/bin
 COPY --from=ffmpeg /usr/local/ffmpeg/lib /usr/local/lib
 
-COPY --from=yarn /opt/mastodon/node_modules /opt/mastodon/node_modules
-COPY --from=yarn /opt/mastodon/streaming /opt/mastodon/streaming
+COPY --from=node /opt/mastodon/node_modules /opt/mastodon/node_modules
+COPY --from=node /opt/mastodon/streaming /opt/mastodon/streaming
 
 RUN \
   ldconfig; \
