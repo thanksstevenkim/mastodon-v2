@@ -13,7 +13,7 @@ RSpec.describe 'Settings preferences appearance page' do
     expect(page)
       .to have_private_cache_control
 
-    theme_selection_field.find("option[value='contrast']").select_option
+    select 'contrast', from: theme_selection_field, selected: 'contrast'
     check confirm_reblog_field
     uncheck confirm_delete_field
 
