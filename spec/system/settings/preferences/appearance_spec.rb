@@ -13,7 +13,7 @@ RSpec.describe 'Settings preferences appearance page' do
     expect(page)
       .to have_private_cache_control
 
-    find_by_id('user_settings_theme').find("option[value='contrast']").select_option
+    find("select[name='user[settings][theme]']").find("option[value='contrast']").select_option
     check confirm_reblog_field
     uncheck confirm_delete_field
 
