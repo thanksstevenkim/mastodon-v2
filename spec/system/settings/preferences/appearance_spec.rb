@@ -46,8 +46,8 @@ RSpec.describe 'Settings preferences appearance page' do
 
     if page.has_select?(theme_label, visible: :all)
       select option_text, from: theme_label
-    elsif page.has_selector?("input[name='user[settings][theme]']", visible: :all)
-      find("input[name='user[settings][theme]']", visible: :all).set(value)
+    elsif (input = page.first(:css, "input[name='user[settings][theme]']", visible: :all, minimum: 0))
+      input.set(value)
     else
       if (radio = page.first(:css, "input[type='radio'][name='user[settings][theme]'][value='#{value}']", minimum: 0))
         radio.click
@@ -72,7 +72,7 @@ RSpec.describe 'Settings preferences appearance page' do
         JS
       end
 
-      expect(page).to have_selector("[name='user[settings][theme]'][value='#{value}']", visible: :all)
+      expect(page).to have_css("[name='user[settings][theme]'][value='#{value}']", visible: :all)
     end
   end
 
