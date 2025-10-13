@@ -13,7 +13,7 @@ RSpec.describe 'Settings preferences appearance page' do
     expect(page)
       .to have_private_cache_control
 
-    find("select[name='user[settings][theme]']").find("option[value='contrast']").select_option
+    select_theme('contrast')
     check confirm_reblog_field
     uncheck confirm_delete_field
 
@@ -40,8 +40,12 @@ RSpec.describe 'Settings preferences appearance page' do
     form_label('defaults.setting_boost_modal')
   end
 
-  def theme_selection_field
-    form_label('defaults.setting_theme')
+  def select_theme(value)
+    if page.has_selector?("select[name='user[settings][theme]']", visible: :all)
+      find("select[name='user[settings][theme]']", visible: :all).find("option[value='#{value}']", visible: :all).select_option
+    else
+      find("input[name='user[settings][theme]']", visible: :all).set(value)
+    end
   end
 
   def advanced_layout_field
