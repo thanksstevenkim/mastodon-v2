@@ -13,6 +13,7 @@
     "url": "https://github.com/mastodon/mastodon.git"
   },
   "scripts": {
+    "lint:js": "cd $INIT_CWD && eslint --cache --report-unused-disable-directives",
     "start": "node ./index.js",
     "typecheck": "tsc --noEmit"
   },
