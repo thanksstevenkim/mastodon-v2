@@ -13,11 +13,7 @@ module Mastodon
     end
 
     def patch
-<<<<<<< HEAD
-      8
-=======
       1
->>>>>>> bb6093c31 (Bump version to v4.5.1)
     end
 
     def default_prerelease
