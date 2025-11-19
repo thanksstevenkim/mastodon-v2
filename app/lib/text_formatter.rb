@@ -104,11 +104,17 @@ class TextFormatter
   end
 
   def link_to_hashtag(entity)
-    hashtag = entity[:hashtag]
-    url     = tag_url(hashtag)
+    raw_hashtag = entity[:hashtag]
+
+    normalizer  = HashtagNormalizer.new
+    normalized  = normalizer.normalize(raw_hashtag)
+
+    return "##{h(raw_hashtag)}" if normalized.nil?
+
+    url = tag_url(normalized)
 
     <<~HTML.squish
-      <a href="#{h(url)}" class="mention hashtag" rel="tag">#<span>#{h(hashtag)}</span></a>
+      <a href="#{h(url)}" class="mention hashtag" rel="tag">#<span>#{h(raw_hashtag)}</span></a>
     HTML
   end
 

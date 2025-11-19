@@ -2,7 +2,19 @@
 
 class HashtagNormalizer
   def normalize(str)
-    remove_invalid_characters(ascii_folding(lowercase(cjk_width(str))))
+    normalized = remove_invalid_characters(
+      ascii_folding(
+        lowercase(
+          cjk_width(str)
+        )
+      )
+    )
+
+    normalized = normalized.strip
+
+    return nil if normalized.empty?
+
+    normalized
   end
 
   private
