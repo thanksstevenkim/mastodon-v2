@@ -35,7 +35,7 @@ const randomUpTo = max =>
 /**
  * @typedef {import('mastodon/store').AppDispatch} Dispatch
  * @typedef {import('mastodon/store').GetState} GetState
- * @typedef {import('redux').UnknownAction} UnknownAction
+ * @typedef {import('redux').AnyAction} AnyAction
  * @typedef {function(Dispatch, GetState): Promise<void>} FallbackFunction
  */
 
@@ -45,7 +45,7 @@ const randomUpTo = max =>
  * @param {Object.<string, string>} params
  * @param {Object} options
  * @param {FallbackFunction} [options.fallback]
- * @param {function(): UnknownAction} [options.fillGaps]
+ * @param {function(): AnyAction} [options.fillGaps]
  * @param {function(object): boolean} [options.accept]
  * @returns {function(): void}
  */
