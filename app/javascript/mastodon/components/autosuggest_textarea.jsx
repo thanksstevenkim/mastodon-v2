@@ -29,7 +29,7 @@ const textAtCursorMatchesToken = (str, caretPosition) => {
     return [null, null];
   }
 
-  word = word.trim().toLowerCase();
+  word = word.trim();
 
   if (word.length > 0) {
     return [left + 1, word];
@@ -166,7 +166,7 @@ const AutosuggestTextarea = forwardRef(({
       textareaRef.current.blur();
       textareaRef.current.focus();
     }
-  }, [lang]);
+  }, [lang, textareaRef]);
 
   const renderSuggestion = (suggestion, i) => {
     let inner, key;
@@ -238,6 +238,7 @@ AutosuggestTextarea.propTypes = {
   onFocus:PropTypes.func,
   autoFocus: PropTypes.bool,
   lang: PropTypes.string,
+  className: PropTypes.string,
 };
 
 export default AutosuggestTextarea;
