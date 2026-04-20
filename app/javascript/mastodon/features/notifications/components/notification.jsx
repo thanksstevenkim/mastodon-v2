@@ -8,6 +8,7 @@ import { Link, withRouter } from 'react-router-dom';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import ImmutablePureComponent from 'react-immutable-pure-component';
 
+import { LinkedDisplayName } from '@/mastodon/components/display_name';
 import EditIcon from '@/material-icons/400-24px/edit.svg?react';
 import FlagIcon from '@/material-icons/400-24px/flag-fill.svg?react';
 import FormatQuoteIcon from '@/material-icons/400-24px/format_quote-fill.svg?react';
@@ -18,9 +19,8 @@ import PersonAddIcon from '@/material-icons/400-24px/person_add-fill.svg?react';
 import RepeatIcon from '@/material-icons/400-24px/repeat.svg?react';
 import StarIcon from '@/material-icons/400-24px/star-fill.svg?react';
 import { Account } from 'mastodon/components/account';
-import { LinkedDisplayName } from '@/mastodon/components/display_name';
-import { Icon }  from 'mastodon/components/icon';
 import { Hotkeys } from 'mastodon/components/hotkeys';
+import { Icon }  from 'mastodon/components/icon';
 import { StatusQuoteManager } from 'mastodon/components/status_quoted';
 import { me } from 'mastodon/initial_state';
 import { WithRouterPropTypes } from 'mastodon/utils/react_router';
@@ -486,10 +486,10 @@ class Notification extends ImmutablePureComponent {
     }
 
     const targetAccount = report.get('target_account');
-    const targetLink = <LinkedDisplayName
+    const targetLink = (<LinkedDisplayName
       className='notification__display-name'
       displayProps={{account:targetAccount, variant: 'simple'}}
-    />;
+    />);
 
     return (
       <Hotkeys handlers={this.getHandlers()}>

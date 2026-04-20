@@ -7,6 +7,8 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import ImmutablePureComponent from 'react-immutable-pure-component';
 import { connect } from 'react-redux';
 
+import { FeaturedCarousel } from '@/mastodon/components/featured_carousel';
+import { RemoteHint } from 'mastodon/components/remote_hint';
 import BundleColumnError from 'mastodon/features/ui/components/bundle_column_error';
 import { me } from 'mastodon/initial_state';
 import { normalizeForLookup } from 'mastodon/reducers/accounts_map';
@@ -18,11 +20,10 @@ import { ColumnBackButton } from '../../components/column_back_button';
 import { LoadingIndicator } from '../../components/loading_indicator';
 import StatusList from '../../components/status_list';
 import Column from '../ui/components/column';
-import { RemoteHint } from 'mastodon/components/remote_hint';
 
 import { AccountHeader } from './components/account_header';
 import { LimitedAccountHint } from './components/limited_account_hint';
-import { FeaturedCarousel } from '@/mastodon/components/featured_carousel';
+
 
 const emptyList = ImmutableList();
 

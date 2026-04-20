@@ -15,17 +15,17 @@ import ReplyIcon from '@/material-icons/400-24px/reply.svg?react';
 import ReplyAllIcon from '@/material-icons/400-24px/reply_all.svg?react';
 import StarIcon from '@/material-icons/400-24px/star-fill.svg?react';
 import StarBorderIcon from '@/material-icons/400-24px/star.svg?react';
+import { Dropdown } from 'mastodon/components/dropdown_menu';
 import { identityContextPropShape, withIdentity } from 'mastodon/identity_context';
 import { PERMISSION_MANAGE_USERS, PERMISSION_MANAGE_FEDERATION } from 'mastodon/permissions';
 import { WithRouterPropTypes } from 'mastodon/utils/react_router';
 
-import { Dropdown } from 'mastodon/components/dropdown_menu';
 import { me, quickBoosting } from '../../initial_state';
-
 import { IconButton } from '../icon_button';
 import { BoostButton } from '../status/boost_button';
-import { RemoveQuoteHint } from './remove_quote_hint';
 import { quoteItemState, selectStatusState } from '../status/boost_button_utils';
+
+import { RemoveQuoteHint } from './remove_quote_hint';
 
 const messages = defineMessages({
   delete: { id: 'status.delete', defaultMessage: 'Delete' },
@@ -400,23 +400,26 @@ class StatusActionBar extends ImmutablePureComponent {
           <IconButton className='status__action-bar__button bookmark-icon' disabled={!signedIn} active={status.get('bookmarked')} title={bookmarkTitle} icon='bookmark' iconComponent={status.get('bookmarked') ? BookmarkIcon : BookmarkBorderIcon} onClick={this.handleBookmarkClick} />
         </div>
         <RemoveQuoteHint className='status__action-bar__button-wrapper' canShowHint={shouldShowQuoteRemovalHint}>
-          {(dismissQuoteHint) => (
-            <Dropdown
-              scrollKey={scrollKey}
-              status={status}
-              needsStatusRefresh={quickBoosting && status.get('quote_approval') === null}
-              items={menu}
-              icon='ellipsis-h'
-              iconComponent={MoreHorizIcon}
-              direction='right'
-              title={intl.formatMessage(messages.more)}
-              onOpen={() => {
-                dismissQuoteHint();
-                return true;
-              }}
-            />
-          )}
-        </RemoveQuoteHint>
+          {dismissQuoteHint => {
+            const handleOpen = () => {
+              dismissQuoteHint();
+              return true;
+            };
+
+            return (
+              <Dropdown
+                scrollKey={scrollKey}
+                status={status}
+                needsStatusRefresh={quickBoosting && status.get('quote_approval') === null}
+                items={menu}
+                icon='ellipsis-h'
+                iconComponent={MoreHorizIcon}
+                direction='right'
+                title={intl.formatMessage(messages.more)}
+                onOpen={handleOpen}
+              />
+            )}}
+          </RemoveQuoteHint>
       </div>
     );
   }

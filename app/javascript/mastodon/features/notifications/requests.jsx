@@ -21,9 +21,9 @@ import { changeSetting } from 'mastodon/actions/settings';
 import { CheckBox } from 'mastodon/components/check_box';
 import Column from 'mastodon/components/column';
 import ColumnHeader from 'mastodon/components/column_header';
+import { Dropdown } from 'mastodon/components/dropdown_menu';
 import { Icon } from 'mastodon/components/icon';
 import ScrollableList from 'mastodon/components/scrollable_list';
-import { Dropdown } from 'mastodon/components/dropdown_menu';
 
 import { NotificationRequest } from './components/notification_request';
 import { PolicyControls } from './components/policy_controls';

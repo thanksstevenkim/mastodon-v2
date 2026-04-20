@@ -4,6 +4,8 @@ import { Children, cloneElement, useCallback } from 'react';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import ImmutablePureComponent from 'react-immutable-pure-component';
 
+import { CollapsibleNavigationPanel } from 'mastodon/features/navigation_panel';
+
 import { scrollRight } from '../../../scroll';
 import BundleContainer from '../containers/bundle_container';
 import {
@@ -25,7 +27,6 @@ import BundleColumnError from './bundle_column_error';
 import { ColumnLoading } from './column_loading';
 import { ComposePanel, RedirectToMobileComposeIfNeeded } from './compose_panel';
 import DrawerLoading from './drawer_loading';
-import { CollapsibleNavigationPanel } from 'mastodon/features/navigation_panel';
 
 const componentMap = {
   'COMPOSE': Compose,

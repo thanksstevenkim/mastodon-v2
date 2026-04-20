@@ -10,22 +10,22 @@ import { createSelector } from '@reduxjs/toolkit';
 import ImmutablePropTypes from 'react-immutable-proptypes';
 import { useDispatch, useSelector } from 'react-redux';
 
+import { LinkedDisplayName } from '@/mastodon/components/display_name';
+import { AnimateEmojiProvider } from '@/mastodon/components/emoji/context';
 import MoreHorizIcon from '@/material-icons/400-24px/more_horiz.svg?react';
 import ReplyIcon from '@/material-icons/400-24px/reply.svg?react';
 import { replyCompose } from 'mastodon/actions/compose';
 import { markConversationRead, deleteConversation } from 'mastodon/actions/conversations';
 import { openModal } from 'mastodon/actions/modal';
 import { muteStatus, unmuteStatus, toggleStatusSpoilers } from 'mastodon/actions/statuses';
-import { Hotkeys } from 'mastodon/components/hotkeys';
 import AttachmentList from 'mastodon/components/attachment_list';
 import AvatarComposite from 'mastodon/components/avatar_composite';
+import { Dropdown } from 'mastodon/components/dropdown_menu';
+import { Hotkeys } from 'mastodon/components/hotkeys';
 import { IconButton } from 'mastodon/components/icon_button';
 import { RelativeTimestamp } from 'mastodon/components/relative_timestamp';
 import StatusContent from 'mastodon/components/status_content';
-import { Dropdown } from 'mastodon/components/dropdown_menu';
 import { makeGetStatus } from 'mastodon/selectors';
-import { LinkedDisplayName } from '@/mastodon/components/display_name';
-import { AnimateEmojiProvider } from '@/mastodon/components/emoji/context';
 
 const messages = defineMessages({
   more: { id: 'status.more', defaultMessage: 'More' },

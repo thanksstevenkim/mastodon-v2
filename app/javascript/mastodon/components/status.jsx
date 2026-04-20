@@ -9,11 +9,11 @@ import ImmutablePropTypes from 'react-immutable-proptypes';
 import ImmutablePureComponent from 'react-immutable-pure-component';
 
 import AlternateEmailIcon from '@/material-icons/400-24px/alternate_email.svg?react';
-import RepeatIcon from '@/material-icons/400-24px/repeat.svg?react';
 import CancelFillIcon from '@/material-icons/400-24px/cancel-fill.svg?react';
-import { Hotkeys } from 'mastodon/components/hotkeys';
+import RepeatIcon from '@/material-icons/400-24px/repeat.svg?react';
 import { ContentWarning } from 'mastodon/components/content_warning';
 import { FilterWarning } from 'mastodon/components/filter_warning';
+import { Hotkeys } from 'mastodon/components/hotkeys';
 import { Icon }  from 'mastodon/components/icon';
 import { PictureInPicturePlaceholder } from 'mastodon/components/picture_in_picture_placeholder';
 import { withOptionalRouter, WithOptionalRouterPropTypes } from 'mastodon/utils/react_router';
@@ -30,12 +30,12 @@ import { Avatar } from './avatar';
 import { AvatarOverlay } from './avatar_overlay';
 import { LinkedDisplayName } from './display_name';
 import { getHashtagBarForStatus } from './hashtag_bar';
+import { IconButton } from './icon_button';
 import { RelativeTimestamp } from './relative_timestamp';
 import StatusActionBar from './status_action_bar';
 import StatusContent from './status_content';
 import { StatusThreadLabel } from './status_thread_label';
 import { VisibilityIcon } from './visibility_icon';
-import { IconButton } from './icon_button';
 
 const domParser = new DOMParser();
 
@@ -61,7 +61,7 @@ export const textForScreenReader = ({intl, status, rebloggedByText = false, isQu
     isQuote ? intl.formatMessage(messages.quote_noun) : undefined,
     displayName.length === 0 ? status.getIn(['account', 'acct']).split('@')[0] : displayName,
     spoilerText && status.get('hidden') ? spoilerText : contentText,
-    !!status.get('quote') ? intl.formatMessage(messages.contains_quote) : undefined,
+    status.get('quote') ? intl.formatMessage(messages.contains_quote) : undefined,
     intl.formatDate(status.get('created_at'), { hour: '2-digit', minute: '2-digit', month: 'short', day: 'numeric' }),
     status.getIn(['account', 'acct']),
     rebloggedByText,

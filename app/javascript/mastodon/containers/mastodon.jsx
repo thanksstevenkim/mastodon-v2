@@ -12,12 +12,12 @@ import { connectUserStream } from 'mastodon/actions/streaming';
 import ErrorBoundary from 'mastodon/components/error_boundary';
 import { Router } from 'mastodon/components/router';
 import UI from 'mastodon/features/ui';
+import { BodyScrollLock } from 'mastodon/features/ui/components/body_scroll_lock';
 import { IdentityContext, createIdentityContext } from 'mastodon/identity_context';
 import { initialState, title as siteTitle } from 'mastodon/initial_state';
 import { IntlProvider } from 'mastodon/locales';
 import { store } from 'mastodon/store';
 import { isProduction } from 'mastodon/utils/environment';
-import { BodyScrollLock } from 'mastodon/features/ui/components/body_scroll_lock';
 
 import { ScrollContext } from './scroll_container/scroll_context';
 

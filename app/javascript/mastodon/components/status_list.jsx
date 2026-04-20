@@ -9,10 +9,10 @@ import { TIMELINE_GAP, TIMELINE_SUGGESTIONS } from 'mastodon/actions/timelines';
 import { RegenerationIndicator } from 'mastodon/components/regeneration_indicator';
 import { InlineFollowSuggestions } from 'mastodon/features/home_timeline/components/inline_follow_suggestions';
 
-import { StatusQuoteManager } from '../components/status_quoted';
 
 import { LoadGap } from './load_gap';
 import ScrollableList from './scrollable_list';
+import { StatusQuoteManager } from "./status_quoted";
 
 
 export default class StatusList extends ImmutablePureComponent {
