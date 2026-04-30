@@ -3072,7 +3072,7 @@ __metadata:
     "@vitest/ui": "npm:^3.2.4"
     arrow-key-navigation: "npm:^1.2.0"
     async-mutex: "npm:^0.5.0"
-    axios: "npm:^1.12.2"
+    axios: "npm:^1.15.0"
     babel-plugin-formatjs: "npm:^10.5.37"
     babel-plugin-transform-react-remove-prop-types: "npm:^0.4.24"
     blurhash: "npm:^2.0.5"
@@ -3108,12 +3108,12 @@ __metadata:
     http-link-header: "npm:^1.1.1"
     husky: "npm:^9.0.11"
     idb: "npm:^8.0.3"
-    immutable: "npm:^4.3.0"
+    immutable: "npm:^4.3.7"
     intl-messageformat: "npm:^10.7.16"
     js-yaml: "npm:^4.1.0"
     lande: "npm:^1.0.10"
     lint-staged: "npm:^16.0.0"
-    lodash: "npm:^4.17.21"
+    lodash: "npm:4.18.1"
     marky: "npm:^1.2.5"
     msw: "npm:^2.10.2"
     msw-storybook-addon: "npm:^2.0.5"
@@ -5761,14 +5761,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:^1.12.2":
-  version: 1.15.1
-  resolution: "axios@npm:1.15.1"
+"axios@npm:^1.15.0":
+  version: 1.15.0
+  resolution: "axios@npm:1.15.0"
   dependencies:
     follow-redirects: "npm:^1.15.11"
     form-data: "npm:^4.0.5"
     proxy-from-env: "npm:^2.1.0"
-  checksum: 10c0/f8b5f3aa954cc1da283e32ad81882967a371dfec7dcc75174fcae93093daeb5399aec2ec587d04779f46b00ff1c297ac9edf3fa596452d6a3d455ce5b58093a4
+  checksum: 10c0/47e0f860e98d4d7aa145e89ce0cae00e1fb0f1d2485f065c21fce955ddb1dba4103a46bd0e47acd18a27208a7f62c96249e620db575521b92a968619ab133409
   languageName: node
   linkType: hard
 
@@ -8802,7 +8802,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"immutable@npm:^4.0.0-rc.1, immutable@npm:^4.3.0":
+"immutable@npm:^4.0.0-rc.1, immutable@npm:^4.3.7":
   version: 4.3.8
   resolution: "immutable@npm:4.3.8"
   checksum: 10c0/3de58996305a0faf6ef3fc0685f996c42653ad757760214f5aec7d4a6b59ea7abb882522c5f9a61776fae88c0b45e08eb77cbded5a4f57745ec7c63f9642e44b
@@ -9824,7 +9824,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"lodash@npm:^4.17.20, lodash@npm:^4.17.21":
+"lodash@npm:4.18.1, lodash@npm:^4.17.20":
   version: 4.18.1
   resolution: "lodash@npm:4.18.1"
   checksum: 10c0/757228fc68805c59789e82185135cf85f05d0b2d3d54631d680ca79ec21944ec8314d4533639a14b8bcfbd97a517e78960933041a5af17ecb693ec6eecb99a27
