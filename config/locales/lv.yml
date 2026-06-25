@@ -515,11 +515,7 @@ lv:
       description_html: "<strong>Sekošanas ieteikumi palīdz jauniem lietotājiem ātri arast saistošu saturu</strong>. Kad lietotājs nav pietiekami mijiedarbojies ar citiem, lai veidotos pielāgoti sekošanas iteikumi, tiek ieteikti šie konti. Tie tiek pārskaitļoti ik dienas, izmantojot kontu, kuriem ir augstākās nesenās iesaistīšanās un lielākais vietējo sekotāju skaits norādītajā valodā."
       language: Valodai
       status: Stāvoklis
-<<<<<<< HEAD
-      suppress: Apspiest sekošanas rekomendāciju
-=======
       suppress: Apspiest sekošanas ieteikumu
->>>>>>> v4.6.1
       suppressed: Apspiestie
       title: Sekošanas ieteikumi
       unsuppress: Atjaunot sekošanas ieteikumu
@@ -703,10 +699,6 @@ lv:
       resolved_msg: Ziņojums sekmīgi atrisināts.
       skip_to_actions: Pāriet uz darbībām
       status: Stāvoklis
-<<<<<<< HEAD
-      statuses: Ziņotais saturs
-=======
->>>>>>> v4.6.1
       statuses_description_html: Pārkāpuma saturs tiks minēts saziņā ar paziņoto kontu
       summary:
         action_preambles:
@@ -717,11 +709,7 @@ lv:
         actions:
           delete_html: Noņemt aizskarošos ierakstus
           mark_as_sensitive_html: Atzīmēt aizskarošo ierakstu informācijas nesējus kā jūtīgus
-<<<<<<< HEAD
-          silence_html: Ievērojami ierobežo <strong>@%{acct}</strong> sasniedzamību, padarot viņa profilu un saturu redzamu tikai cilvēkiem, kas jau seko tam vai pašrocīgi uzmeklē profilu
-=======
           silence_html: Ievērojami ierobežo <strong>@%{acct}</strong> sasniedzamību, padarot profilu un saturu redzamu tikai cilvēkiem, kas jau seko vai pašrocīgi uzmeklē profilu
->>>>>>> v4.6.1
           suspend_html: apturēs <strong>@%{acct}</strong> darbību, padarot profilu un saturu nepieejamu un neiespējamu mijiedarboties ar to;
         close_report: 'Atzīmēt ziņojumu #%{id} kā atrisinātu'
         close_reports_html: atzīmēs <strong>visus</strong> ziņojumus par <strong>@%{acct}</strong> kā atrisinātus;
@@ -1126,13 +1114,8 @@ lv:
       rotate_secret: Pagriezt noslēpumu
       secret: Paraksta noslēpums
       status: Stāvoklis
-<<<<<<< HEAD
-      title: Tīmekļa āķi
-      webhook: Tīmekļa āķis
-=======
       title: Tīmekļa aizķeres
       webhook: Tīmekļa aizķere
->>>>>>> v4.6.1
   admin_mailer:
     auto_close_registrations:
       body: Nesenu satura pārraudzības darbību trūkuma dēļ reģistrācija %{instance} ir automātiski pārslēgta nepieciešamība pēc pašrocīgas izskatīšanas, lai novērstu %{instance} izmantošana kā platformu iespējami sliktiem dalībniekiem. Jebkurā brīdī var ieslēgt atpakaļ atvērtu reģistrēšanos.

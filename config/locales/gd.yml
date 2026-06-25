@@ -942,10 +942,7 @@ gd:
         view_devops_description: Leigidh seo le cleachdaichean na deas-bhùird aig Sidekiq is pgHero inntrigeadh
         view_feeds: Seall loidhnichean-ama beòtha ’s nan cuspairean
         view_feeds_description: Leigidh seo le cleachdaichean loidhnichean-ama beòtha ’s nan cuspairean inntrigeadh ge b’ e dè roghainnean an fhrithealaiche
-<<<<<<< HEAD
-=======
       requires_2fa: Feumaidh seo dearbhadh dà-cheumnach
->>>>>>> v4.6.1
       title: Dreuchdan
     rules:
       add_new: Cuir riaghailt ris
@@ -1005,12 +1002,6 @@ gd:
           disabled: Iarr dreuchd shònraichte a’ chleachdaiche
           public: A h-uile duine
       landing_page:
-<<<<<<< HEAD
-        values:
-          about: Mu dhèidhinn
-          local_feed: Loidhne-ama ionadail
-          trends: Treandaichean
-=======
         hints:
           about_html: Duilleag le tuairisgeul, fiosrachadh conaltraidh, riaghailtean ’s fiosrachadh eile mun fhrithealaiche seo.
           local_feed_html: Loidhne-ama bheò leis na postaichean as ùire leis na cleachdaichean air an fhrithealaiche seo.
@@ -1021,7 +1012,6 @@ gd:
           local_feed: Loidhne-ama ionadail bheò
           overview: Foir-shealladh
           trends: A’ treandadh
->>>>>>> v4.6.1
       registrations:
         moderation_recommandation: Dèan cinnteach gu bheil sgioba maoir deiseil is deònach agad mus fhosgail thu an clàradh dhan a h-uile duine!
         preamble: Stiùirich cò dh’fhaodas cunntas a chruthachadh air an fhrithealaiche agad.

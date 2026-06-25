@@ -960,16 +960,10 @@ lt:
       your_appeal_pending: Pateikei apeliaciją
       your_appeal_rejected: Tavo apeliacija buvo atmesta
   edit_profile:
-<<<<<<< HEAD
-    basic_information: Pagrindinė informacija
-    hint_html: "<strong>Tinkink tai, ką žmonės mato tavo viešame profilyje ir šalia įrašų.</strong> Kiti žmonės labiau linkę sekti atgal ir bendrauti su tavimi, jei tavo profilis yra užpildytas ir turi profilio nuotrauką."
-    other: Kita
-=======
     other: Kita
   email_subscription_mailer:
     confirmation:
       action: Patvirtinkite el. pašto adresą
->>>>>>> v4.6.1
   emoji_styles:
     auto: Automatinis
     native: Vietiniai
@@ -1001,12 +995,6 @@ lt:
     lists: Sąrašai
     mutes: Nutildei
     storage: Medijos saugykla
-<<<<<<< HEAD
-  featured_tags:
-    add_new: Pridėti naują
-    hint_html: "<strong>Savo profilyje parodyk svarbiausias grotažymes.</strong> Tai puikus įrankis kūrybiniams darbams ir ilgalaikiams projektams sekti, todėl svarbiausios grotažymės rodomos matomoje vietoje profilyje ir leidžia greitai pasiekti tavo paties įrašus."
-=======
->>>>>>> v4.6.1
   filters:
     contexts:
       account: Profiliai
@@ -1043,19 +1031,6 @@ lt:
       merge_long: Išsaugoti esančius įrašus ir pridėti naujus
       overwrite: Perrašyti
       overwrite_long: Pakeisti senus įrašus naujais
-<<<<<<< HEAD
-    overwrite_preambles:
-      blocking_html: Ketinate <strong>pakeisti savo blokavimo sąrašą</strong> iki <strong>%{total_items} paskyrų</strong> iš <strong>%{filename}</strong>.
-      bookmarks_html: Ketinate <strong>pakeisti savo žymes</strong> iki <strong>%{total_items} įrašų</strong> iš <strong>%{filename}</strong>.
-      domain_blocking_html: Ketinate <strong>pakeisti savo domeno blokavimo sąrašą</strong> iki <strong>%{total_items} domenų</strong> iš <strong>%{filename}</strong>.
-      following_html: Ketinate <strong>sekti</strong> iki <strong>%{total_items} paskyrų</strong> iš <strong>%{filename}</strong> ir <strong>nustoti sekti kitus</strong>.
-    preambles:
-      domain_blocking_html: Ketinate <strong>užblokuoti</strong> iki <strong>%{total_items} domenų</strong> iš <strong>%{filename}</strong>.
-      following_html: Ketinate <strong>sekti</strong> iki <strong>%{total_items} paskyrų</strong> iš <strong>%{filename}</strong>.
-      lists_html: Ketinate įtraukti iki <strong>%{total_items} paskyrų</strong> iš <strong>%{filename}</strong> į savo <strong>sąrašus</strong>. Nauji sąrašai bus sukurti, jei nėra sąrašo, į kurį būtų galima įtraukti.
-      muting_html: Ketinate <strong>nutildyti</strong> iki <strong>%{total_items} paskyrų</strong> iš <strong>%{filename}</strong>.
-=======
->>>>>>> v4.6.1
     preface: Galite importuoti duomenis, kuriuos eksportavote iš kito serverio kaip sekamų arba blokuojamų žmonių sąrašą.
     success: Jūsų informacija sėkmingai įkelta ir bus apdorota kaip įmanoma greičiau
     types:
@@ -1096,15 +1071,6 @@ lt:
     description_html: Jei pastebėjei neatpažįstamą veiklą, apsvarstyk galimybę pakeisti slaptažodį ir įjungti dvigubą tapatybės nustatymą.
     empty: Tapatybės nustatymas istorijos nėra
     title: Tapatybės nustatymo istorija
-<<<<<<< HEAD
-  mail_subscriptions:
-    unsubscribe:
-      emails:
-        notification_emails:
-          reblog: dalintis pranešimų el. pašto laiškais
-      success_html: Daugiau negausi %{type} „Mastodon“ domene %{domain} į savo el. paštą %{email}.
-=======
->>>>>>> v4.6.1
   media_attachments:
     validations:
       images_and_video: Negalima pridėti video prie statuso, kuris jau turi nuotrauką
@@ -1296,14 +1262,9 @@ lt:
       public: Vieša
   statuses_cleanup:
     enabled_hint: Automatiškai ištrina įrašus, kai jie pasiekia nustatytą amžiaus ribą, nebent jie atitinka vieną iš toliau nurodytų išimčių
-<<<<<<< HEAD
-    ignore_reblogs: Ignoruoti pasidalinimus
-    interaction_exceptions_explanation: Atkreipk dėmesį, kad negarantuojama, jog įrašai nebus ištrinti, jei jų mėgstamumo ar pasidalinimo riba bus žemesnė, nors vieną kartą ji jau buvo viršyta.
-=======
     explanation: Automatinis ištrynimas atliekamas su žemu prioritetu. Gali būti vėlavimas tarp amžiaus ribos pasiekimo ir ištrynimo.
     ignore_reblogs: Ignoruoti pasidalinimus
     interaction_exceptions_explanation: Įrašai, kurie laikinai viršija mėgstamų ar pasidalinimų ribą, gali būti išsaugomi net jei vėliau jie sumažėja.
->>>>>>> v4.6.1
     keep_polls_hint: Neištrina jokių tavo apklausų
     keep_self_bookmark: Laikyti įrašus, kuriuos pažymėjai su žyma
     keep_self_bookmark_hint: Neištrina tavo pačių įrašų, jei esi juos pažymėjęs (-usi)
@@ -1315,14 +1276,6 @@ lt:
     sensitive_content: Jautrus turinys
   terms_of_service:
     title: Paslaugų sąlygos
-<<<<<<< HEAD
-  themes:
-    contrast: Mastodon (didelis kontrastas)
-    default: Mastodon (Tamsus)
-    mastodon-light: Mastodon (Šviesus)
-    system: Automatinis (naudoti sistemos temą)
-=======
->>>>>>> v4.6.1
   two_factor_authentication:
     add: Pridėti
     disable: Išjungti 2FA

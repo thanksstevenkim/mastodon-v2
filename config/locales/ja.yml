@@ -834,17 +834,11 @@ ja:
         all: 誰にでも許可
         disabled: 誰にも許可しない
         users: ログイン済みローカルユーザーのみ許可
-<<<<<<< HEAD
-      landing_page:
-        values:
-          trends: トレンド
-=======
       feed_access:
         modes:
           authenticated: ログイン済みユーザーのみ
           disabled: 特定ロールのユーザーのみ
           public: 制限なし
->>>>>>> v4.6.1
       registrations:
         moderation_recommandation: 登録受付を開始する前に、迅速かつ適切にモデレーションを行うチームを編成しましょう！
         preamble: あなたのサーバー上でアカウントを作成できるユーザーを制御します。
@@ -1922,18 +1916,6 @@ ja:
     past_preamble_html: 前回の訪問時から利用規約が変更されました。更新された条件を確認することをお勧めします。
     review_link: 利用規約を確認する
     title: "%{domain} の利用規約が変更されています"
-<<<<<<< HEAD
-  themes:
-    contrast: Mastodon (ハイコントラスト)
-    default: Mastodon Bird UI (ダーク)
-    mastodon-bird-ui-contrast: Mastodon Bird UI (ハイコントラスト)
-    mastodon-bird-ui-light: Mastodon Bird UI (ライト)
-    mastodon-dark: Mastodon (ダーク)
-    mastodon-light: Mastodon (ライト)
-    mustard-theme: Mustard Theme (ダーク)
-    system: 自動 (システムのテーマを使用)
-=======
->>>>>>> v4.6.1
   time:
     formats:
       default: "%Y年%m月%d日 %H:%M"

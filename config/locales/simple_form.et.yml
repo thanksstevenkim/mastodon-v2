@@ -9,11 +9,7 @@ et:
         fields: Su koduleht, sugu, vanus. Mistahes, mida soovid.
         indexable: Sinu avalikud postitused võivad ilmuda Mastodoni otsingutulemustes. Inimesed, kes on sinu postitustele reageerinud, saavad neid otsida nii või naa.
         note: 'Saad @mainida teisi inimesi või #teemaviiteid.'
-<<<<<<< HEAD
-        show_collections: Inimesed saavad sirvida su jälgijaid ja jälgitavaid. Inimesed, keda sa jälgid, näevad seda sõltumata häälestuse valikust.
-=======
         show_collections: Inimesed saavad sirvida su jälgijaid ja jälgitavaid. Inimesed, keda sa jälgid, näevad seda sõltumata seadistusest.
->>>>>>> v4.6.1
         unlocked: Teised kasutajad saavad sind jälgima hakata nõusolekut küsimata. Eemalda märge, kui soovid jälgimistaotlusi üle vaadata ja valida, kas nõustuda või keelduda uute jälgijatega.
       account_alias:
         acct: Sisesta konto kasutajanimi@domeen, mille soovid siia ümber kolida
@@ -70,10 +66,6 @@ et:
         setting_display_media_show_all: Näita alati meediat ilma hoiatuseta, ka tundlikuks märgitud meediat
         setting_emoji_style: See määrab emojide kuvamise viisi. Automaatse valiku puhul üritatakse kasutada platvormi või klientrakenduse oma emojisid, kuid varuvariandina jääb toimima Twemoji (näiteks vanade veebibrauserite puhul).
         setting_quick_boosting_html: Selle eelistuse kasutamisel, Hooandmise ikooni %{boost_icon} teeb toimingu kohe ilma avamata Hooandmise/Tsiteerimise menüüvalikut. Sel puhul tsiteerimise link leidub %{options_icon} (Valikud) menüüs.
-<<<<<<< HEAD
-        setting_system_scrollbars_ui: Kehtib vaid Safaril ja Chrome'il põhinevatel tavaarvuti veebibrauserite puhul
-=======
->>>>>>> v4.6.1
         setting_use_blurhash: Värvid põhinevad peidetud visuaalidel, kuid hägustavad igasuguseid detaile
         setting_use_pending_items: Voo automaatse kerimise asemel peida ajajoone uuendused kliki taha
         username: Võid kasutada ladina tähti, numbreid ja allkriipsu
@@ -84,11 +76,7 @@ et:
         domain: See võib olla e-postiaadressis näha olev domeen või MX-kirje, mida aadress kasutab. Kontroll toimub liitumise käigus.
         with_dns_records: Püütakse lahendada selle domeeni DNS-kirjed ja ühtlasi blokeerida ka selle tulemused
       featured_tag:
-<<<<<<< HEAD
-        name: 'Siin on mõned nendest teemaviiteid, mida oled viimati kasutanud:'
-=======
         name: 'Siin on mõned neist teemaviidetest, mida oled viimati kasutanud:'
->>>>>>> v4.6.1
       filters:
         action: Vali tegevus, kui postitus vastab filtrile
         actions:
@@ -124,10 +112,7 @@ et:
         thumbnail_description: Pildi selgitus, mis aitab nägemispuudega inimestel aru saada pildi sisust.
         trendable_by_default: Populaarse sisu ülevaatuse vahele jätmine. Pärast seda on siiski võimalik üksikuid üksusi trendidest eemaldada.
         trends: Trendid näitavad, millised postitused, teemaviited ja uudislood koguvad sinu serveris tähelepanu.
-<<<<<<< HEAD
-=======
         wrapstodon: Paku kohalikele kasutajatele luua nende Mastodoni kasutamise aastast mänguline kokkuvõte. See võimalus on saadaval igal aastal 10. ja 31. detsembri vahel ja seda pakutakse kasutajatele, kes tegid vähemalt ühe avaliku või vaikse avaliku postituse ja kes kasutas aasta jooksul vähemalt ühte teemaviidet.
->>>>>>> v4.6.1
       form_challenge:
         current_password: Sisened turvalisse alasse
       imports:

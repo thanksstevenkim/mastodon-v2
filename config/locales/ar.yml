@@ -903,16 +903,9 @@ ar:
         all: للجميع
         disabled: لا أحد
         users: للمستخدمين المتصلين محليا
-<<<<<<< HEAD
-      landing_page:
-        values:
-          about: عن
-          trends: المتداوَلة
-=======
       feed_access:
         modes:
           public: الجميع
->>>>>>> v4.6.1
       registrations:
         moderation_recommandation: الرجاء التأكد من أن لديك فريق إشراف كافي وفعال قبل فتح التسجيلات للجميع!
         preamble: تحكّم في مَن الذي يمكنه إنشاء حساب على خادمك الخاص.
@@ -1774,13 +1767,9 @@ ar:
       uses: عدد الاستخدامات
     title: دعوة أشخاص
   link_preview:
-<<<<<<< HEAD
-    potentially_sensitive_content:
-=======
     author_html: مِن %{name}
     potentially_sensitive_content:
       action: اضغط للعرض
->>>>>>> v4.6.1
       hide_button: إخفاء
   lists:
     errors:

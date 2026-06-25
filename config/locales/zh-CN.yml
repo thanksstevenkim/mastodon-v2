@@ -894,10 +894,7 @@ zh-CN:
         view_devops_description: 允许用户访问 Sidekiq 和 pgHero 控制面板
         view_feeds: 查看实时动态和话题
         view_feeds_description: 允许用户无视服务器设置访问实时动态和话题
-<<<<<<< HEAD
-=======
       requires_2fa: 需要双因素认证
->>>>>>> v4.6.1
       title: 角色
     rules:
       add_new: 添加规则
@@ -2099,11 +2096,7 @@ zh-CN:
     enabled: 自动删除旧嘟文
     enabled_hint: 自动删除你发布的超过指定期限的嘟文，除非满足下列条件之一
     exceptions: 例外
-<<<<<<< HEAD
-    explanation: 删除嘟文会占用大量服务器资源，所以这个操作将在服务器空闲时完成。因此，你的嘟文可能会在达到删除期限之后一段时间才会被删除。
-=======
     explanation: 自动删除以较低优先级执行。嘟文可能会在达到删除期限之后一段时间才会被删除。
->>>>>>> v4.6.1
     ignore_favs: 忽略喜欢
     ignore_reblogs: 转嘟数阈值
     interaction_exceptions: 基于互动的例外

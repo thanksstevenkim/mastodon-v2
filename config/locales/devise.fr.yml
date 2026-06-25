@@ -7,11 +7,7 @@ fr:
       send_paranoid_instructions: Si votre adresse de courriel existe dans notre base de données, vous allez bientôt recevoir un message contenant les instructions de confirmation de votre compte. Veuillez, dans le cas où vous ne recevriez pas ce message, vérifier vos courriels indésirables.
     failure:
       already_authenticated: Vous êtes déjà connecté⋅e.
-<<<<<<< HEAD
-      closed_registrations: Votre tentative d'inscription a été bloquée en raison d'une politique de réseau. Si vous pensez qu'il s'agit d'une erreur, contactez %{email}.
-=======
       closed_registrations: Votre inscription a été bloquée en raison d'une politique réseau. Si vous pensez qu'il s'agit d'une erreur, contacter %{email}.
->>>>>>> v4.6.1
       inactive: Votre compte n’est pas encore activé.
       invalid: "%{authentication_keys} ou mot de passe invalide."
       last_attempt: Vous avez droit à une dernière tentative avant que votre compte ne soit verrouillé.

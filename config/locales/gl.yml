@@ -2149,11 +2149,7 @@ gl:
     ignore_favs: Ignorar favoritas
     ignore_reblogs: Ignorar promocións
     interaction_exceptions: Excepcións baseadas en interaccións
-<<<<<<< HEAD
-    interaction_exceptions_explanation: Ten en conta que non hai garantía de que se eliminen as túas publicacións se baixan do límite de promocións ou favorecementos se nalgún momento o tivesen superado.
-=======
     interaction_exceptions_explanation: As publicación que excederon de xeito temporal o límite de favorecementos ou promocións poderían quedar retidas incluso se despois diminuíse ese valor.
->>>>>>> v4.6.1
     keep_direct: Manter mensaxes directas
     keep_direct_hint: Non borrar ningunha das túas mensaxes directas
     keep_media: Manter publicacións que conteñen multimedia

@@ -4,11 +4,7 @@ fi:
     hints:
       account:
         attribution_domains: Yksi riviä kohti. Suojaa vääriltä tekijän nimeämisiltä.
-<<<<<<< HEAD
-        discoverable: Julkisia julkaisujasi ja profiiliasi voidaan esitellä tai suositella Mastodonin eri alueilla, ja profiiliasi voidaan ehdottaa toisille käyttäjille.
-=======
         discoverable: Sinua voidaan esitellä muiden käyttäjien luomissa kokoelmissa. Sinua ja julkisia julkaisujasi voidaan ehdottaa käyttäjille muissa Mastodonin löydettävyyskokemuksissa.
->>>>>>> v4.6.1
         display_name: Koko nimesi tai lempinimesi.
         fields: Verkkosivustosi, pronominisi, ikäsi ja mitä ikinä haluatkaan ilmoittaa.
         indexable: Julkiset julkaisusi voivat näkyä Mastodonin hakutuloksissa. Käyttäjät, jotka ovat olleet vuorovaikutuksessa julkaisujesi kanssa, voivat etsiä niitä asetuksesta riippumatta.
@@ -70,10 +66,6 @@ fi:
         setting_display_media_show_all: Näytä kaikki mediasisältö varoittamatta, mukaan lukien arkaluonteiseksi merkitty sisältö
         setting_emoji_style: Miten emojit näkyvät. ”Automaattinen” pyrkii käyttämään natiiveja emojeita, mutta Twemoji-emojeita käytetään varavaihtoehtoina vanhoissa selaimissa.
         setting_quick_boosting_html: Kun käytössä, %{boost_icon} Tehosta-kuvakkeen painaminen tehostaa välittömästi sen sijaan, että Tehosta/Lainaa-pudotusvalikko avautuisi. Siirtää lainaustoiminnon %{options_icon} (Valinnat) -⁠valikkoon.
-<<<<<<< HEAD
-        setting_system_scrollbars_ui: Koskee vain Safari- ja Chrome-pohjaisia työpöytäselaimia
-=======
->>>>>>> v4.6.1
         setting_use_blurhash: Liukuvärit perustuvat piilotettujen kuvien väreihin mutta sumentavat yksityiskohdat
         setting_use_pending_items: Piilota aikajanan päivitykset napsautuksen taakse syötteen automaattisen vierityksen sijaan
         username: Voit käyttää kirjaimia, numeroita ja alaviivoja
@@ -187,11 +179,7 @@ fi:
     labels:
       account:
         attribution_domains: Verkkosivustot, jotka voivat antaa sinulle tunnustusta
-<<<<<<< HEAD
-        discoverable: Esittele profiilia ja julkaisuja löydettävyysalgoritmeissa
-=======
         discoverable: Esittele minua löydettävyyskokemuksissa
->>>>>>> v4.6.1
         fields:
           name: Nimike
           value: Sisältö

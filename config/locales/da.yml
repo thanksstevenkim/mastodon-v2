@@ -1119,7 +1119,7 @@ da:
       reset: Nulstil
       review: Gennmgangsstatus
       search: Søg
-      title: Etiketter
+      title: Hashtags
       updated_msg: Hashtag-indstillinger opdateret
     terms_of_service:
       back: Tilbage til Tjenestevilkår
@@ -1216,7 +1216,7 @@ da:
         not_trendable: Vises ikke under tendenser
         not_usable: Kan ikke anvendes
         peaked_on_and_decaying: Toppede pr. %{date}, nu for nedadgående
-        title: Populære etiketter
+        title: Populære hashtags
         trendable: Kan vises under tendenser
         trending_rank: 'Populær #%{rank}'
         usable: Kan anvendes
@@ -1480,11 +1480,7 @@ da:
       email_contact_html: Hvis den stadig ikke modtages, send en e-mail til <a href="mailto:%{email}">%{email}</a> for hjælp
       email_reconfirmation_html: Modtages bekræftelsesmailen ikke, kan man <a href="%{path}">anmode om en ny</a>
       irreversible: Du vil ikke kunne gendanne eller genaktivere din konto
-<<<<<<< HEAD
-      more_details_html: For yderligere oplysningerer, tjek <a href="%{terms_path}">privatlivspolitikken</a>.
-=======
       more_details_html: For yderligere oplysninger, tjek <a href="%{terms_path}">privatlivspolitikken</a>.
->>>>>>> v4.6.1
       username_available: Dit brugernavn vil blive tilgængeligt igen
       username_unavailable: Dit brugernavn vil forblive utilgængeligt
   disputes:
@@ -1598,12 +1594,7 @@ da:
     storage: Medielagerplads
   featured_tags:
     errors:
-<<<<<<< HEAD
-      limit: Det maksimale antal etiketter er allerede fremhævet
-    hint_html: "<strong>Hvad er fremhævede etiketter?</strong> De vises i en fremtrædende position på din offentlige profil og giver folk mulighed for at gennemse dine offentlige indlæg specifikt under disse etiketter. De er et fantastisk værktøj til at holde styr på kreative værker eller langsigtede projekter."
-=======
       limit: Det maksimale antal hashtags er allerede fremhævet
->>>>>>> v4.6.1
   filters:
     contexts:
       account: Profiler
@@ -1805,24 +1796,6 @@ da:
     failed_sign_in_html: Mislykket indlogning med %{method} fra %{ip} (%{browser})
     successful_sign_in_html: Gennemført indlogning med %{method} fra %{ip} (%{browser})
     title: Godkendelseshistorik
-<<<<<<< HEAD
-  mail_subscriptions:
-    unsubscribe:
-      action: Ja, afmeld
-      complete: Afmeldt
-      confirmation_html: Er du sikker på, at du vil afmelde modtagelse af %{type} for Mastodon på %{domain} til din e-mail på %{email}? Du kan altid tilmelde dig igen fra dine <a href="%{settings_path}">indstillinger for e-mail-notifikationer</a>.
-      emails:
-        notification_emails:
-          favourite: e-mailnotifikationer om favoritmarkeringer
-          follow: e-mailnotifikationer om nye følgere
-          follow_request: e-mailnotifikationer om følgeanmodninger
-          mention: e-mailnotifikationer om omtaler
-          reblog: e-mailnotifikationer om fremhævelser
-      resubscribe_html: Har du afmeldt dig ved en fejl, kan du gentilmelde dig via <a href="%{settings_path}">indstillingerne for e-mail-notifikationer</a>.
-      success_html: Du vil ikke længere modtage %{type} for Mastodon på %{domain} til din e-mail %{email}.
-      title: Opsig abonnement
-=======
->>>>>>> v4.6.1
   media_attachments:
     validations:
       images_and_video: En video kan ikke vedhæftes et indlæg med billedindhold
@@ -2030,7 +2003,7 @@ da:
     content_warning: 'Indholdsadvarsel:'
     descriptions:
       account: Offentlige indlæg fra @%{acct}
-      tag: 'Offentlige indlæg etiketteret #%{hashtag}'
+      tag: 'Offentlige indlæg tagget #%{hashtag}'
   scheduled_statuses:
     over_daily_limit: Den daglige grænse på %{limit} planlagte indlæg er nået
     over_total_limit: Grænsen på %{limit} planlagte indlæg er nået
@@ -2172,19 +2145,11 @@ da:
     enabled: Slet automatisk gamle indlæg
     enabled_hint: Sletter automatisk dine indlæg, når disse når en bestemt alder, medmindre de matcher en af undtagelserne nedenfor
     exceptions: Undtagelser
-<<<<<<< HEAD
-    explanation: Da sletning af indlæg er en kostbar operation, foregår dette langsomt over tid, når serveren ikke er optaget af andre opgaver. Af denne grund kan dine indlæg blive slettet et stykke tid efter, at de har nået alderstærsklen.
-    ignore_favs: Ignorér favoritter
-    ignore_reblogs: Ignorér fremhævelser
-    interaction_exceptions: Undtagelser baseret på interaktioner
-    interaction_exceptions_explanation: Bemærk, at det ikke garanteres, at indlæg slettes, hvis de når under favorit- eller fremhævelses-tærsklerne efter én gang at været nået over dem.
-=======
     explanation: Automatisk sletning udføres med lav prioritet. Der kan være en forsinkelse mellem, at aldersgrænsen nås, og sletning.
     ignore_favs: Ignorér favoritter
     ignore_reblogs: Ignorér fremhævelser
     interaction_exceptions: Undtagelser baseret på interaktioner
     interaction_exceptions_explanation: Indlæg, der midlertidigt overskrider favorit- eller fremhævelsestærsklen, kan blive bevaret, selvom de senere reduceres.
->>>>>>> v4.6.1
     keep_direct: Behold direkte beskeder
     keep_direct_hint: Sletter ingen af dine direkte beskeder
     keep_media: Behold indlæg med medievedhæftninger
@@ -2226,14 +2191,7 @@ da:
     review_link: Gennemgå Tjenestevilkår
     title: Tjenestevilkårene for %{domain} ændres
   themes:
-<<<<<<< HEAD
-    contrast: Mastodon (høj kontrast)
-    default: Mastodon (mørkt)
-    mastodon-light: Mastodon (lyst)
-    system: Automatisk (benyt systemtema)
-=======
     default: Mastodon
->>>>>>> v4.6.1
   time:
     formats:
       default: "%d. %b %Y, %H:%M"

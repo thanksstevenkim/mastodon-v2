@@ -2192,18 +2192,7 @@ en:
     review_link: Review terms of service
     title: The terms of service of %{domain} are changing
   themes:
-<<<<<<< HEAD
-    contrast: Mastodon (High contrast)
-    default: Mastodon Bird UI (Dark)
-    mastodon-bird-ui-contrast: Mastodon Bird UI (High contrast)
-    mastodon-bird-ui-light: Mastodon Bird UI (Light)
-    mastodon-dark: Mastodon (Dark)
-    mastodon-light: Mastodon (Light)
-    mustard-theme: Mustard Theme (Dark)
-    system: Automatic (use system theme)
-=======
     default: Mastodon
->>>>>>> v4.6.1
   time:
     formats:
       default: "%b %d, %Y, %H:%M"

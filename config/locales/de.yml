@@ -4,10 +4,7 @@ de:
     about_mastodon_html: 'Das soziale Netzwerk der Zukunft: Keine Werbung, keine Überwachung durch Unternehmen – dafür dezentral und mit Anstand! Behalte mit Mastodon die Kontrolle über deine Daten!'
     contact_missing: Nicht festgelegt
     contact_unavailable: Nicht verfügbar
-<<<<<<< HEAD
-=======
     default_thumbnail_description: Zwei lächelnde Mastodonten, die wie Elefanten aussehen, werfen sich in einem Cartoon-Zeichenstil ein Papierflugzeug zu. Sie sind von einem hellblauen Himmel und anderen Planeten umgeben. Auf den Planeten befinden sich Bäume und weitere Mastodonten.
->>>>>>> v4.6.1
     hosted_on: Mastodon, eingerichtet auf %{domain}
     title: Über
   accounts:
@@ -496,10 +493,7 @@ de:
         title: Neue E-Mail-Domain sperren
       no_email_domain_block_selected: Es wurden keine E-Mail-Domain-Sperren geändert, da keine ausgewählt wurden
       not_permitted: Nicht erlaubt
-<<<<<<< HEAD
-=======
       reset: Zurücksetzen
->>>>>>> v4.6.1
       resolved_dns_records_hint_html: Die Domain wird zu den folgenden MX-Domains aufgelöst, die für die Annahme von E-Mails zuständig sind. Das Sperren einer MX-Domain sperrt Anmeldungen aller E-Mail-Adressen, die dieselbe MX-Domain verwenden, auch wenn die sichtbare Domain anders lautet. <strong>Achte daher darauf, keine großen E-Mail-Anbieter versehentlich zu sperren.</strong>
       resolved_through_html: Durch %{domain} aufgelöst
       search: Suchen
@@ -793,11 +787,7 @@ de:
       confirm: Bestätigen
       confirm_action: Maßnahme gegen @%{acct} bestätigen
       created_at: Gemeldet am
-<<<<<<< HEAD
-      delete_and_resolve: Beiträge löschen
-=======
       delete_and_resolve: Inhalt löschen
->>>>>>> v4.6.1
       forwarded: Weitergeleitet
       forwarded_replies_explanation: Diese Meldung stammt von einem externen Profil und betrifft einen externen Inhalt. Der Inhalt wurde an dich weitergeleitet, weil er eine Antwort auf ein bei dir registriertes Profil ist.
       forwarded_to: Weitergeleitet an %{domain}
@@ -820,10 +810,7 @@ de:
       report: "%{id}. Meldung"
       reported_account: Gemeldetes Konto
       reported_by: Gemeldet von
-<<<<<<< HEAD
-=======
       reported_content: Gemeldeter Inhalt
->>>>>>> v4.6.1
       reported_with_application: Gemeldet via
       resolved: Geklärt
       resolved_msg: Meldung erfolgreich geklärt!
@@ -881,11 +868,8 @@ de:
         administrator_description: Beschränkung aller Berechtigungen umgehen
         delete_user_data: Kontodaten löschen
         delete_user_data_description: Daten anderer Profile ohne Verzögerung löschen
-<<<<<<< HEAD
-=======
         invite_bypass_approval: Einladungen ohne Überprüfungen
         invite_bypass_approval_description: Neue Benutzer*innen zur Registrierung auf diesem Server einladen, ohne manuell genehmigt werden zu müssen
->>>>>>> v4.6.1
         invite_users: Einladungen
         invite_users_description: Neue Benutzer*innen zur Registrierung auf diesem Server einladen
         manage_announcements: Ankündigungen
@@ -896,11 +880,8 @@ de:
         manage_blocks_description: E-Mail-Provider und IP-Adressen sperren
         manage_custom_emojis: Emojis
         manage_custom_emojis_description: Spezielle Emojis dieses Servers verwalten
-<<<<<<< HEAD
-=======
         manage_email_subscriptions: E-Mail-Abonnements
         manage_email_subscriptions_description: Konten mit dieser Berechtigung dürfen die Funktion für E-Mail-Newsletter verwenden
->>>>>>> v4.6.1
         manage_federation: Föderation
         manage_federation_description: Domains anderer Mastodon-Server sperren/zulassen – und Zustellbarkeit kontrollieren
         manage_invites: Einladungen
@@ -929,10 +910,7 @@ de:
         view_devops_description: Auf Sidekiq- und pgHero-Dashboards zugreifen
         view_feeds: Live-Feeds und Hashtags
         view_feeds_description: Zugriff auf Live-Feeds und Hashtags – unabhängig der Servereinstellungen
-<<<<<<< HEAD
-=======
       requires_2fa: Zwei-Faktor-Authentisierung erforderlich
->>>>>>> v4.6.1
       title: Rollen
     rules:
       add_new: Regel hinzufügen
@@ -998,16 +976,10 @@ de:
           overview_html: Eine Seite, die die Beschreibung deines Servers zusammen mit den neuesten lokalen Beiträgen der Nutzer zeigt.
           trends_html: Eine Seite mit dem, was auf diesem Server gerade im Trend liegt.
         values:
-<<<<<<< HEAD
-          about: Über
-          local_feed: Lokaler Feed
-          trends: Trends
-=======
           about: Über-Seite
           local_feed: Lokaler Live-Feed
           overview: Übersicht
           trends: Trendet
->>>>>>> v4.6.1
       registrations:
         moderation_recommandation: Bitte vergewissere dich, dass du ein geeignetes und reaktionsschnelles Moderationsteam hast, bevor du die Registrierungen uneingeschränkt zulässt!
         preamble: Lege fest, wer auf deinem Server ein Konto erstellen darf.
@@ -2105,11 +2077,7 @@ de:
     preferences: Einstellungen
     profile: Öffentliches Profil
     relationships: Follower und Folge ich
-<<<<<<< HEAD
-    severed_relationships: Getrennte Beziehungen
-=======
     severed_relationships: Getrennte Verbindungen
->>>>>>> v4.6.1
     statuses_cleanup: Automatisiertes Löschen
     strikes: Maßnahmen
     two_factor_authentication: Zwei-Faktor-Authentisierung
@@ -2182,11 +2150,7 @@ de:
     ignore_favs: Favoriten ignorieren
     ignore_reblogs: Geteilte Beiträge ignorieren
     interaction_exceptions: Ausnahmen basierend auf Interaktionen
-<<<<<<< HEAD
-    interaction_exceptions_explanation: Beachte, dass Beiträge nicht gelöscht werden, sobald deine Grenzwerte für Favoriten oder geteilte Beiträge einmal überschritten wurden – auch dann nicht, wenn diese Grenzwerte mittlerweile nicht mehr erreicht werden.
-=======
     interaction_exceptions_explanation: Beiträge, die vorübergehend die Grenzwerte für Favoriten und geteilte Beiträge überschreiten, können auch dann erhalten bleiben, wenn ihre Werte später zurückgehen.
->>>>>>> v4.6.1
     keep_direct: Private Erwähnungen behalten
     keep_direct_hint: Löscht keinen deiner Beiträge mit privaten Erwähnungen
     keep_media: Beiträge mit Medien behalten

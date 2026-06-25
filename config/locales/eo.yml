@@ -1398,10 +1398,6 @@ eo:
   featured_tags:
     errors:
       limit: Vi jam elstarigis la maksimuman kvanton da kradvortoj
-<<<<<<< HEAD
-    hint_html: "<strong>Elstarigu viajn plej gravajn kradvortojn en via profilo.</strong> Bona ilo por sekvi viaj kreaĵoj aŭ longdaŭraj projektoj, elstarigitaj kradvortoj bone videblas en via publika profilo kaj ebligas rapidan aliron al viaj propraj afiŝoj."
-=======
->>>>>>> v4.6.1
   filters:
     contexts:
       account: Profiloj

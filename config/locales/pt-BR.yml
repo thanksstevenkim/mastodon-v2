@@ -910,10 +910,7 @@ pt-BR:
         view_devops_description: Permite aos usuários acessar os painéis da Sidekiq e pgHero
         view_feeds: Veja transmissões ao vivo e por tópico
         view_feeds_description: Permite que os usuários acessem os feeds ao vivo e por tópico, independentemente das configurações do servidor
-<<<<<<< HEAD
-=======
       requires_2fa: Requer autenticação de dois fatores
->>>>>>> v4.6.1
       title: Funções
     rules:
       add_new: Adicionar regra
@@ -1799,24 +1796,6 @@ pt-BR:
     failed_sign_in_html: Falha na tentativa de login com %{method} de %{ip} (%{browser})
     successful_sign_in_html: Login bem-sucedido com %{method} de %{ip} (%{browser})
     title: Histórico de autenticação
-<<<<<<< HEAD
-  mail_subscriptions:
-    unsubscribe:
-      action: Sim, cancelar subscrição
-      complete: Desinscrito
-      confirmation_html: Tem certeza que deseja cancelar a assinatura de %{type} para Mastodon no %{domain} para o seu endereço de e-mail %{email}? Você sempre pode se inscrever novamente nas <a href="%{settings_path}">configurações de notificação de email</a>.
-      emails:
-        notification_emails:
-          favourite: emails de notificação favoritos
-          follow: seguir emails de notificação
-          follow_request: emails de seguidores pendentes
-          mention: emails de notificação de menções
-          reblog: emails de notificação de impulsos
-      resubscribe_html: Se você cancelou sua inscrição por engano, você pode se inscrever novamente em suas <a href="%{settings_path}"> configurações de notificações por e-mail</a>.
-      success_html: Você não mais receberá %{type} no Mastodon em %{domain} ao seu endereço de e-mail %{email}.
-      title: Cancelar inscrição
-=======
->>>>>>> v4.6.1
   media_attachments:
     validations:
       images_and_video: Não foi possível anexar um vídeo a uma publicação que já contém imagens

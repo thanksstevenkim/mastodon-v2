@@ -134,11 +134,7 @@ vi:
         follow: Theo dõi, Phớt lờ và Chặn
         follows: Đang theo dõi
         lists: Danh sách
-<<<<<<< HEAD
-        media: Tập tin đính kèm
-=======
         media: Tệp đính kèm
->>>>>>> v4.6.1
         mutes: Đã phớt lờ
         notifications: Thông báo
         profile: Hồ sơ Mastodon của bạn
@@ -196,11 +192,7 @@ vi:
       write:filters: tạo bộ lọc
       write:follows: theo dõi ai đó
       write:lists: tạo danh sách
-<<<<<<< HEAD
-      write:media: tải lên tập tin
-=======
       write:media: tải lên tệp
->>>>>>> v4.6.1
       write:mutes: phớt lờ tài khoản và thảo luận
       write:notifications: xóa thông báo
       write:reports: báo cáo

@@ -1662,14 +1662,6 @@
     does_not_match_previous_name: samsvarer ikke med det forrige navnet
   terms_of_service:
     title: Bruksvilkår
-<<<<<<< HEAD
-  themes:
-    contrast: Mastodon (Høykontrast)
-    default: Mastodon
-    mastodon-light: Mastodon (Lyst)
-    system: Automatisk (bruk systemtema)
-=======
->>>>>>> v4.6.1
   time:
     formats:
       default: "%-d. %b %Y, %H:%M"

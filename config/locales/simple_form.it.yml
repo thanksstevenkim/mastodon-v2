@@ -57,11 +57,7 @@ it:
         setting_advanced_layout: Visualizza Mastodon con un layout multicolonna, permettendoti di visualizzare la cronologia, le notifiche e una terza colonna a tua scelta. Non consigliato per schermi di dimensioni più piccole.
         setting_aggregate_reblogs: Non mostrare nuove condivisioni per toot che sono stati condivisi di recente (ha effetto solo sulle nuove condivisioni)
         setting_always_send_emails: Normalmente le notifiche e-mail non vengono inviate quando si utilizza attivamente Mastodon
-<<<<<<< HEAD
-        setting_boost_modal: Se abilitata, la funzione Boost aprirà prima una finestra di dialogo di conferma in cui potrai modificare la visibilità del tuo potenziamento.
-=======
         setting_boost_modal: Se abilitata, la funzione Condividi aprirà prima una finestra di dialogo di conferma in cui potrai modificare la visibilità della tua condivisione.
->>>>>>> v4.6.1
         setting_default_quote_policy_private: I post scritti e riservati ai follower su Mastodon non possono essere citati da altri.
         setting_default_quote_policy_unlisted: Quando le persone ti citano, il loro post verrà nascosto anche dalle timeline di tendenza.
         setting_default_sensitive: Media con contenuti sensibili sono nascosti in modo predefinito e possono essere rivelati con un click

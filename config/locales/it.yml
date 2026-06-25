@@ -13,13 +13,9 @@ it:
     followers:
       one: Follower
       other: Follower
-<<<<<<< HEAD
-    following: Seguiti
-=======
     following:
       one: Stai seguendo
       other: Stai seguendo
->>>>>>> v4.6.1
     instance_actor_flash: Questo profilo è un attore virtuale, utilizzato per rappresentare il server stesso e non un singolo utente. È utilizzato per scopi federativi e non dovrebbe esser sospeso.
     last_active: ultima attività
     link_verified_on: La proprietà di questo link è stata controllata il %{date}
@@ -974,12 +970,6 @@ it:
           disabled: Richiedi un ruolo utente specifico
           public: Tutti
       landing_page:
-<<<<<<< HEAD
-        values:
-          about: Info
-          local_feed: Feed locale
-          trends: Tendenze
-=======
         hints:
           about_html: Una pagina con la descrizione, informazioni di contatto, regole e altre informazioni riguardanti questo server.
           local_feed_html: Un feed in diretta con i post più recenti da parte degli utenti su questo server.
@@ -990,7 +980,6 @@ it:
           local_feed: Feed locale in diretta
           overview: Panoramica
           trends: Di tendenza
->>>>>>> v4.6.1
       registrations:
         moderation_recommandation: Assicurati di avere un team di moderazione adeguato e reattivo prima di aprire le registrazioni a tutti!
         preamble: Controlla chi può creare un account sul tuo server.
@@ -1970,11 +1959,7 @@ it:
     hint_html: "<strong>Personalizza il modo in cui vuoi che il tuo profilo e i tuoi post vengano trovati.</strong> Una varietà di funzionalità in Mastodon possono aiutarti a raggiungere un pubblico più ampio se abilitato. Prenditi un momento per rivedere queste impostazioni per assicurarti che si adattino al tuo caso d'uso."
     privacy: Privacy
     privacy_hint_html: Controlla quanto tu voglia mostrare a beneficio degli altri. Le persone scoprono profili interessanti e app fantastiche sfogliando il seguito di altre persone e vedendo da quali app pubblichino, ma potresti preferire tenerlo nascosto.
-<<<<<<< HEAD
-    reach: Copertura
-=======
     reach: Visibilità
->>>>>>> v4.6.1
     reach_hint_html: Controlla se vuoi essere scoperto e seguito da nuove persone. Vuoi che i tuoi post vengano visualizzati nella schermata Esplora? Vuoi che altre persone ti vedano tra i loro consigli di utenti da seguire? Vuoi accettare automaticamente tutti i nuovi follower o avere un controllo granulare su ciascuno di essi?
     search: Cerca
     search_hint_html: Controlla come vuoi essere trovato. Vuoi che le persone ti trovino in base a ciò che hai postato pubblicamente? Vuoi che le persone al di fuori di Mastodon trovino il tuo profilo durante la ricerca sul web? Si prega di notare che l'esclusione totale da tutti i motori di ricerca non può essere garantita per le informazioni pubbliche.

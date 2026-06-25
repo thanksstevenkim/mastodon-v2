@@ -1568,13 +1568,8 @@ vi:
     domain_blocks: Máy chủ đã chặn
     json: JSON
     lists: Danh sách
-<<<<<<< HEAD
-    mutes: Tài khoản bị phớt lờ
-    storage: Tập tin
-=======
     mutes: Tài khoản đã phớt lờ
     storage: Tệp
->>>>>>> v4.6.1
   featured_tags:
     errors:
       limit: Bạn đã đạt tới số lượng hashtag tối đa

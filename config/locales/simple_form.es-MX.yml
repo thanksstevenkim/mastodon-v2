@@ -53,15 +53,9 @@ es-MX:
         locale: El idioma de la interfaz de usuario, correos y notificaciones push
         password: Usa al menos 8 caracteres
         phrase: Se aplicará sin importar las mayúsculas o los avisos de contenido de una publicación
-<<<<<<< HEAD
-        scopes: Qué APIs de la aplicación tendrán acceso. Si seleccionas el alcance de nivel mas alto, no necesitas seleccionar las individuales.
-        setting_advanced_layout: Mostrar Mastodon en un diseño de varias columnas, lo que te permite ver la cronología, las notificaciones y una tercera columna de tu elección. No se recomienda para pantallas pequeñas.
-        setting_aggregate_reblogs: No mostrar nuevos impulsos para las publicaciones que han sido recientemente impulsadas (sólo afecta a las publicaciones recibidas recientemente)
-=======
         scopes: A qué API tendrá acceso la aplicación. Si seleccionas un ámbito de nivel superior, no es necesario que selecciones ámbitos individuales.
         setting_advanced_layout: Mostrar Mastodon en un diseño de varias columnas, lo que te permite ver la cronología, las notificaciones y una tercera columna de tu elección. No se recomienda para pantallas pequeñas.
         setting_aggregate_reblogs: No mostrar nuevos impulsos para las publicaciones que se hayan impulsado recientemente (solo afecta a los impulsos recibidos recientemente)
->>>>>>> v4.6.1
         setting_always_send_emails: Normalmente las notificaciones por correo electrónico no se enviarán cuando estés usando Mastodon activamente
         setting_boost_modal: Cuando está habilitado, impulsar abrirá primero un cuadro de confirmación en el que podrás cambiar la visibilidad de tu impulso.
         setting_default_quote_policy_private: Las publicaciones solo para seguidores hechas en Mastodon no pueden ser citadas por otros usuarios.
@@ -257,13 +251,8 @@ es-MX:
         setting_default_quote_policy: Quién puede citar
         setting_default_sensitive: Marcar siempre imágenes como sensibles
         setting_delete_modal: Avisarme antes de eliminar una publicación
-<<<<<<< HEAD
-        setting_disable_hover_cards: Desactivar vista previa del perfil al pasar el cursor
-        setting_disable_swiping: Deshabilitar movimientos de deslizamiento
-=======
         setting_disable_hover_cards: Desactivar la vista previa del perfil al pasar el cursor por encima
         setting_disable_swiping: Desactivar los gestos de deslizamiento
->>>>>>> v4.6.1
         setting_display_media: Visualización multimedia
         setting_display_media_default: Por defecto
         setting_display_media_hide_all: Ocultar todo

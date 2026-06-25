@@ -13,13 +13,9 @@ fi:
     followers:
       one: seuraaja
       other: seuraajaa
-<<<<<<< HEAD
-    following: seurattavaa
-=======
     following:
       one: seurattava
       other: seurattavaa
->>>>>>> v4.6.1
     instance_actor_flash: Tämä tili on virtuaalinen toimija, jota käytetään edustamaan itse palvelinta eikä yksittäistä käyttäjää. Sitä käytetään federointitarkoituksiin, eikä sitä tule jäädyttää.
     last_active: viimeksi aktiivisena
     link_verified_on: Tämän linkin omistus on tarkastettu %{date}
@@ -878,11 +874,8 @@ fi:
         manage_blocks_description: Sallii käyttäjien estää sähköpostipalveluntarjoajia ja IP-osoitteita
         manage_custom_emojis: Hallita mukautettuja emojeita
         manage_custom_emojis_description: Sallii käyttäjien hallita palvelimen mukautettuja emojeita
-<<<<<<< HEAD
-=======
         manage_email_subscriptions: Hallita sähköpostitilauksia
         manage_email_subscriptions_description: Salli käyttäjien, jolla on tämä käyttöoikeus, ottaa sähköpostiuutiskirjeominaisuus käyttöön tilillään
->>>>>>> v4.6.1
         manage_federation: Hallita federointia
         manage_federation_description: Sallii käyttäjien estää tai sallia federointi muiden verkkotunnusten kanssa ja hallita toimitusta
         manage_invites: Hallita kutsuja
@@ -1439,8 +1432,6 @@ fi:
     hint_html: "<strong>Vinkki:</strong> Emme pyydä sinulta salasanaa uudelleen seuraavan tunnin aikana."
     invalid_password: Väärä salasana
     prompt: Jatka vahvistalla salasanasi
-<<<<<<< HEAD
-=======
   color_scheme:
     auto: Automaattinen
     dark: Tumma
@@ -1448,7 +1439,6 @@ fi:
   contrast:
     auto: Automaattinen
     high: Suuri
->>>>>>> v4.6.1
   crypto:
     errors:
       invalid_key: ei ole kelvollinen Ed25519- tai Curve25519-avain
@@ -1599,10 +1589,6 @@ fi:
   featured_tags:
     errors:
       limit: Esittelet jo aihetunnisteiden enimmäismäärää
-<<<<<<< HEAD
-    hint_html: "<strong>Esittele tärkeimpiä aihetunnisteitasi profiilissasi.</strong> Erinomainen työkalu, jolla pidät kirjaa luovista teoksistasi ja pitkäaikaisista projekteistasi. Esittelemäsi aihetunnisteet ovat näyttävällä paikalla profiilissasi ja mahdollistavat nopean pääsyn julkaisuihisi."
-=======
->>>>>>> v4.6.1
   filters:
     contexts:
       account: Profiilit
@@ -2331,7 +2317,7 @@ fi:
       feature_audience_title: Rakenna yleisöäsi luottavaisin mielin
       feature_control: Tiedät itse parhaiten, mitä haluat nähdä kotisyötteessäsi. Ei algoritmeja eikä mainoksia tuhlaamassa aikaasi. Seuraa yhdellä tilillä ketä tahansa, miltä tahansa Mastodon-palvelimelta, vastaanota heidän julkaisunsa aikajärjestyksessä ja tee omasta internetin nurkastasi hieman enemmän omanlaisesi.
       feature_control_title: Pidä aikajanasi hallussasi
-      feature_creativity: Mastodon tukee ääni-, video- ja kuvajulkaisuja, saavutettavuuskuvauksia, äänestyksiä, sisältövaroituksia, animoituja avattaria, mukautettuja emojeita, pienoiskuvien rajauksen hallintaa ja paljon muuta, mikä auttaa ilmaisemaan itseäsi verkossa. Julkaisetpa sitten taidetta, musiikkia tai podcastia, Mastodon on sinua varten.
+      feature_creativity: Mastodon tukee ääni-, video- ja kuvajulkaisuja, saavutettavuuskuvauksia, äänestyksiä, sisältövaroituksia, animoituja avattaria, mukautettuja emojeita, pikkukuvien rajauksen hallintaa ja paljon muuta, mikä auttaa ilmaisemaan itseäsi verkossa. Julkaisetpa sitten taidetta, musiikkia tai podcastia, Mastodon on sinua varten.
       feature_creativity_title: Luovuutta vertaansa vailla
       feature_moderation: Mastodon palauttaa päätöksenteon käsiisi. Jokainen palvelin luo omat sääntönsä ja määräyksensä, joita valvotaan paikallisesti eikä ylhäältä alas kuten kaupallisessa sosiaalisessa mediassa, mikä tekee siitä joustavimman vastaamaan eri ihmisryhmien tarpeisiin. Liity palvelimelle, jonka säännöt sopivat sinulle, tai ylläpidä omaa palvelinta.
       feature_moderation_title: Moderointi juuri kuten sen pitäisi olla

@@ -818,10 +818,7 @@ en-GB:
         view_devops_description: Allows users to access Sidekiq and pgHero dashboards
         view_feeds: View live and topic feeds
         view_feeds_description: Allows users to access the live and topic feeds regardless of server settings
-<<<<<<< HEAD
-=======
       requires_2fa: Requires two-factor authentication
->>>>>>> v4.6.1
       title: Roles
     rules:
       add_new: Add rule
@@ -880,14 +877,6 @@ en-GB:
           authenticated: Authenticated users only
           disabled: Require specific user role
           public: Everyone
-<<<<<<< HEAD
-      landing_page:
-        values:
-          about: About
-          local_feed: Local feed
-          trends: Trends
-=======
->>>>>>> v4.6.1
       registrations:
         moderation_recommandation: Please make sure you have an adequate and reactive moderation team before you open registrations to everyone!
         preamble: Control who can create an account on your server.
@@ -1497,10 +1486,6 @@ en-GB:
   featured_tags:
     errors:
       limit: You have already featured the maximum number of hashtags
-<<<<<<< HEAD
-    hint_html: "<strong>Feature your most important hashtags on your profile.</strong> A great tool for keeping track of your creative works and long-term projects, featured hashtags are displayed prominently on your profile and allow quick access to your own posts."
-=======
->>>>>>> v4.6.1
   filters:
     contexts:
       account: Profiles
@@ -1770,11 +1755,8 @@ en-GB:
       body: 'Your post was quoted by %{name}:'
       subject: "%{name} quoted your post"
       title: New quote
-<<<<<<< HEAD
-=======
     quoted_update:
       subject: "%{name} edited a post you have quoted"
->>>>>>> v4.6.1
     reblog:
       body: 'Your post was boosted by %{name}:'
       subject: "%{name} boosted your post"

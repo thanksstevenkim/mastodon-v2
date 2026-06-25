@@ -496,16 +496,9 @@ kab:
         all: I medden akk
         disabled: Ɣef ula yiwen
         users: Ɣef yimseqdacen idiganen i yeqqnen
-<<<<<<< HEAD
-      landing_page:
-        values:
-          about: Ɣef
-          trends: Inezzaɣ
-=======
       feed_access:
         modes:
           public: Yal yiwen
->>>>>>> v4.6.1
       registrations:
         title: Ajerred
       registrations_mode:
@@ -534,10 +527,7 @@ kab:
       metadata: Iɣefisefka
       open: Ldi tasuffeɣt
       quotes: Tinebdurin
-<<<<<<< HEAD
-=======
       reblogs: Izuzar
->>>>>>> v4.6.1
       status_title: Tasuffeɣt sɣur @%{name}
       title: Tisuffaɣ n umiḍan - @%{name}
       trending: Inezzaɣ
@@ -613,10 +603,7 @@ kab:
     webhooks:
       delete: Kkes
       disable: Kkes armad
-<<<<<<< HEAD
-=======
       disabled: Yettwassens
->>>>>>> v4.6.1
       enable: Rmed
       enabled: D urmid
       events: Ineḍruyen
@@ -642,7 +629,6 @@ kab:
   application_mailer:
     notification_preferences: Snifel imenyafen n imayl
     salutation: "%{name},"
-    settings: 'Snifel imenyafen n imayl: %{link}'
     view: 'Ẓaṛ:'
     view_profile: Ssken-d amaɣnu
     view_status: Ssken-d tasuffiɣt

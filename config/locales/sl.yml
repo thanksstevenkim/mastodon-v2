@@ -866,13 +866,6 @@ sl:
         modes:
           authenticated: Samo overjeni uporabniki
           public: Vsi
-<<<<<<< HEAD
-      landing_page:
-        values:
-          local_feed: Krajevni vir
-          trends: Trendi
-=======
->>>>>>> v4.6.1
       registrations:
         moderation_recommandation: Preden prijave odprete za vse poskrbite, da imate v ekipi moderatorjev zadosti aktivnih članov.
         preamble: Nadzirajte, kdo lahko ustvari račun na vašem strežniku.
@@ -2043,14 +2036,6 @@ sl:
     title: Pogoji uporabe
   terms_of_service_interstitial:
     title: Spreminjajo se pogoji uporabe domene %{domain}
-<<<<<<< HEAD
-  themes:
-    contrast: Mastodon (Visok kontrast)
-    default: Mastodon (Temna)
-    mastodon-light: Mastodon (Svetla)
-    system: Samodejno (uporabi sistemsko temo)
-=======
->>>>>>> v4.6.1
   time:
     formats:
       default: "%b %d %Y, %H:%M"

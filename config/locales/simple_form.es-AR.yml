@@ -155,11 +155,7 @@ es-AR:
         jurisdiction: Listá el país donde vive quien paga las facturas. Si es una empresa u otra entidad, enumerá el país donde está basada y la ciudad, región, territorio o provincia/estado, según corresponda.
         min_age: No debería estar por debajo de la edad mínima requerida por las leyes de su jurisdicción.
       user:
-<<<<<<< HEAD
-        chosen_languages: Cuando estén marcados, solo se mostrarán los mensajes en los idiomas seleccionados en las líneas temporales públicas
-=======
         chosen_languages: Cuando está marcado, solo los mensajes en los idiomas seleccionados se mostrarán en las líneas temporales públicas. Esta configuración no afecta a tu línea temporal principal ni a tus listas.
->>>>>>> v4.6.1
         date_of_birth:
           one: Tenemos que asegurarnos de que al menos tenés %{count} años de edad para usar %{domain}. No almacenaremos esta información.
           other: Tenemos que asegurarnos de que al menos tenés %{count} años de edad para usar %{domain}. No almacenaremos esta información.
@@ -171,10 +167,7 @@ es-AR:
         name: Nombre público del rol, si el rol se establece para que se muestre como una insignia
         permissions_as_keys: Los usuarios con este rol tendrán acceso a…
         position: Un rol más alto decide la resolución de conflictos en ciertas situaciones. Ciertas acciones solo pueden llevarse a cabo en roles con prioridad inferior
-<<<<<<< HEAD
-=======
         require_2fa: Los usuarios con este rol serán requeridos para configurar la autenticación de dos factores para usar Mastodon
->>>>>>> v4.6.1
       username_block:
         allow_with_approval: En lugar de impedir el registro total, los registros coincidentes requerirán tu aprobación
         comparison: Por favor, tené en cuenta el Problema de Scunthorpe al bloquear coincidencias parciales

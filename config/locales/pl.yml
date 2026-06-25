@@ -917,20 +917,9 @@ pl:
         users: Zalogowanym lokalnym użytkownikom
       feed_access:
         modes:
-<<<<<<< HEAD
-          authenticated: tylko zalogowani użytkownicy
-          disabled: Wymagaj określonej roli użytkownika
-          public: Wszyscy
-      landing_page:
-        values:
-          about: O nas
-          local_feed: Lokalny kanał
-          trends: Trendy
-=======
           authenticated: Tylko zalogowani użytkownicy
           disabled: Wymagaj określonej roli użytkownika
           public: Wszyscy
->>>>>>> v4.6.1
       registrations:
         moderation_recommandation: Upewnij się, że masz adekwatny i szybko reagujący zespół moderacyjny przed otwarciem rejestracji!
         preamble: Kontroluj, kto może utworzyć konto na Twoim serwerze.

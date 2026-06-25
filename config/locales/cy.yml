@@ -1034,12 +1034,6 @@ cy:
           disabled: Gofyn am rôl defnyddiwr penodol
           public: Pawb
       landing_page:
-<<<<<<< HEAD
-        values:
-          about: Ynghylch
-          local_feed: Ffrwd leol
-          trends: Trendiau
-=======
         hints:
           about_html: Tudalen gyda'r disgrifiad, manylion cyswllt, rheolau a manylion eraill am y gweinydd hwn.
           local_feed_html: Llif byw sy'n cynnwys y postiadau diweddaraf gan ddefnyddwyr ar y gweinydd hwn.
@@ -1050,7 +1044,6 @@ cy:
           local_feed: Llif byw lleol
           overview: Trosolwg
           trends: Yn Trendio
->>>>>>> v4.6.1
       registrations:
         moderation_recommandation: Gwnewch yn siŵr bod gennych chi dîm cymedroli digonol ac adweithiol cyn i chi agor cofrestriadau i bawb!
         preamble: Rheoli pwy all greu cyfrif ar eich gweinydd.

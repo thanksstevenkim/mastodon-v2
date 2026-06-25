@@ -195,25 +195,6 @@ fr:
         create_ip_block: Créer une règle IP
         create_relay: Créer un relais
         create_unavailable_domain: Créer un domaine indisponible
-<<<<<<< HEAD
-        create_user_role: Créer le rôle
-        create_username_block: Créer une règle de nom d'utilisateur
-        demote_user: Rétrograder l’utilisateur·ice
-        destroy_announcement: Supprimer l’annonce
-        destroy_canonical_email_block: Supprimer le blocage de courriel
-        destroy_custom_emoji: Supprimer des émojis personnalisés
-        destroy_domain_allow: Supprimer le domaine autorisé
-        destroy_domain_block: Supprimer le blocage de domaine
-        destroy_email_domain_block: Supprimer le blocage de domaine de courriel
-        destroy_instance: Purge du domaine
-        destroy_ip_block: Supprimer la règle IP
-        destroy_relay: Supprimer le relais
-        destroy_status: Supprimer le message
-        destroy_unavailable_domain: Supprimer le domaine indisponible
-        destroy_user_role: Détruire le rôle
-        destroy_username_block: Supprimer la règle de nom d'utilisateur
-        disable_2fa_user: Désactiver l’A2F
-=======
         create_user_role: Créer un rôle
         create_username_block: Créer une règle de nom d'utilisateur·rice
         demote_user: Rétrograder un·e utilisateur·ice
@@ -231,7 +212,6 @@ fr:
         destroy_user_role: Supprimer le rôle
         destroy_username_block: Supprimer la règle de nom d'utilisateur·rice
         disable_2fa_user: Désactiver l’authentification à deux facteurs
->>>>>>> v4.6.1
         disable_custom_emoji: Désactiver les émojis personnalisés
         disable_relay: Désactiver le relais
         disable_sign_in_token_auth_user: Désactiver le jeton d'authentification par courriel pour l'utilisateur·rice
@@ -265,11 +245,7 @@ fr:
         update_report: Mettre à jour le rapport
         update_status: Mettre à jour le message
         update_user_role: Mettre à jour le rôle
-<<<<<<< HEAD
-        update_username_block: Mettre à jour la règle de nom d'utilisateur
-=======
         update_username_block: Mettre à jour la règle de nom d'utilisateur·rice
->>>>>>> v4.6.1
       actions:
         approve_appeal_html: "%{name} a approuvé l'appel de la décision de modération émis par %{target}"
         approve_user_html: "%{name} a approuvé l’inscription de %{target}"
@@ -288,11 +264,7 @@ fr:
         create_relay_html: "%{name} a créé un relais %{target}"
         create_unavailable_domain_html: "%{name} a arrêté la livraison vers le domaine %{target}"
         create_user_role_html: "%{name} a créé le rôle %{target}"
-<<<<<<< HEAD
-        create_username_block_html: "%{name} a ajouté une règle pour les noms d'utilisateur contenant %{target}"
-=======
         create_username_block_html: "%{name} a ajouté une règle pour les noms d'utilisateur·rice contenant %{target}"
->>>>>>> v4.6.1
         demote_user_html: "%{name} a rétrogradé l'utilisateur·rice %{target}"
         destroy_announcement_html: "%{name} a supprimé l'annonce %{target}"
         destroy_canonical_email_block_html: "%{name} a débloqué l'adresse courriel ayant l'empreinte %{target}"
@@ -938,10 +910,7 @@ fr:
         view_devops_description: Permet aux utilisateur⋅rice⋅s d'accéder aux tableaux de bord Sidekiq et pgHero
         view_feeds: Voir les flux en direct et les fils de discussion
         view_feeds_description: Permet aux utilisateur·rice·s d'accéder aux flux en direct et de discussion indépendamment des paramètres du serveur
-<<<<<<< HEAD
-=======
       requires_2fa: Nécessite une authentification à deux facteurs
->>>>>>> v4.6.1
       title: Rôles
     rules:
       add_new: Ajouter une règle
@@ -963,11 +932,7 @@ fr:
         rules_hint: Il y a un espace dédié pour les règles auxquelles vos utilisateurs sont invités à adhérer.
         title: À propos
       allow_referrer_origin:
-<<<<<<< HEAD
-        desc: Quand les utilisateurs cliquent sur un lien externe, leur navigateur peut envoyer l'adresse du serveur Mastodon en tant qu'adresse d'origine. À désactiver si cela permet d'identifier les utilisateurs, par exemple s'il s'agit d'un serveur Mastodon personnel.
-=======
         desc: Quand vos utilisateur·rice·s cliquent sur un lien externe, leur navigateur peut envoyer l'adresse de votre serveur Mastodon en tant qu'adresse d'origine. À désactiver si cela permet d'identifier les utilisateur·rice·s, par exemple s'il s'agit d'un serveur Mastodon personnel.
->>>>>>> v4.6.1
         title: Autoriser les sites externes à voir votre serveur Mastodon comme une source de trafic
       appearance:
         preamble: Personnaliser l'interface web de Mastodon.
@@ -1005,11 +970,6 @@ fr:
           disabled: Nécessite un rôle spécifique
           public: Tout le monde
       landing_page:
-<<<<<<< HEAD
-        values:
-          about: À propos
-          local_feed: Fil local
-=======
         hints:
           about_html: Une page avec la description, les informations de contact, les règles et d'autres informations concernant ce serveur.
           local_feed_html: Un flux en direct avec les messages les plus récents des utilisateur·rice·s sur ce serveur.
@@ -1019,7 +979,6 @@ fr:
           about: Page À propos
           local_feed: Flux local en direct
           overview: Aperçu 
->>>>>>> v4.6.1
           trends: Tendances
       registrations:
         moderation_recommandation: Veuillez vous assurer d'avoir une équipe de modération adéquate et réactive avant d'ouvrir les inscriptions à tout le monde !
@@ -1556,8 +1515,6 @@ fr:
       your_appeal_rejected: Votre appel a été rejeté
   edit_profile:
     other: Autre
-<<<<<<< HEAD
-=======
     privacy_redesign_body: Le choix de montrer vos abonnements et vos abonné·e·s est maintenant fait directement depuis votre profil.
     redesign_body: La modification du profil est maintenant accessible directement depuis la page de profil.
     redesign_button: Accéder
@@ -1596,7 +1553,6 @@ fr:
     no_access: Pas d'accès
     status: État
     subscribers: Abonné·e·s
->>>>>>> v4.6.1
   emoji_styles:
     auto: Auto
     native: Natif
@@ -1938,11 +1894,8 @@ fr:
       body: 'Votre message a été cité par %{name}:'
       subject: "%{name} a cité votre message"
       title: Nouvelle citation
-<<<<<<< HEAD
-=======
     quoted_update:
       subject: "%{name} a modifié un message que vous avez cité"
->>>>>>> v4.6.1
     reblog:
       body: 'Votre message été partagé par %{name} :'
       subject: "%{name} a partagé votre message"
@@ -2430,10 +2383,7 @@ fr:
       error: Il y a eu un problème en supprimant votre clé de sécurité. Veuillez réessayer.
       success: Votre clé de sécurité a été supprimée avec succès.
     invalid_credential: Clé de sécurité invalide
-<<<<<<< HEAD
-=======
     nickname: Nom de la clé de sécurité
->>>>>>> v4.6.1
     nickname_hint: Entrez le nom de votre nouvelle clé de sécurité
     not_enabled: Vous n'avez pas encore activé WebAuthn
     not_supported: Ce navigateur ne prend pas en charge les clés de sécurité

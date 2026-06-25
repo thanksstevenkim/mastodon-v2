@@ -145,10 +145,6 @@ eu:
         jurisdiction: Zerrendatu fakturak ordaintzen dituen pertsona bizi den herrialdea. Enpresa edo bestelako erakunde bat bada, adierazi egoitza duen herrialdea eta, kasuan kasu, hiria, eskualdea, lurraldea edo estatua.
         min_age: Ez luke izan behar zure jurisdikzioko legeek eskatzen duten gutxieneko adinetik beherakoa.
       user:
-<<<<<<< HEAD
-        chosen_languages: Markatzean, hautatutako hizkuntzetan dauden tutak besterik ez dira erakutsiko.
-=======
->>>>>>> v4.6.1
         role: Rolak erabiltzaileak dituen baimenak zeintzuk diren kontrolatzen du.
       user_role:
         color: Rolarentzat erabiltzaile interfazean erabiliko den kolorea, formatu hamaseitarreko RGB bezala

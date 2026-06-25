@@ -910,10 +910,7 @@ es-MX:
         view_devops_description: Permite a los usuarios acceder a los paneles de control Sidekiq y pgHero
         view_feeds: Ver temas y feed en vivo
         view_feeds_description: Permitir a los usuarios acceder a temas y feeds en vivo sin importar la configuración de los servidores
-<<<<<<< HEAD
-=======
       requires_2fa: Requiere autenticación de dos pasos
->>>>>>> v4.6.1
       title: Roles
     rules:
       add_new: Añadir norma
@@ -979,16 +976,10 @@ es-MX:
           overview_html: Una página que muestra la descripción de tu servidor junto con las publicaciones locales más recientes de los usuarios de este servidor.
           trends_html: Una página que muestra lo que es popular en este servidor en este momento.
         values:
-<<<<<<< HEAD
-          about: Acerca de
-          local_feed: Feed local
-          trends: Tendencias
-=======
           about: Página sobre el servidor
           local_feed: Cronología local
           overview: Resumen
           trends: En tendencia
->>>>>>> v4.6.1
       registrations:
         moderation_recommandation: "¡Por favor, asegúrate de contar con un equipo de moderación adecuado y activo antes de abrir el registro al público!"
         preamble: Controla quién puede crear una cuenta en tu servidor.
@@ -1602,15 +1593,8 @@ es-MX:
     mutes: Tienes en silencio
     storage: Almacenamiento
   featured_tags:
-<<<<<<< HEAD
-    add_new: Añadir nueva
     errors:
       limit: Ya has alcanzado la cantidad máxima de etiquetas
-    hint_html: "<strong>Destaca tus etiquetas más importantes en tu perfil.</strong> Una herramienta fantástica para llevar un registro de tus trabajos creativos y proyectos a largo plazo; las etiquetas destacadas aparecen en un lugar visible de tu perfil y te permiten acceder rápidamente a tus propias publicaciones."
-=======
-    errors:
-      limit: Ya has alcanzado la cantidad máxima de etiquetas
->>>>>>> v4.6.1
   filters:
     contexts:
       account: Perfiles

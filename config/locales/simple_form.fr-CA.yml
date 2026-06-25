@@ -61,20 +61,11 @@ fr-CA:
         setting_default_quote_policy_private: Les messages limités aux personnes qui vous suivent publiés depuis Mastodon ne peuvent pas être cités.
         setting_default_quote_policy_unlisted: Lorsque des personnes vous citent, leur message sera également masqué des fils des tendances.
         setting_default_sensitive: Les médias sensibles sont cachés par défaut et peuvent être révélés d’un simple clic
-<<<<<<< HEAD
-        setting_display_media_default: Masquer les médias marqués comme sensibles
-        setting_display_media_hide_all: Toujours masquer les médias
-        setting_display_media_show_all: Toujours afficher les médias
-        setting_emoji_style: Manière d'afficher les émojis. Utiliser « Auto » pour essayer d'utiliser les émojis natifs, mais Twemoji sera utilisé pour les anciens navigateurs.
-        setting_quick_boosting_html: Lorsque cette option est activée, cliquer sur l'icône de partage %{boost_icon} va immédiatement partager le message au lieu d'ouvrir le menu déroulant Partage/Citation. L'action de citation est déplacée dans le menu %{options_icon} (options).
-        setting_system_scrollbars_ui: S'applique uniquement aux navigateurs basés sur Safari et Chrome
-=======
         setting_display_media_default: Avertir avant d'afficher les médias marqués comme sensibles
         setting_display_media_hide_all: Avertir avant d'afficher tous les médias
         setting_display_media_show_all: Afficher tous les médias sans avertissement, y compris ceux marqués comme sensibles
         setting_emoji_style: Manière d'afficher les émojis. Utiliser « Auto » pour essayer d'utiliser les émojis natifs, mais Twemoji sera utilisé pour les anciens navigateurs.
         setting_quick_boosting_html: Lorsque cette option est activée, cliquer sur l'icône de partage %{boost_icon} va immédiatement partager le message au lieu d'ouvrir le menu déroulant Partage/Citation. L'action de citation est déplacée dans le menu %{options_icon} (options).
->>>>>>> v4.6.1
         setting_use_blurhash: Les dégradés sont basés sur les couleurs des images cachées mais n’en montrent pas les détails
         setting_use_pending_items: Cacher les mises à jour des fils d’actualités derrière un clic, au lieu de les afficher automatiquement
         username: Vous pouvez utiliser des lettres, des chiffres, et des tirets bas
@@ -100,14 +91,9 @@ fr-CA:
         closed_registrations_message: Affiché lorsque les inscriptions sont fermées
         content_cache_retention_period: Tous les messages provenant d'autres serveurs (y compris les partages et les réponses) seront supprimés passé le nombre de jours spécifié, sans tenir compte des interactions locales avec ces messages. Cela inclut les messages qu'un·e utilisateur·rice aurait marqué comme signets ou favoris. Les mentions privées entre utilisateur·rice·s de différentes instances seront également perdues et impossibles à restaurer. L'utilisation de ce paramètre est destinée à des instances spécifiques et contrevient à de nombreuses attentes des utilisateur·rice·s lorsqu'il est appliquée à une instance généraliste.
         custom_css: Vous pouvez appliquer des styles personnalisés sur la version Web de Mastodon.
-<<<<<<< HEAD
-        favicon: WEBP, PNG, GIF ou JPG. Remplace la favicon Mastodon par défaut avec une icône personnalisée.
-        landing_page: Sélectionner la page à afficher aux nouveaux visiteur·euse·s quand ils arrivent sur votre serveur. Pour utiliser « Tendances » les tendances doivent être activées dans les paramètres de découverte. Pour utiliser « Fil local » le paramètre « Accès au flux en direct de ce serveur » doit être défini sur « Tout le monde » dans les paramètres de découverte.
-=======
         email_footer_text: Texte facultatif qui apparaît uniquement dans le pied de page des lettres d'information par courriel.
         favicon: WebP, PNG, GIF ou JPG. Remplace la favicon Mastodon par défaut avec une icône personnalisée.
         landing_page: Sélectionne la page à afficher aux nouveaux visiteur·euse·s quand ils arrivent sur votre serveur. Pour utiliser « Tendances » les tendances doivent être activées dans les paramètres de découverte. Pour utiliser « Fil local » le paramètre « Accès au flux en direct de ce serveur » doit être défini sur « Tout le monde » dans les paramètres de découverte.
->>>>>>> v4.6.1
         mascot: Remplace l'illustration dans l'interface Web avancée.
         media_cache_retention_period: Les fichiers médias des messages publiés par des utilisateur·rice·s distants sont mis en cache sur votre serveur. Lorsque cette valeur est positive, les médias sont supprimés au terme du nombre de jours spécifié. Si les données des médias sont demandées après leur suppression, elles seront téléchargées à nouveau, dans la mesure où le contenu source est toujours disponible. En raison des restrictions concernant la fréquence à laquelle les cartes de prévisualisation des liens interrogent des sites tiers, il est recommandé de fixer cette valeur à au moins 14 jours, faute de quoi les cartes de prévisualisation des liens ne seront pas mises à jour à la demande avant cette échéance.
         min_age: Les utilisateur·rice·s seront invité·e·s à confirmer leur date de naissance lors de l'inscription
@@ -169,19 +155,11 @@ fr-CA:
         jurisdiction: Indique le pays dans lequel réside la personne qui paie les factures. S'il s'agit d'une entreprise ou d'une autre entité, indiquez le pays dans lequel elle est enregistrée, ainsi que la ville, la région, le territoire ou l'État, le cas échéant.
         min_age: Ne doit pas être en dessous de l’âge minimum requis par les lois de votre juridiction.
       user:
-<<<<<<< HEAD
-        chosen_languages: Lorsque coché, seuls les messages dans les langues sélectionnées seront affichés sur les fils publics
-        date_of_birth:
-          one: Nous devons vérifier que vous avez au moins %{count} an pour utiliser %{domain}. Cette information ne sera pas conservée.
-          other: Nous devons vérifier que vous avez au moins %{count} ans pour utiliser %{domain}. Cette information ne sera pas conservée.
-        role: Le rôle définit quelles autorisations a l'utilisateur⋅rice.
-=======
         chosen_languages: Lorsque coché, seuls les messages dans les langues sélectionnées seront affichés dans les fils publics. Ce paramètre n'affecte pas votre fil d'actualité, ni vos listes.
         date_of_birth:
           one: Nous devons vérifier que vous avez au moins %{count} an pour utiliser %{domain}. Cette information ne sera pas conservée.
           other: Nous devons vérifier que vous avez au moins %{count} ans pour utiliser %{domain}. Cette information ne sera pas conservée.
         role: Le rôle définit les autorisations de l'utilisateur⋅rice.
->>>>>>> v4.6.1
       user_role:
         collection_limit: Limite le nombre de collections qu'un compte avec ce rôle peut créer. Veuillez noter que si vous diminuez cette limite, les comptes qui la dépassent ne perdront pas de collections. Mais ile ne pourront pas en créer de nouvelles.
         color: Couleur à attribuer au rôle dans l'interface, au format hexadécimal RVB
@@ -189,10 +167,7 @@ fr-CA:
         name: Nom public du rôle, si le rôle est configuré pour être affiché avec un badge
         permissions_as_keys: Les utilisateur·rice·s ayant ce rôle auront accès à …
         position: Dans certaines situations, un rôle supérieur peut trancher la résolution d'un conflit. Mais certaines opérations ne peuvent être effectuées que sur des rôles ayant une priorité inférieure
-<<<<<<< HEAD
-=======
         require_2fa: Les utilisateur·ice·s ayant ce rôle devront configurer l'authentification à deux facteurs pour utiliser Mastodon
->>>>>>> v4.6.1
       username_block:
         allow_with_approval: Au lieu de bloquer l'inscription, les inscriptions correspondantes nécessiteront votre approbation
         comparison: Veuillez garder à l'esprit le problème de Scunthorpe lors du blocage des correspondances partielles
@@ -269,11 +244,8 @@ fr-CA:
         setting_always_send_emails: Toujours envoyer les notifications par courriel
         setting_auto_play_gif: Lire automatiquement les GIFs animés
         setting_boost_modal: Configurer la visibilité du partage
-<<<<<<< HEAD
-=======
         setting_color_scheme: Jeu de couleurs
         setting_contrast: Contraste
->>>>>>> v4.6.1
         setting_default_language: Langue de publication
         setting_default_privacy: Visibilité de la publication
         setting_default_quote_policy: Autoriser les citations pour
@@ -427,10 +399,7 @@ fr-CA:
         name: Nom
         permissions_as_keys: Autorisations
         position: Priorité
-<<<<<<< HEAD
-=======
         require_2fa: Exiger une authentification à deux facteurs
->>>>>>> v4.6.1
       username_block:
         allow_with_approval: Autoriser les inscriptions avec approbation
         comparison: Méthode de comparaison

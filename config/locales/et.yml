@@ -295,11 +295,7 @@ et:
         reject_user_html: "%{name} lükkas %{target} liitumissoovi tagasi"
         remove_avatar_user_html: "%{name} eemaldas %{target} avatari"
         reopen_report_html: "%{name} taasavas raporti %{target}"
-<<<<<<< HEAD
-        resend_user_html: "%{name} lähtestas %{target} kinnituskirja e-posti"
-=======
         resend_user_html: "%{name} saatis kasutajale %{target} e-postiga uue kinnituskirja"
->>>>>>> v4.6.1
         reset_password_user_html: "%{name} lähtestas %{target} kasutaja salasõna"
         resolve_report_html: "%{name} lahendas raporti %{target}"
         sensitive_account_html: "%{name} märkis %{target} meedia kui tundlik sisu"
@@ -908,10 +904,7 @@ et:
         view_devops_description: Lubab kasutajail ligipääsu Sidekiq ja pgHero töölaudadele
         view_feeds: Vaata postituste ja teemade voogu reaalajas
         view_feeds_description: Sõltumata serveri seadistustest luba kasutajatel vaadata postituste ja teemade voogu reaalajas
-<<<<<<< HEAD
-=======
       requires_2fa: Eeldab kaheastmelise autentimise kasutamist
->>>>>>> v4.6.1
       title: Rollid
     rules:
       add_new: Lisa reegel
@@ -977,16 +970,10 @@ et:
           overview_html: Leht, kus näidatakse selle serveri kirjeldust koos serveri kasutate viimaste postitustega.
           trends_html: Leht, mis näitab selles serveris hetkel populaarseid teemasid.
         values:
-<<<<<<< HEAD
-          about: Teave
-          local_feed: Kohalik sisuvoog
-          trends: Trendid
-=======
           about: Serveri teabe leht
           local_feed: Kohalik postituste voog
           overview: Ülevaade
           trends: Populaarsust koguv
->>>>>>> v4.6.1
       registrations:
         moderation_recommandation: Enne kõigi jaoks registreerimise avamist veendu, et oleks olemas adekvaatne ja reageerimisvalmis modereerijaskond!
         preamble: Kes saab serveril konto luua.
@@ -1216,11 +1203,7 @@ et:
           tag_servers_dimension: Populaarseimad serverid
           tag_servers_measure: erinevat serverit
           tag_uses_measure: kasutajaid kokku
-<<<<<<< HEAD
-        description_html: Need teemaviited ilmuvad praegu paljudes postitutes, mida su server näeb. See võib aidata su kasutajatel leida seda millest kõige rohkem parajasti räägitakse. Ühtegi teemaviidet ei näidata enne nende heaks kiitmist avalikult.
-=======
         description_html: Need teemaviited ilmuvad praegu paljudes postitustes, mida su server näeb. Need võivad aidata su kasutajatel leida seda, millest hetkel kõige rohkem räägitakse. Ühtegi teemaviidet ei näidata enne heaks kiitmist avalikult.
->>>>>>> v4.6.1
         listable: Võib olla soovitatud
         no_tag_selected: Silte ei muudetud, kuna ühtegi polnud valitud
         not_listable: Ei soovitata
@@ -1449,8 +1432,6 @@ et:
     hint_html: "<strong>Nõuanne:</strong> Me ei küsi sinu salasõna uuesti järgmise tunni jooksul."
     invalid_password: Vigane salasõna
     prompt: Jätkamiseks korda salasõna
-<<<<<<< HEAD
-=======
   color_scheme:
     auto: Auto
     dark: Tume
@@ -1458,7 +1439,6 @@ et:
   contrast:
     auto: Auto
     high: Suur
->>>>>>> v4.6.1
   crypto:
     errors:
       invalid_key: ei ole õige Ed25519 ega Curve25519 võti
@@ -1608,10 +1588,6 @@ et:
   featured_tags:
     errors:
       limit: Oled jõudnud teemaviidete lubatud maksimumarvuni
-<<<<<<< HEAD
-    hint_html: "<strong>Mis on esiletõstetud teemaviited?</strong> Neid teemaviiteid näidatakse su avalikul profiilil esiletõstetult ning need aitavad teistel leida postitusi, millel on selline teemaviide. See on hea viis, kuidas hoida järge loovtöödel või pikaajalistel projektidel."
-=======
->>>>>>> v4.6.1
   filters:
     contexts:
       account: Profiilid
