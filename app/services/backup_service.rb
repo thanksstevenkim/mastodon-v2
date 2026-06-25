@@ -60,18 +60,7 @@ class BackupService < BaseService
   def build_archive!
     tmp_file = Tempfile.new(%w(archive .zip))
 
-<<<<<<< HEAD
-    Zip.write_zip64_support = true
-    Zip::File.open(tmp_file, create: true) do |zipfile|
-      dump_outbox!(zipfile)
-      dump_media_attachments!(zipfile)
-      dump_likes!(zipfile)
-      dump_bookmarks!(zipfile)
-      dump_actor!(zipfile)
-    end
-=======
     build_zip_file(tmp_file)
->>>>>>> v4.6.1
 
     @backup.dump = ActionDispatch::Http::UploadedFile.new(tempfile: tmp_file, filename: archive_filename)
     @backup.processed = true
