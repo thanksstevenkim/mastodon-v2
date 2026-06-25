@@ -43,7 +43,6 @@ import {
   ConfirmRevokeQuoteModal,
   QuietPostQuoteInfoModal,
 } from './confirmation_modals';
-import { PrivateQuoteNotify } from './confirmation_modals/private_quote_notify';
 import { ImageModal } from './image_modal';
 import { MediaModal } from './media_modal';
 import { ModalPlaceholder } from './modal_placeholder';
@@ -109,7 +108,7 @@ export const MODAL_COMPONENTS = {
   'ACCOUNT_HIDE_FEATURED_TAB': () => import('@/mastodon/features/ui/components/confirmation_modals/hide_featured_tab').then(module => ({ default: module.ConfirmHideFeaturedTabModal })),
 };
 
-/** @arg {keyof import('@/mastodon/features/account_edit/modals')} type */
+/** @param {keyof import('@/mastodon/features/account_edit/modals')} type */
 function accountEditModal(type) {
   return () => import('@/mastodon/features/account_edit/modals').then(module => ({ default: module[type] }));
 }
