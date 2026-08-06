@@ -1,1 +1,9 @@
+#!/usr/bin/env sh
+
+echo "HOOK PATH=$PATH" >&2
+echo "HOOK RUBY=$(command -v ruby)" >&2
+ruby -v >&2
+/usr/bin/env ruby -v >&2
+env | grep -E '^(RBENV|RUBY|GEM|BUNDLE|PATH)=' >&2
+
 yarn lint-staged
