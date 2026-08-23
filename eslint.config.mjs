@@ -381,7 +381,4 @@ export default tseslint.config([
       '@typescript-eslint/prefer-nullish-coalescing': 'off',
     },
   },
-  {
-    files: ['**/*.jsx'],
-  },
 ]);
