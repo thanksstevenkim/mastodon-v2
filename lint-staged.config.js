@@ -4,7 +4,7 @@ const config = {
     'rbenv exec bundle exec rubocop --force-exclusion -a',
   '*.{js,jsx,ts,tsx}': 'eslint --fix',
   '*.{css,scss}': 'stylelint --fix',
-  '*.haml': 'bin/haml-lint -a',
+  '*.haml': 'rbenv exec bundle exec haml-lint -a',
   '**/*.ts?(x)': () => 'tsc -p tsconfig.json --noEmit',
   'app/javascript/**/*.{js,jsx,ts,tsx}': () => [
     `yarn i18n:extract`,
