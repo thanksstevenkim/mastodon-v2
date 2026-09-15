@@ -148,27 +148,6 @@ jobs:
           ruby-version: ${{ matrix.ruby-version}}
           additional-system-dependencies: ffmpeg libpam-dev
 
-      - name: Debug libvips environment
-        run: |
-          echo "=== OS ==="
-          cat /etc/os-release
-
-          echo "=== packages ==="
-          dpkg -l | grep -E 'libvips|libheif' || true
-
-          echo "=== ruby-vips ==="
-          bundle exec ruby -e '
-            require "vips"
-            puts "libvips: #{Vips.version_string}"
-            %w[heifload heifload_buffer jpegload pngload webpload].each do |op|
-              begin
-                puts "#{op}: #{Vips.type_find("VipsOperation", op) != 0}"
-              rescue => e
-                puts "#{op}: ERROR #{e.class}: #{e.message}"
-              end
-            end
-          '
-
       - name: Load database schema
         run: |
           bin/rails db:setup
