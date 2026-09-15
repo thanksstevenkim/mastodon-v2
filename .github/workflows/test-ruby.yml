@@ -148,6 +148,20 @@ jobs:
           ruby-version: ${{ matrix.ruby-version}}
           additional-system-dependencies: ffmpeg libpam-dev
 
+      - name: Debug libvips environment
+        run: |
+          echo "=== OS ==="
+          cat /etc/os-release
+
+          echo "=== vips ==="
+          vips --version || true
+
+          echo "=== packages ==="
+          dpkg -l | grep -E 'libvips|libheif' || true
+
+          echo "=== heif-related vips operations ==="
+          vips list classes | grep -i heif || true
+
       - name: Load database schema
         run: |
           bin/rails db:setup
