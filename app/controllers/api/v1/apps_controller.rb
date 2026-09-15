@@ -4,6 +4,8 @@ class Api::V1::AppsController < Api::BaseController
   skip_before_action :require_authenticated_user!
 
   def create
+    return forbidden if OAuthApplicationNameBlocklist.blocked?(app_params[:client_name])
+
     @app = Doorkeeper::Application.create!(application_options)
     render json: @app, serializer: REST::CredentialApplicationSerializer
   end
