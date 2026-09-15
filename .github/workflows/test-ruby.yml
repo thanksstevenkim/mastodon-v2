@@ -153,14 +153,21 @@ jobs:
           echo "=== OS ==="
           cat /etc/os-release
 
-          echo "=== vips ==="
-          vips --version || true
-
           echo "=== packages ==="
           dpkg -l | grep -E 'libvips|libheif' || true
 
-          echo "=== heif-related vips operations ==="
-          vips list classes | grep -i heif || true
+          echo "=== ruby-vips ==="
+          bundle exec ruby -e '
+            require "vips"
+            puts "libvips: #{Vips.version_string}"
+            %w[heifload heifload_buffer jpegload pngload webpload].each do |op|
+              begin
+                puts "#{op}: #{Vips.type_find("VipsOperation", op) != 0}"
+              rescue => e
+                puts "#{op}: ERROR #{e.class}: #{e.message}"
+              end
+            end
+          '
 
       - name: Load database schema
         run: |
