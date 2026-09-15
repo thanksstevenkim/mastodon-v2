@@ -282,5 +282,22 @@ RSpec.describe 'Apps' do
         expect(app.website).to eq website
       end
     end
+
+    context 'with a blocked client name' do
+      let(:client_name) { 'BoomProtocolProbe' }
+
+      around do |example|
+        ClimateControl.modify BLOCKED_OAUTH_APP_NAMES: 'BoomProtocolProbe' do
+          example.run
+        end
+      end
+
+      it 'returns http forbidden and does not create the application' do
+        expect { subject }
+          .to_not change(Doorkeeper::Application, :count)
+
+        expect(response).to have_http_status(403)
+      end
+    end
   end
 end

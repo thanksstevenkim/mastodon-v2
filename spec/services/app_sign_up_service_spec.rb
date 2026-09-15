@@ -116,5 +116,33 @@ RSpec.describe AppSignUpService do
         expect(user.invite_request&.text).to eq 'Foo bar'
       end
     end
+
+    context 'when the OAuth application name is blocked' do
+      let(:app) do
+        Fabricate(
+          :application,
+          name: 'BoomProtocolProbe',
+          scopes: 'read write'
+        )
+      end
+
+      around do |example|
+        ClimateControl.modify BLOCKED_OAUTH_APP_NAMES: 'BoomProtocolProbe' do
+          example.run
+        end
+      end
+
+      it 'rejects registration without creating a user or access token' do
+        user_count = User.count
+        token_count = Doorkeeper::AccessToken.count
+
+        expect do
+          subject.call(app, remote_ip, good_params)
+        end.to raise_error(Mastodon::NotPermittedError)
+
+        expect(User.count).to eq user_count
+        expect(Doorkeeper::AccessToken.count).to eq token_count
+      end
+    end
   end
 end

@@ -8,6 +8,7 @@ class AppSignUpService < BaseService
     @remote_ip = remote_ip
     @params    = params
 
+    raise Mastodon::NotPermittedError if OAuthApplicationNameBlocklist.blocked?(app.name)
     raise Mastodon::NotPermittedError unless allowed_registration?(remote_ip, invite)
 
     ApplicationRecord.transaction do
