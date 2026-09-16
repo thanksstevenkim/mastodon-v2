@@ -144,5 +144,29 @@ RSpec.describe AppSignUpService do
         expect(Doorkeeper::AccessToken.count).to eq token_count
       end
     end
+
+    context 'when the signup reason is blocked' do
+      around do |example|
+        ClimateControl.modify BLOCKED_SIGNUP_REASONS: 'Automated protocol deliverability probe' do
+          example.run
+        end
+      end
+
+      it 'rejects registration without creating a user or access token' do
+        user_count = User.count
+        token_count = Doorkeeper::AccessToken.count
+
+        params = good_params.merge(
+          reason: 'Automated protocol deliverability probe'
+        )
+
+        expect do
+          subject.call(app, remote_ip, params)
+        end.to raise_error(Mastodon::NotPermittedError)
+
+        expect(User.count).to eq user_count
+        expect(Doorkeeper::AccessToken.count).to eq token_count
+      end
+    end
   end
 end
