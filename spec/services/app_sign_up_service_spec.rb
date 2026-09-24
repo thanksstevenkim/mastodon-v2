@@ -168,5 +168,30 @@ RSpec.describe AppSignUpService do
         expect(Doorkeeper::AccessToken.count).to eq token_count
       end
     end
+
+    context 'when the OAuth application fingerprint is blocked' do
+      let(:app) do
+        Fabricate(
+          :application,
+          name: 'Mastodon Web App',
+          redirect_uri: 'urn:ietf:wg:oauth:2.0:oob',
+          website: 'https://example.com',
+          scopes: 'read write',
+          confidential: true
+        )
+      end
+
+      it 'rejects registration without creating a user or access token' do
+        user_count = User.count
+        token_count = Doorkeeper::AccessToken.count
+
+        expect do
+          subject.call(app, remote_ip, good_params)
+        end.to raise_error(Mastodon::NotPermittedError)
+
+        expect(User.count).to eq user_count
+        expect(Doorkeeper::AccessToken.count).to eq token_count
+      end
+    end
   end
 end
