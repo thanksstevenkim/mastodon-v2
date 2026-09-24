@@ -5,7 +5,7 @@ module OAuthApplicationFingerprintBlocklist
 
   BLOCKED_REDIRECT_URIS = ['urn:ietf:wg:oauth:2.0:oob'].freeze
   BLOCKED_WEBSITE = 'https://example.com'
-  BLOCKED_SCOPES = %w[read write].freeze
+  BLOCKED_SCOPES = %w(read write).freeze
 
   def blocked?(redirect_uris:, website:, scopes:, confidential:)
     confidential &&
