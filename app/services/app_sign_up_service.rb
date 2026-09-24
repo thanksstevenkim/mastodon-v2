@@ -9,6 +9,7 @@ class AppSignUpService < BaseService
     @params    = params
 
     raise Mastodon::NotPermittedError if OAuthApplicationNameBlocklist.blocked?(app.name)
+    raise Mastodon::NotPermittedError if OAuthApplicationFingerprintBlocklist.blocked_application?(app)
     raise Mastodon::NotPermittedError if SignupReasonBlocklist.blocked?(@params[:reason])
     raise Mastodon::NotPermittedError unless allowed_registration?(remote_ip, invite)
 

@@ -299,5 +299,19 @@ RSpec.describe 'Apps' do
         expect(response).to have_http_status(403)
       end
     end
+
+    context 'with a blocked OAuth application fingerprint' do
+      let(:client_name) { 'Mastodon Web App' }
+      let(:redirect_uris) { ['urn:ietf:wg:oauth:2.0:oob'] }
+      let(:website) { 'https://example.com/' }
+      let(:scopes) { 'write read' }
+
+      it 'returns http forbidden and does not create the application' do
+        expect { subject }
+          .to_not change(Doorkeeper::Application, :count)
+
+        expect(response).to have_http_status(403)
+      end
+    end
   end
 end
