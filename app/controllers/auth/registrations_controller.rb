@@ -33,7 +33,7 @@ class Auth::RegistrationsController < Devise::RegistrationsController
     check_captcha! do |message|
       build_resource(sign_up_params)
       flash.now[:alert] = message if message.present?
-      render :new, status: :unprocessable_content
+      render :new, status: 422
       return
     end
 

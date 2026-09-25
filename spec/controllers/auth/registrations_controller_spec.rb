@@ -221,7 +221,7 @@ RSpec.describe Auth::RegistrationsController do
             .to not_change(User, :count)
 
           expect(response)
-            .to have_http_status(:unprocessable_content)
+            .to have_http_status(422)
         end
       end
 
