@@ -61,7 +61,7 @@ class Auth::ConfirmationsController < Devise::ConfirmationsController
   end
 
   def captcha_user_bypass?
-    @confirmation_user.nil? || @confirmation_user.confirmed?
+    @confirmation_user.nil? || @confirmation_user.confirmed? || @confirmation_user.created_by_application.nil?
   end
 
   def redirect_confirmed_user

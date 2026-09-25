@@ -201,6 +201,45 @@ RSpec.describe Auth::RegistrationsController do
       end
     end
 
+    context 'when captcha is required' do
+      subject do
+        Setting.registrations_mode = 'open'
+        post :create, params: { user: { account_attributes: { username: 'test' }, email: 'test@example.com', password: '12345678', password_confirmation: '12345678', agreement: 'true' } }
+      end
+
+      before do
+        allow(controller).to receive(:captcha_required?).and_return(true)
+      end
+
+      context 'when captcha verification fails' do
+        before do
+          allow(controller).to receive_messages(verify_hcaptcha: false, render_captcha: nil)
+        end
+
+        it 'does not create a user' do
+          expect { subject }
+            .to not_change(User, :count)
+
+          expect(response)
+            .to have_http_status(422)
+        end
+      end
+
+      context 'when captcha verification succeeds' do
+        before do
+          allow(controller).to receive(:verify_hcaptcha).and_return(true)
+        end
+
+        it 'creates the user and redirects to setup' do
+          expect { subject }
+            .to change(User, :count).by(1)
+
+          expect(response)
+            .to redirect_to(auth_setup_path)
+        end
+      end
+    end
+
     context 'when user has not agreed to terms of service' do
       subject do
         Setting.registrations_mode = 'open'
