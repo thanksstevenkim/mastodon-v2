@@ -10,6 +10,18 @@ RSpec.describe 'email confirmation flow when captcha is enabled' do
     allow(Auth::ConfirmationsController).to receive(:new).and_return(stubbed_controller)
   end
 
+  context 'when the user signed up through the web' do
+    it 'does not ask for a second captcha during email confirmation' do
+      expect do
+        visit "/auth/confirmation?confirmation_token=#{user.confirmation_token}"
+      end.to change { user.reload.confirmed? }.from(false).to(true)
+
+      expect(page)
+        .to have_current_path(new_user_session_path)
+        .and have_no_title(I18n.t('auth.captcha_confirmation.title'))
+    end
+  end
+
   context 'when the user signed up through an app' do
     let(:client_app) { Fabricate(:application) }
 
