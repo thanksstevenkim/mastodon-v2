@@ -34,8 +34,58 @@ RSpec.describe RemoveFromPublicStatusesIndexWorker do
       let(:account) { nil }
       let(:account_id) { 999 }
 
-      it 'does not raise an error' do
-        expect { subject.perform(account_id) }.to_not raise_error
+      before do
+        allow(Account).to receive(:find)
+          .with(account_id)
+          .and_raise(ActiveRecord::RecordNotFound)
+      end
+
+      it 'does not access indices when Chewy is disabled' do
+        allow(Chewy).to receive(:enabled?).and_return(false)
+
+        expect(PublicStatusesIndex).not_to receive(:filter)
+        expect(NoriSearch::ShadowImporter)
+          .not_to receive(:remove_public_account!)
+
+        expect { subject.perform(account_id) }.not_to raise_error
+      end
+
+      it 'cleans up both index generations' do
+        allow(Chewy).to receive(:enabled?).and_return(true)
+
+        query = double
+        expect(PublicStatusesIndex).to receive(:filter)
+          .with(term: { account_id: account_id })
+          .and_return(query)
+        expect(query).to receive(:delete_all).and_return(true)
+
+        expect(NoriSearch::ShadowImporter)
+          .to receive(:remove_public_account!)
+          .with(account_id)
+          .and_return(true)
+
+        subject.perform(account_id)
+      end
+
+      it 'propagates a Nori deletion failure' do
+        allow(Chewy).to receive(:enabled?).and_return(true)
+
+        query = double(delete_all: true)
+        allow(PublicStatusesIndex).to receive(:filter)
+          .and_return(query)
+
+        allow(NoriSearch::ShadowImporter)
+          .to receive(:remove_public_account!)
+          .with(account_id)
+          .and_raise(
+            NoriSearch::ShadowImporter::IncompleteDeletion
+          )
+
+        expect do
+          subject.perform(account_id)
+        end.to raise_error(
+          NoriSearch::ShadowImporter::IncompleteDeletion
+        )
       end
     end
   end
