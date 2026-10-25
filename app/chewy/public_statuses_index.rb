@@ -21,6 +21,17 @@ class PublicStatusesIndex < Chewy::Index
       },
     },
 
+    tokenizer: {
+      korean_custom: {
+        type: 'nori_tokenizer',
+        decompound_mode: 'mixed',
+        user_dictionary_rules: [
+          '겨자별',
+          '연합우주 연합 우주',
+        ],
+      },
+    },
+
     analyzer: {
       verbatim: {
         tokenizer: 'uax_url_email',
@@ -37,6 +48,15 @@ class PublicStatusesIndex < Chewy::Index
           english_possessive_stemmer
           english_stop
           english_stemmer
+        ),
+      },
+
+      korean: {
+        tokenizer: 'korean_custom',
+        filter: %w(
+          nori_part_of_speech
+          nori_readingform
+          lowercase
         ),
       },
 
@@ -60,7 +80,10 @@ class PublicStatusesIndex < Chewy::Index
   root date_detection: false do
     field(:id, type: 'long')
     field(:account_id, type: 'long')
-    field(:text, type: 'text', analyzer: 'verbatim', value: ->(status) { status.searchable_text }) { field(:stemmed, type: 'text', analyzer: 'content') }
+    field(:text, type: 'text', analyzer: 'verbatim', value: ->(status) { status.searchable_text }) do
+      field(:stemmed, type: 'text', analyzer: 'content')
+      field(:korean, type: 'text', analyzer: 'korean')
+    end
     field(:tags, type: 'text', analyzer: 'hashtag', value: ->(status) { status.tags.map(&:display_name) })
     field(:language, type: 'keyword')
     field(:properties, type: 'keyword', value: ->(status) { status.searchable_properties })
