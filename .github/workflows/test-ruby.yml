@@ -407,6 +407,8 @@ jobs:
     name: Nori-enabled Elasticsearch integration testing
     runs-on: ubuntu-latest
     timeout-minutes: 40
+    permissions:
+      contents: read
     needs:
       - build
 
