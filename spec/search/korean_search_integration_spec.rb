@@ -2,7 +2,8 @@
 
 require 'rails_helper'
 
-RSpec.describe 'Korean search integration' do
+# This integration spec covers both status indices, not a single class.
+RSpec.describe 'Korean search integration' do # rubocop:disable RSpec/DescribeClass
   before do
     skip 'Nori integration is disabled' unless ENV['ES_KOREAN_SEARCH_ENABLED'] == 'true'
   end
