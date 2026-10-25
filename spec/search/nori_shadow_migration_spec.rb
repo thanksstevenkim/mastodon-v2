@@ -28,6 +28,18 @@ RSpec.describe 'Nori shadow migration integration', :search do # rubocop:disable
     end
   end
 
+  def expect_documents(index_class, ids, present:)
+    [
+      index_class.index_name,
+      index_class.index_name(suffix: 'nori_v1'),
+    ].each do |name|
+      client.indices.refresh(index: name)
+      results = ids.map { |id| client.exists?(index: name, id: id) }
+
+      expect(results).to all(eq(present))
+    end
+  end
+
   def indexed?(index_name)
     client.indices.refresh(index: index_name)
     client.exists?(index: index_name, id: status.id)
@@ -57,6 +69,34 @@ RSpec.describe 'Nori shadow migration integration', :search do # rubocop:disable
 
     expect(indexed?(PublicStatusesIndex.index_name)).to be false
     expect(indexed?(PublicStatusesIndex.index_name(suffix: 'nori_v1'))).to be false
+  end
+
+  it 'removes batched-deleted statuses from both index generations' do
+    statuses = [status, Fabricate(:status, account: account, visibility: :public)]
+    ids = statuses.map(&:id)
+
+    [StatusesIndex, PublicStatusesIndex].each do |index_class|
+      index_class.import!(ids)
+      NoriSearch::ShadowImporter.import!(index_class, ids)
+      expect_documents(index_class, ids, present: true)
+    end
+
+    Chewy.strategy(:mastodon) do
+      BatchedRemoveStatusService.new.call(statuses, skip_side_effects: true)
+    end
+
+    expect(Status.unscoped.where(id: ids)).to be_empty
+
+    [StatusesIndex, PublicStatusesIndex].each do |index_class|
+      key = "chewy:queue:#{index_class.name}"
+      expect(redis.smembers(key)).to include(*ids.map(&:to_s))
+    end
+
+    Scheduler::IndexingScheduler.new.perform
+
+    [StatusesIndex, PublicStatusesIndex].each do |index_class|
+      expect_documents(index_class, ids, present: false)
+    end
   end
 
   it 'preserves the Redis queue when the Nori index is missing' do
