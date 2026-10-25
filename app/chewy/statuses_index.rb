@@ -3,7 +3,9 @@
 class StatusesIndex < Chewy::Index
   include DatetimeClampingConcern
 
-  settings index: index_preset(refresh_interval: '30s', number_of_shards: 5), analysis: {
+  korean_search_enabled = ENV['ES_KOREAN_SEARCH_ENABLED'] == 'true'
+
+  analysis_settings = {
     filter: {
       english_stop: {
         type: 'stop',
@@ -72,6 +74,13 @@ class StatusesIndex < Chewy::Index
     },
   }
 
+  unless korean_search_enabled
+    analysis_settings.delete(:tokenizer)
+    analysis_settings[:analyzer].delete(:korean)
+  end
+
+  settings index: index_preset(refresh_interval: '30s', number_of_shards: 5), analysis: analysis_settings
+
   index_scope ::Status.unscoped.kept.without_reblogs.includes(:media_attachments, :local_mentioned, :local_favorited, :local_reblogged, :local_bookmarked, :tags, preview_cards_status: :preview_card, preloadable_poll: :local_voters), delete_if: ->(status) { status.searchable_by.empty? }
 
   root date_detection: false do
@@ -79,7 +88,7 @@ class StatusesIndex < Chewy::Index
     field(:account_id, type: 'long')
     field(:text, type: 'text', analyzer: 'verbatim', value: ->(status) { status.searchable_text }) do
       field(:stemmed, type: 'text', analyzer: 'content')
-      field(:korean, type: 'text', analyzer: 'korean')
+      field(:korean, type: 'text', analyzer: 'korean') if korean_search_enabled
     end
     field(:tags, type: 'text', analyzer: 'hashtag',  value: ->(status) { status.tags.map(&:display_name) })
     field(:searchable_by, type: 'long', value: ->(status) { status.searchable_by })

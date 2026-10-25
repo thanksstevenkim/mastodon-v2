@@ -151,6 +151,24 @@ RSpec.describe SearchQueryTransformer do
   end
 
   describe 'Nori search queries' do
+    around do |example|
+      ClimateControl.modify(ES_KOREAN_SEARCH_ENABLED: 'true') { example.run }
+    end
+
+    it 'preserves legacy fields when Nori is disabled' do
+      ClimateControl.modify(ES_KOREAN_SEARCH_ENABLED: 'false') do
+        fields = described_class::TermClause.new(nil, '마스토돈').to_query.dig(:multi_match, :fields)
+        expect(fields).to eq(%w(text text.stemmed))
+      end
+    end
+
+    it 'preserves legacy fields when the flag is unset' do
+      ClimateControl.modify(ES_KOREAN_SEARCH_ENABLED: nil) do
+        fields = described_class::TermClause.new(nil, '마스토돈').to_query.dig(:multi_match, :fields)
+        expect(fields).to eq(%w(text text.stemmed))
+      end
+    end
+
     it 'includes the Korean field in normal term searches' do
       clause = described_class::TermClause.new(nil, '마스토돈')
 
