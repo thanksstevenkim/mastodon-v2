@@ -121,6 +121,32 @@ RSpec.describe 'Nori shadow migration integration', :search do # rubocop:disable
     expect(redis.sismember(key, status.id.to_s)).to be false
   end
 
+  it 'does not resurrect permanently deleted statuses from delayed indexing' do
+    id = status.id
+
+    [StatusesIndex, PublicStatusesIndex].each do |index_class|
+      index_class.import!([id])
+      NoriSearch::ShadowImporter.import!(index_class, [id])
+      expect_documents(index_class, [id], present: true)
+    end
+
+    expect(Status.unscoped.where(id: id).delete_all).to eq(1)
+    expect(Status.unscoped.exists?(id)).to be false
+
+    [StatusesIndex, PublicStatusesIndex].each do |index_class|
+      key = "chewy:queue:#{index_class.name}"
+      redis.sadd(key, id.to_s)
+      expect(redis.sismember(key, id.to_s)).to be true
+    end
+
+    Scheduler::IndexingScheduler.new.perform
+
+    [StatusesIndex, PublicStatusesIndex].each do |index_class|
+      expect_documents(index_class, [id], present: false)
+      expect(redis.sismember("chewy:queue:#{index_class.name}", id.to_s)).to be false
+    end
+  end
+
   it 'preserves the Redis queue when the Nori index is missing' do
     key = "chewy:queue:#{StatusesIndex.name}"
     redis.sadd(key, status.id.to_s)
