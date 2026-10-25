@@ -40,6 +40,26 @@ RSpec.describe 'Nori shadow migration integration', :search do # rubocop:disable
     end
   end
 
+  def create_vacuum_statuses
+    remote_account = Fabricate(:remote_account)
+    old_remote = Fabricate(:status, account: remote_account, created_at: 9.days.ago)
+    recent_remote = Fabricate(:status, account: remote_account, created_at: 5.days.ago)
+    old_local = Fabricate(:status, account: account, created_at: 9.days.ago)
+
+    Fabricate(:mention, account: account, status: old_remote)
+    Fabricate(:mention, account: account, status: recent_remote)
+
+    [old_remote, recent_remote, old_local]
+  end
+
+  def import_vacuum_documents(ids)
+    [StatusesIndex, PublicStatusesIndex].each do |index_class|
+      index_class.import!(ids)
+      NoriSearch::ShadowImporter.import!(index_class, ids)
+      expect_documents(index_class, ids, present: true)
+    end
+  end
+
   def indexed?(index_name)
     client.indices.refresh(index: index_name)
     client.exists?(index: index_name, id: status.id)
@@ -148,22 +168,12 @@ RSpec.describe 'Nori shadow migration integration', :search do # rubocop:disable
   end
 
   it 'removes expired remote statuses from both index generations after vacuum' do
-    remote_account = Fabricate(:remote_account)
-    old_remote = Fabricate(:status, account: remote_account, created_at: 9.days.ago)
-    recent_remote = Fabricate(:status, account: remote_account, created_at: 5.days.ago)
-    old_local = Fabricate(:status, account: account, created_at: 9.days.ago)
-
-    Fabricate(:mention, account: account, status: old_remote)
-    Fabricate(:mention, account: account, status: recent_remote)
+    old_remote, recent_remote, old_local = create_vacuum_statuses
 
     survivors = [recent_remote.id, old_local.id]
     ids = [old_remote.id, *survivors]
 
-    [StatusesIndex, PublicStatusesIndex].each do |index_class|
-      index_class.import!(ids)
-      NoriSearch::ShadowImporter.import!(index_class, ids)
-      expect_documents(index_class, ids, present: true)
-    end
+    import_vacuum_documents(ids)
 
     Vacuum::StatusesVacuum.new(7.days).perform
 
