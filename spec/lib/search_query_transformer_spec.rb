@@ -149,4 +149,70 @@ RSpec.describe SearchQueryTransformer do
       expect(subject.send(:filter_clauses).map(&:prefix)).to contain_exactly('from', 'has')
     end
   end
+
+  describe 'Nori search queries' do
+    around do |example|
+      ClimateControl.modify(ES_KOREAN_SEARCH_ENABLED: 'true') { example.run }
+    end
+
+    it 'preserves legacy fields when Nori is disabled' do
+      ClimateControl.modify(ES_KOREAN_SEARCH_ENABLED: 'false') do
+        fields = described_class::TermClause.new(nil, '마스토돈').to_query.dig(:multi_match, :fields)
+        expect(fields).to eq(%w(text text.stemmed))
+      end
+    end
+
+    it 'preserves legacy fields when the flag is unset' do
+      ClimateControl.modify(ES_KOREAN_SEARCH_ENABLED: nil) do
+        fields = described_class::TermClause.new(nil, '마스토돈').to_query.dig(:multi_match, :fields)
+        expect(fields).to eq(%w(text text.stemmed))
+      end
+    end
+
+    it 'includes the Korean field in normal term searches' do
+      clause = described_class::TermClause.new(nil, '마스토돈')
+
+      expect(clause.to_query).to eq(
+        multi_match: {
+          type: 'most_fields',
+          query: '마스토돈',
+          fields: %w(text text.stemmed text.korean),
+          operator: 'and',
+        }
+      )
+    end
+
+    it 'preserves negative search operators' do
+      clause = described_class::TermClause.new('-', '겨자별')
+
+      expect(clause.operator).to eq(:must_not)
+      expect(clause.to_query.dig(:multi_match, :fields))
+        .to eq(%w(text text.stemmed text.korean))
+    end
+
+    it 'preserves hashtag search behavior' do
+      clause = described_class::TermClause.new(nil, '#겨자별')
+
+      expect(clause.to_query).to eq(
+        match: {
+          tags: {
+            query: '#겨자별',
+            operator: 'and',
+          },
+        }
+      )
+    end
+
+    it 'preserves exact phrase search behavior' do
+      clause = described_class::PhraseClause.new(nil, '겨자별 공지사항')
+
+      expect(clause.to_query).to eq(
+        match_phrase: {
+          text: {
+            query: '겨자별 공지사항',
+          },
+        }
+      )
+    end
+  end
 end

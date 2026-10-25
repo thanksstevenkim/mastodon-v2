@@ -125,7 +125,10 @@ class SearchQueryTransformer < Parslet::Transform
       if @term.start_with?('#')
         { match: { tags: { query: @term, operator: 'and' } } }
       else
-        { multi_match: { type: 'most_fields', query: @term, fields: ['text', 'text.stemmed'], operator: 'and' } }
+        fields = %w(text text.stemmed)
+        fields << 'text.korean' if ENV['ES_KOREAN_SEARCH_ENABLED'] == 'true'
+
+        { multi_match: { type: 'most_fields', query: @term, fields: fields, operator: 'and' } }
       end
     end
   end
