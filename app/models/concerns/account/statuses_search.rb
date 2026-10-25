@@ -35,10 +35,8 @@ module Account::StatusesSearch
       success = PublicStatusesIndex.import(batch)
 
       if NoriSearch::ShadowImporter.enabled?
-        unless success
-          raise NoriSearch::ShadowImporter::LegacyImportFailed,
-                'Legacy public index import failed'
-        end
+        raise NoriSearch::ShadowImporter::LegacyImportFailed,
+              'Legacy public index import failed' unless success
 
         NoriSearch::ShadowImporter.import!(
           PublicStatusesIndex,

@@ -43,28 +43,37 @@ RSpec.describe RemoveFromPublicStatusesIndexWorker do
       it 'does not access indices when Chewy is disabled' do
         allow(Chewy).to receive(:enabled?).and_return(false)
 
-        expect(PublicStatusesIndex).not_to receive(:filter)
-        expect(NoriSearch::ShadowImporter)
-          .not_to receive(:remove_public_account!)
+        allow(PublicStatusesIndex).to receive(:filter)
+        allow(NoriSearch::ShadowImporter)
+          .to receive(:remove_public_account!)
 
-        expect { subject.perform(account_id) }.not_to raise_error
+        expect { subject.perform(account_id) }.to_not raise_error
+        expect(PublicStatusesIndex).to_not have_received(:filter)
+        expect(NoriSearch::ShadowImporter).to_not have_received(:remove_public_account!)
       end
 
       it 'cleans up both index generations' do
         allow(Chewy).to receive(:enabled?).and_return(true)
 
         query = double
-        expect(PublicStatusesIndex).to receive(:filter)
+        allow(PublicStatusesIndex).to receive(:filter)
           .with(term: { account_id: account_id })
           .and_return(query)
-        expect(query).to receive(:delete_all).and_return(true)
+        allow(query).to receive(:delete_all).and_return(true)
 
-        expect(NoriSearch::ShadowImporter)
+        allow(NoriSearch::ShadowImporter)
           .to receive(:remove_public_account!)
           .with(account_id)
           .and_return(true)
 
         subject.perform(account_id)
+
+        expect(PublicStatusesIndex).to have_received(:filter)
+          .with(term: { account_id: account_id })
+        expect(query).to have_received(:delete_all)
+        expect(NoriSearch::ShadowImporter)
+          .to have_received(:remove_public_account!)
+          .with(account_id)
       end
 
       it 'propagates a Nori deletion failure' do

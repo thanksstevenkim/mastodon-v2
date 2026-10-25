@@ -11,14 +11,11 @@ module NoriSearch
 
     def initialize(base_name:, prefix: nil)
       name = base_name.to_s
-      unless SUPPORTED_INDEXES.include?(name)
-        raise ArgumentError, 'Unsupported search index'
-      end
+      raise ArgumentError, 'Unsupported search index' unless SUPPORTED_INDEXES.include?(name)
 
       prefix = prefix.to_s
-      unless prefix.empty? || prefix.match?(/\A[a-z0-9][a-z0-9._-]*\z/)
-        raise ArgumentError, 'Invalid index prefix'
-      end
+      valid_prefix = prefix.empty? || prefix.match?(/\A[a-z0-9][a-z0-9._-]*\z/)
+      raise ArgumentError, 'Invalid index prefix' unless valid_prefix
 
       root = [prefix, name].reject(&:empty?).join('_')
 

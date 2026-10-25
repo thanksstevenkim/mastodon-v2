@@ -22,14 +22,11 @@ module NoriSearch
         prefix: index_class.prefix
       )
 
-      unless index_class.index_name == targets.legacy &&
-             index_class.index_name(suffix: SUFFIX) == targets.nori
-        raise UnexpectedTarget, 'Nori index name mismatch'
-      end
+      valid_target = index_class.index_name == targets.legacy &&
+                     index_class.index_name(suffix: SUFFIX) == targets.nori
+      raise UnexpectedTarget, 'Nori index name mismatch' unless valid_target
 
-      unless index_class.client.indices.exists(index: targets.nori)
-        raise MissingIndex, "Nori target unavailable: #{targets.nori}"
-      end
+      raise MissingIndex, "Nori target unavailable: #{targets.nori}" unless index_class.client.indices.exists(index: targets.nori)
 
       index_class.import!(ids, suffix: SUFFIX)
     end
@@ -37,9 +34,7 @@ module NoriSearch
     def self.remove_public_account!(account_id)
       return true unless enabled?
 
-      unless account_id.is_a?(Integer) && account_id.positive?
-        raise ArgumentError, 'Invalid account ID'
-      end
+      raise ArgumentError, 'Invalid account ID' unless account_id.is_a?(Integer) && account_id.positive?
 
       index_class = PublicStatusesIndex
       targets = IndexTargets.new(
@@ -47,16 +42,13 @@ module NoriSearch
         prefix: index_class.prefix
       )
 
-      unless index_class.index_name == targets.legacy &&
-             index_class.index_name(suffix: SUFFIX) == targets.nori
-        raise UnexpectedTarget, 'Nori index name mismatch'
-      end
+      valid_target = index_class.index_name == targets.legacy &&
+                     index_class.index_name(suffix: SUFFIX) == targets.nori
+      raise UnexpectedTarget, 'Nori index name mismatch' unless valid_target
 
       client = index_class.client
 
-      unless client.indices.exists(index: targets.nori)
-        raise MissingIndex, "Nori target unavailable: #{targets.nori}"
-      end
+      raise MissingIndex, "Nori target unavailable: #{targets.nori}" unless client.indices.exists(index: targets.nori)
 
       result = client.delete_by_query(
         index: targets.nori,
@@ -66,16 +58,14 @@ module NoriSearch
         wait_for_completion: true
       )
 
-      unless result.is_a?(Hash) &&
-             result['timed_out'] == false &&
-             result['failures'] == [] &&
-             result['version_conflicts'] == 0 &&
-             result.fetch('_shards', {}).fetch('failed', 0) == 0
-        raise IncompleteDeletion, 'Nori account deletion incomplete'
-      end
+      completed = result.is_a?(Hash) &&
+                  result['timed_out'] == false &&
+                  result['failures'] == [] &&
+                  result['version_conflicts'].zero? &&
+                  result.fetch('_shards', {}).fetch('failed', 0).zero?
+      raise IncompleteDeletion, 'Nori account deletion incomplete' unless completed
 
       true
     end
-
   end
 end

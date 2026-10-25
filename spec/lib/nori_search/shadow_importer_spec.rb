@@ -8,8 +8,9 @@ RSpec.describe NoriSearch::ShadowImporter do
 
   it 'does not write when disabled' do
     ClimateControl.modify(ES_NORI_SHADOW_WRITES_ENABLED: nil) do
-      expect(index_class).not_to receive(:import!)
+      allow(index_class).to receive(:import!)
       expect(described_class.import!(index_class, ids)).to be true
+      expect(index_class).to_not have_received(:import!)
     end
   end
 
@@ -18,11 +19,12 @@ RSpec.describe NoriSearch::ShadowImporter do
       indices = double(exists: true)
       allow(index_class).to receive(:client).and_return(double(indices: indices))
 
-      expect(index_class).to receive(:import!)
+      allow(index_class).to receive(:import!)
         .with(ids, suffix: 'nori_v1')
         .and_return(true)
 
       expect(described_class.import!(index_class, ids)).to be true
+      expect(index_class).to have_received(:import!).with(ids, suffix: 'nori_v1')
     end
   end
 
@@ -31,18 +33,20 @@ RSpec.describe NoriSearch::ShadowImporter do
       indices = double(exists: false)
       allow(index_class).to receive(:client).and_return(double(indices: indices))
 
-      expect(index_class).not_to receive(:import!)
+      allow(index_class).to receive(:import!)
 
       expect do
         described_class.import!(index_class, ids)
       end.to raise_error(described_class::MissingIndex)
+      expect(index_class).to_not have_received(:import!)
     end
   end
 
   it 'leaves unrelated indices alone' do
     ClimateControl.modify(ES_NORI_SHADOW_WRITES_ENABLED: 'true') do
-      expect(AccountsIndex).not_to receive(:import!)
+      allow(AccountsIndex).to receive(:import!)
       expect(described_class.import!(AccountsIndex, ids)).to be true
+      expect(AccountsIndex).to_not have_received(:import!)
     end
   end
 
@@ -62,12 +66,12 @@ RSpec.describe NoriSearch::ShadowImporter do
     end
 
     it 'deletes the account from the Nori index' do
-      expect(client).to receive(:delete_by_query).with(
+      allow(client).to receive(:delete_by_query).with(
         index: 'public_statuses_nori_v1',
         body: {
           query: {
-            term: { account_id: 2002 }
-          }
+            term: { account_id: 2002 },
+          },
         },
         refresh: true,
         conflicts: 'abort',
@@ -79,6 +83,7 @@ RSpec.describe NoriSearch::ShadowImporter do
       )
 
       expect(described_class.remove_public_account!(2002)).to be true
+      expect(client).to have_received(:delete_by_query)
     end
 
     it 'rejects incomplete deletion responses' do
@@ -100,5 +105,4 @@ RSpec.describe NoriSearch::ShadowImporter do
       end.to raise_error(ArgumentError)
     end
   end
-
 end
