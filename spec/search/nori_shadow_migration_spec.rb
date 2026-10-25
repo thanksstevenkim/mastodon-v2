@@ -99,6 +99,28 @@ RSpec.describe 'Nori shadow migration integration', :search do # rubocop:disable
     end
   end
 
+  it 'does not resurrect revoked public documents from delayed indexing' do
+    expect(status).to be_persisted
+
+    account.add_to_public_statuses_index!
+    expect_documents(PublicStatusesIndex, [status.id], present: true)
+
+    account.update!(indexable: false)
+    RemoveFromPublicStatusesIndexWorker.new.perform(account.id)
+
+    expect_documents(PublicStatusesIndex, [status.id], present: false)
+
+    key = "chewy:queue:#{PublicStatusesIndex.name}"
+    redis.sadd(key, status.id.to_s)
+
+    expect(redis.sismember(key, status.id.to_s)).to be true
+
+    Scheduler::IndexingScheduler.new.perform
+
+    expect_documents(PublicStatusesIndex, [status.id], present: false)
+    expect(redis.sismember(key, status.id.to_s)).to be false
+  end
+
   it 'preserves the Redis queue when the Nori index is missing' do
     key = "chewy:queue:#{StatusesIndex.name}"
     redis.sadd(key, status.id.to_s)
