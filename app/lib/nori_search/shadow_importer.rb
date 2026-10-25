@@ -50,13 +50,15 @@ module NoriSearch
 
       raise MissingIndex, "Nori target unavailable: #{targets.nori}" unless client.indices.exists(index: targets.nori)
 
-      result = client.delete_by_query(
+      response = client.delete_by_query(
         index: targets.nori,
         body: { query: { term: { account_id: account_id } } },
         refresh: true,
         conflicts: 'abort',
         wait_for_completion: true
       )
+
+      result = response.body
 
       completed = result.is_a?(Hash) &&
                   result['timed_out'] == false &&

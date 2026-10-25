@@ -77,9 +77,13 @@ RSpec.describe NoriSearch::ShadowImporter do
         conflicts: 'abort',
         wait_for_completion: true
       ).and_return(
-        'timed_out' => false,
-        'failures' => [],
-        'version_conflicts' => 0
+        Elasticsearch::API::Response.new(
+          double(body: {
+            'timed_out' => false,
+            'failures' => [],
+            'version_conflicts' => 0,
+          })
+        )
       )
 
       expect(described_class.remove_public_account!(2002)).to be true
@@ -89,9 +93,13 @@ RSpec.describe NoriSearch::ShadowImporter do
     it 'rejects incomplete deletion responses' do
       allow(client).to receive(:delete_by_query)
         .and_return(
-          'timed_out' => true,
-          'failures' => [],
-          'version_conflicts' => 0
+          Elasticsearch::API::Response.new(
+            double(body: {
+              'timed_out' => true,
+              'failures' => [],
+              'version_conflicts' => 0,
+            })
+          )
         )
 
       expect do
