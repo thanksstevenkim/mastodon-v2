@@ -60,6 +60,20 @@ RSpec.describe 'Nori shadow migration integration', :search do # rubocop:disable
     end
   end
 
+  def revoke_before_nori_bulk
+    intercepted = false
+
+    allow(PublicStatusesIndex.client).to receive(:bulk).and_wrap_original do |original, **options|
+      if options[:index] == PublicStatusesIndex.index_name(suffix: 'nori_v1') && !intercepted
+        intercepted = true
+        account.update!(indexable: false)
+        RemoveFromPublicStatusesIndexWorker.new.perform(account.id)
+      end
+
+      original.call(**options)
+    end
+  end
+
   def indexed?(index_name)
     client.indices.refresh(index: index_name)
     client.exists?(index: index_name, id: status.id)
@@ -194,6 +208,24 @@ RSpec.describe 'Nori shadow migration integration', :search do # rubocop:disable
       key = "chewy:queue:#{index_class.name}"
       expect(redis.sismember(key, old_remote.id.to_s)).to be false
     end
+  end
+
+  it 'does not resurrect revoked documents during an in-flight Nori bulk' do
+    expect(status).to be_persisted
+
+    account.add_to_public_statuses_index!
+    expect_documents(PublicStatusesIndex, [status.id], present: true)
+
+    key = "chewy:queue:#{PublicStatusesIndex.name}"
+    redis.sadd(key, status.id.to_s)
+
+    revoke_before_nori_bulk
+
+    Scheduler::IndexingScheduler.new.perform
+
+    expect(account.reload).to_not be_indexable
+    expect(redis.sismember(key, status.id.to_s)).to be false
+    expect_documents(PublicStatusesIndex, [status.id], present: false)
   end
 
   it 'preserves the Redis queue when the Nori index is missing' do
