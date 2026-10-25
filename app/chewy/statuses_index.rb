@@ -90,7 +90,7 @@ class StatusesIndex < Chewy::Index
       field(:stemmed, type: 'text', analyzer: 'content')
       field(:korean, type: 'text', analyzer: 'korean') if korean_search_enabled
     end
-    field(:tags, type: 'text', analyzer: 'hashtag',  value: ->(status) { status.tags.map(&:display_name) })
+    field(:tags, type: 'text', analyzer: 'hashtag', value: ->(status) { status.tags.map(&:display_name) })
     field(:searchable_by, type: 'long', value: ->(status) { status.searchable_by })
     field(:language, type: 'keyword')
     field(:properties, type: 'keyword', value: ->(status) { status.searchable_properties })
