@@ -45,6 +45,8 @@ RSpec.describe 'Nori shadow migration integration', :search do # rubocop:disable
   end
 
   it 'removes public status documents from both indices after revocation' do
+    expect(status).to be_persisted
+
     account.add_to_public_statuses_index!
 
     expect(indexed?(PublicStatusesIndex.index_name)).to be true
