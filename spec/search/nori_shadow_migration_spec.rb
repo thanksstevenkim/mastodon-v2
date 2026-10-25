@@ -147,6 +147,45 @@ RSpec.describe 'Nori shadow migration integration', :search do # rubocop:disable
     end
   end
 
+  it 'removes expired remote statuses from both index generations after vacuum' do
+    remote_account = Fabricate(:remote_account)
+    old_remote = Fabricate(:status, account: remote_account, created_at: 9.days.ago)
+    recent_remote = Fabricate(:status, account: remote_account, created_at: 5.days.ago)
+    old_local = Fabricate(:status, account: account, created_at: 9.days.ago)
+
+    Fabricate(:mention, account: account, status: old_remote)
+    Fabricate(:mention, account: account, status: recent_remote)
+
+    survivors = [recent_remote.id, old_local.id]
+    ids = [old_remote.id, *survivors]
+
+    [StatusesIndex, PublicStatusesIndex].each do |index_class|
+      index_class.import!(ids)
+      NoriSearch::ShadowImporter.import!(index_class, ids)
+      expect_documents(index_class, ids, present: true)
+    end
+
+    Vacuum::StatusesVacuum.new(7.days).perform
+
+    expect(Status.unscoped.exists?(old_remote.id)).to be false
+    expect(Status.unscoped.where(id: survivors).count).to eq(2)
+
+    [StatusesIndex, PublicStatusesIndex].each do |index_class|
+      key = "chewy:queue:#{index_class.name}"
+      expect(redis.sismember(key, old_remote.id.to_s)).to be true
+    end
+
+    Scheduler::IndexingScheduler.new.perform
+
+    [StatusesIndex, PublicStatusesIndex].each do |index_class|
+      expect_documents(index_class, [old_remote.id], present: false)
+      expect_documents(index_class, survivors, present: true)
+
+      key = "chewy:queue:#{index_class.name}"
+      expect(redis.sismember(key, old_remote.id.to_s)).to be false
+    end
+  end
+
   it 'preserves the Redis queue when the Nori index is missing' do
     key = "chewy:queue:#{StatusesIndex.name}"
     redis.sadd(key, status.id.to_s)
