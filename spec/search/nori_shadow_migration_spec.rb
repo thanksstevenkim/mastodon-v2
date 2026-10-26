@@ -1,0 +1,347 @@
+# frozen_string_literal: true
+
+require 'rails_helper'
+
+RSpec.describe 'Nori shadow migration integration', :search do # rubocop:disable RSpec/DescribeClass
+  let(:client) { Chewy.client }
+  let(:account) { Fabricate(:account, indexable: true) }
+  let(:status) { Fabricate(:status, account: account, visibility: :public) }
+
+  around do |example|
+    ClimateControl.modify(ES_NORI_SHADOW_WRITES_ENABLED: 'true') do
+      example.run
+    end
+  end
+
+  before do
+    skip 'Nori integration is disabled' unless ENV['ES_KOREAN_SEARCH_ENABLED'] == 'true'
+
+    [StatusesIndex, PublicStatusesIndex].each do |index_class|
+      index_class.create! unless index_class.exists?
+      index_class.create!('nori_v1', alias: false) unless index_class.exists?('nori_v1')
+    end
+  end
+
+  after do
+    [StatusesIndex, PublicStatusesIndex].each do |index_class|
+      index_class.delete('nori_v1') if index_class.exists?('nori_v1')
+    end
+  end
+
+  def expect_documents(index_class, ids, present:)
+    [
+      index_class.index_name,
+      index_class.index_name(suffix: 'nori_v1'),
+    ].each do |name|
+      client.indices.refresh(index: name)
+      results = ids.map { |id| client.exists?(index: name, id: id) }
+
+      expect(results).to all(eq(present))
+    end
+  end
+
+  def create_vacuum_statuses
+    remote_account = Fabricate(:remote_account)
+    old_remote = Fabricate(:status, account: remote_account, created_at: 9.days.ago)
+    recent_remote = Fabricate(:status, account: remote_account, created_at: 5.days.ago)
+    old_local = Fabricate(:status, account: account, created_at: 9.days.ago)
+
+    Fabricate(:mention, account: account, status: old_remote)
+    Fabricate(:mention, account: account, status: recent_remote)
+
+    [old_remote, recent_remote, old_local]
+  end
+
+  def import_vacuum_documents(ids)
+    [StatusesIndex, PublicStatusesIndex].each do |index_class|
+      index_class.import!(ids)
+      NoriSearch::ShadowImporter.import!(index_class, ids)
+      expect_documents(index_class, ids, present: true)
+    end
+  end
+
+  def revoke_before_nori_bulk
+    intercepted = false
+
+    allow(PublicStatusesIndex.client).to receive(:bulk).and_wrap_original do |original, **options|
+      if options[:index] == PublicStatusesIndex.index_name(suffix: 'nori_v1') && !intercepted
+        intercepted = true
+        account.update!(indexable: false)
+        RemoveFromPublicStatusesIndexWorker.new.perform(account.id)
+      end
+
+      original.call(**options)
+    end
+  end
+
+  def fail_first_nori_reconciliation_import
+    pending_failure = true
+
+    allow(PublicStatusesIndex).to receive(:import!).and_wrap_original do |original, *args, **options|
+      if pending_failure && options[:suffix] == 'nori_v1' && !account.reload.indexable?
+        pending_failure = false
+        raise IOError, 'Simulated Nori reconciliation failure'
+      end
+
+      original.call(*args, **options)
+    end
+  end
+
+  def revoke_after_primary_reconciliation
+    allow(NoriSearch::ShadowImporter).to receive(:reconcile_public_statuses!).and_wrap_original do |original, *args|
+      result = original.call(*args)
+      account.update!(indexable: false)
+      result
+    end
+  end
+
+  def fail_first_nori_account_deletion
+    pending_failure = true
+
+    allow(client).to receive(:delete_by_query).and_wrap_original do |original, *args, **options|
+      request = options.empty? && args.last.is_a?(Hash) ? args.last : options
+
+      if pending_failure && request[:index] == PublicStatusesIndex.index_name(suffix: 'nori_v1')
+        pending_failure = false
+        raise IOError, 'Simulated Nori account deletion failure'
+      end
+
+      original.call(*args, **options)
+    end
+  end
+
+  def indexed?(index_name)
+    client.indices.refresh(index: index_name)
+    client.exists?(index: index_name, id: status.id)
+  end
+
+  it 'synchronizes queued status updates to both physical indices' do
+    key = "chewy:queue:#{StatusesIndex.name}"
+    redis.sadd(key, status.id.to_s)
+
+    Scheduler::IndexingScheduler.new.perform
+
+    expect(indexed?(StatusesIndex.index_name)).to be true
+    expect(indexed?(StatusesIndex.index_name(suffix: 'nori_v1'))).to be true
+    expect(redis.sismember(key, status.id.to_s)).to be false
+  end
+
+  it 'removes public status documents from both indices after revocation' do
+    expect(status).to be_persisted
+
+    account.add_to_public_statuses_index!
+
+    expect(indexed?(PublicStatusesIndex.index_name)).to be true
+    expect(indexed?(PublicStatusesIndex.index_name(suffix: 'nori_v1'))).to be true
+
+    account.update!(indexable: false)
+    RemoveFromPublicStatusesIndexWorker.new.perform(account.id)
+
+    expect(indexed?(PublicStatusesIndex.index_name)).to be false
+    expect(indexed?(PublicStatusesIndex.index_name(suffix: 'nori_v1'))).to be false
+  end
+
+  it 'removes batched-deleted statuses from both index generations' do
+    statuses = [status, Fabricate(:status, account: account, visibility: :public)]
+    ids = statuses.map(&:id)
+
+    [StatusesIndex, PublicStatusesIndex].each do |index_class|
+      index_class.import!(ids)
+      NoriSearch::ShadowImporter.import!(index_class, ids)
+      expect_documents(index_class, ids, present: true)
+    end
+
+    Chewy.strategy(:mastodon) do
+      BatchedRemoveStatusService.new.call(statuses, skip_side_effects: true)
+    end
+
+    expect(Status.unscoped.where(id: ids)).to be_empty
+
+    [StatusesIndex, PublicStatusesIndex].each do |index_class|
+      key = "chewy:queue:#{index_class.name}"
+      expect(redis.smembers(key)).to include(*ids.map(&:to_s))
+    end
+
+    Scheduler::IndexingScheduler.new.perform
+
+    [StatusesIndex, PublicStatusesIndex].each do |index_class|
+      expect_documents(index_class, ids, present: false)
+    end
+  end
+
+  it 'does not resurrect revoked public documents from delayed indexing' do
+    expect(status).to be_persisted
+
+    account.add_to_public_statuses_index!
+    expect_documents(PublicStatusesIndex, [status.id], present: true)
+
+    account.update!(indexable: false)
+    RemoveFromPublicStatusesIndexWorker.new.perform(account.id)
+
+    expect_documents(PublicStatusesIndex, [status.id], present: false)
+
+    key = "chewy:queue:#{PublicStatusesIndex.name}"
+    redis.sadd(key, status.id.to_s)
+
+    expect(redis.sismember(key, status.id.to_s)).to be true
+
+    Scheduler::IndexingScheduler.new.perform
+
+    expect_documents(PublicStatusesIndex, [status.id], present: false)
+    expect(redis.sismember(key, status.id.to_s)).to be false
+  end
+
+  it 'does not resurrect permanently deleted statuses from delayed indexing' do
+    id = status.id
+
+    [StatusesIndex, PublicStatusesIndex].each do |index_class|
+      index_class.import!([id])
+      NoriSearch::ShadowImporter.import!(index_class, [id])
+      expect_documents(index_class, [id], present: true)
+    end
+
+    expect(Status.unscoped.where(id: id).delete_all).to eq(1)
+    expect(Status.unscoped.exists?(id)).to be false
+
+    [StatusesIndex, PublicStatusesIndex].each do |index_class|
+      key = "chewy:queue:#{index_class.name}"
+      redis.sadd(key, id.to_s)
+      expect(redis.sismember(key, id.to_s)).to be true
+    end
+
+    Scheduler::IndexingScheduler.new.perform
+
+    [StatusesIndex, PublicStatusesIndex].each do |index_class|
+      expect_documents(index_class, [id], present: false)
+      expect(redis.sismember("chewy:queue:#{index_class.name}", id.to_s)).to be false
+    end
+  end
+
+  it 'removes expired remote statuses from both index generations after vacuum' do
+    old_remote, recent_remote, old_local = create_vacuum_statuses
+
+    survivors = [recent_remote.id, old_local.id]
+    ids = [old_remote.id, *survivors]
+
+    import_vacuum_documents(ids)
+
+    Vacuum::StatusesVacuum.new(7.days).perform
+
+    expect(Status.unscoped.exists?(old_remote.id)).to be false
+    expect(Status.unscoped.where(id: survivors).count).to eq(2)
+
+    [StatusesIndex, PublicStatusesIndex].each do |index_class|
+      key = "chewy:queue:#{index_class.name}"
+      expect(redis.sismember(key, old_remote.id.to_s)).to be true
+    end
+
+    Scheduler::IndexingScheduler.new.perform
+
+    [StatusesIndex, PublicStatusesIndex].each do |index_class|
+      expect_documents(index_class, [old_remote.id], present: false)
+      expect_documents(index_class, survivors, present: true)
+
+      key = "chewy:queue:#{index_class.name}"
+      expect(redis.sismember(key, old_remote.id.to_s)).to be false
+    end
+  end
+
+  it 'does not resurrect revoked documents during an in-flight Nori bulk' do
+    expect(status).to be_persisted
+
+    account.add_to_public_statuses_index!
+    expect_documents(PublicStatusesIndex, [status.id], present: true)
+
+    key = "chewy:queue:#{PublicStatusesIndex.name}"
+    redis.sadd(key, status.id.to_s)
+
+    revoke_before_nori_bulk
+
+    Scheduler::IndexingScheduler.new.perform
+
+    expect(account.reload).to_not be_indexable
+    expect(redis.sismember(key, status.id.to_s)).to be false
+    expect_documents(PublicStatusesIndex, [status.id], present: false)
+  end
+
+  it 'processes revocation after primary reconciliation and queue acknowledgement' do
+    expect(status).to be_persisted
+    account.add_to_public_statuses_index!
+    expect_documents(PublicStatusesIndex, [status.id], present: true)
+
+    key = "chewy:queue:#{PublicStatusesIndex.name}"
+    redis.sadd(key, status.id.to_s)
+
+    revoke_after_primary_reconciliation
+    Scheduler::IndexingScheduler.new.perform
+
+    expect(account.reload).to_not be_indexable
+    expect(redis.sismember(key, status.id.to_s)).to be false
+    expect(RemoveFromPublicStatusesIndexWorker.jobs.pluck('args'))
+      .to include([account.id])
+
+    RemoveFromPublicStatusesIndexWorker.new.perform(account.id)
+
+    expect_documents(PublicStatusesIndex, [status.id], present: false)
+  end
+
+  it 'retains queued updates when Nori reconciliation fails and recovers' do
+    expect(status).to be_persisted
+    account.add_to_public_statuses_index!
+    expect_documents(PublicStatusesIndex, [status.id], present: true)
+
+    key = "chewy:queue:#{PublicStatusesIndex.name}"
+    redis.sadd(key, status.id.to_s)
+
+    revoke_before_nori_bulk
+    fail_first_nori_reconciliation_import
+
+    expect do
+      Scheduler::IndexingScheduler.new.perform
+    end.to raise_error(IOError, 'Simulated Nori reconciliation failure')
+
+    expect(account.reload).to_not be_indexable
+    expect(redis.sismember(key, status.id.to_s)).to be true
+    expect(indexed?(PublicStatusesIndex.index_name(suffix: 'nori_v1'))).to be true
+
+    Scheduler::IndexingScheduler.new.perform
+
+    expect(redis.sismember(key, status.id.to_s)).to be false
+    expect_documents(PublicStatusesIndex, [status.id], present: false)
+  end
+
+  it 'recovers a partial account deletion when Nori removal fails' do
+    expect(status).to be_persisted
+    account.add_to_public_statuses_index!
+    expect_documents(PublicStatusesIndex, [status.id], present: true)
+
+    account.update!(indexable: false)
+    expect(RemoveFromPublicStatusesIndexWorker.jobs.pluck('args')).to include([account.id])
+    fail_first_nori_account_deletion
+
+    expect do
+      RemoveFromPublicStatusesIndexWorker.new.perform(account.id)
+    end.to raise_error(IOError, 'Simulated Nori account deletion failure')
+
+    expect(account.reload).to_not be_indexable
+    expect(indexed?(PublicStatusesIndex.index_name)).to be false
+    expect(indexed?(PublicStatusesIndex.index_name(suffix: 'nori_v1'))).to be true
+
+    RemoveFromPublicStatusesIndexWorker.new.perform(account.id)
+    expect_documents(PublicStatusesIndex, [status.id], present: false)
+  end
+
+  it 'preserves the Redis queue when the Nori index is missing' do
+    key = "chewy:queue:#{StatusesIndex.name}"
+    redis.sadd(key, status.id.to_s)
+
+    StatusesIndex.delete('nori_v1')
+
+    expect do
+      Scheduler::IndexingScheduler.new.perform
+    end.to raise_error(NoriSearch::ShadowImporter::MissingIndex)
+
+    expect(redis.sismember(key, status.id.to_s)).to be true
+    expect(indexed?(StatusesIndex.index_name)).to be true
+  end
+end

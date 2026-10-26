@@ -4,6 +4,10 @@ require 'rails_helper'
 
 # This integration spec covers both status indices, not a single class.
 RSpec.describe 'Korean search integration' do # rubocop:disable RSpec/DescribeClass
+  around do |example|
+    ClimateControl.modify(ES_NORI_READ_ENABLED: 'true') { example.run }
+  end
+
   before do
     skip 'Nori integration is disabled' unless ENV['ES_KOREAN_SEARCH_ENABLED'] == 'true'
   end

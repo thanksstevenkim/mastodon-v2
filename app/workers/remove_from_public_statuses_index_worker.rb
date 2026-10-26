@@ -10,6 +10,12 @@ class RemoveFromPublicStatusesIndexWorker
 
     account.remove_from_public_statuses_index!
   rescue ActiveRecord::RecordNotFound
-    true
+    return true unless Chewy.enabled?
+
+    PublicStatusesIndex.filter(
+      term: { account_id: account_id }
+    ).delete_all
+
+    NoriSearch::ShadowImporter.remove_public_account!(account_id)
   end
 end

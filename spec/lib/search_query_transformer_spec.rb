@@ -152,7 +152,7 @@ RSpec.describe SearchQueryTransformer do
 
   describe 'Nori search queries' do
     around do |example|
-      ClimateControl.modify(ES_KOREAN_SEARCH_ENABLED: 'true') { example.run }
+      ClimateControl.modify(ES_KOREAN_SEARCH_ENABLED: 'true', ES_NORI_READ_ENABLED: 'true') { example.run }
     end
 
     it 'preserves legacy fields when Nori is disabled' do
