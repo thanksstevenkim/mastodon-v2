@@ -73,17 +73,17 @@ candidate commit, indices and environment before approval.
 
 ### Mandatory gates
 
-| Gate | Requirement | Status |
-| --- | --- | --- |
-| G01 | Exact candidate passes all required CI checks | PARTIAL |
-| G02 | Physical index targets, mappings and resources verified | OPEN |
-| G03 | Both backfills complete with verified checkpoints | OPEN |
-| G04 | Durable dual-write, deletion and ACL retry safety | OPEN |
-| G05 | Concurrent mutation and stale-write safety | OPEN |
-| G06 | Exhaustive and stable Legacy/Nori consistency audit | OPEN |
-| G07 | Correct Nori read routing and search ACLs | OPEN |
-| G08 | Tested cutover and rollback under ongoing writes | OPEN |
-| G09 | Backup, recovery, monitoring and operator approval | OPEN |
+| Gate | Requirement                                             | Status  |
+| ---- | ------------------------------------------------------- | ------- |
+| G01  | Exact candidate passes all required CI checks           | PARTIAL |
+| G02  | Physical index targets, mappings and resources verified | OPEN    |
+| G03  | Both backfills complete with verified checkpoints       | OPEN    |
+| G04  | Durable dual-write, deletion and ACL retry safety       | OPEN    |
+| G05  | Concurrent mutation and stale-write safety              | OPEN    |
+| G06  | Exhaustive and stable Legacy/Nori consistency audit     | OPEN    |
+| G07  | Correct Nori read routing and search ACLs               | OPEN    |
+| G08  | Tested cutover and rollback under ongoing writes        | OPEN    |
+| G09  | Backup, recovery, monitoring and operator approval      | OPEN    |
 
 A gate remains OPEN until evidence for the current candidate
 demonstrates that its requirements have been met.
@@ -91,11 +91,13 @@ demonstrates that its requirements have been met.
 ### G01 — Candidate verification
 
 Required evidence:
+
 - All required workflow jobs complete successfully.
 - Nori integration tests pass on the exact candidate SHA.
 - Any post-test changes require the relevant checks to run again.
 
 Observed evidence:
+
 - 43 Nori integration examples passed at the baseline commit.
 - Ruby lint, formatting, CodeQL and relevant search tests passed.
 - Some general Ruby test jobs were still in progress at review.
@@ -103,6 +105,7 @@ Observed evidence:
 ### G02 — Index identity and resources
 
 Required evidence:
+
 - Both Legacy indices and both Nori indices are concrete,
   independently identified physical indices.
 - Their names, UUIDs, mappings, aliases and analyzer availability
@@ -114,6 +117,7 @@ Required evidence:
 ### G03 — Complete backfill
 
 Required evidence:
+
 - Public and private backfills cover all relevant sources.
 - Checkpoint generations match the intended Nori indices.
 - Cursor persistence and recovery behavior are verified.
@@ -121,6 +125,7 @@ Required evidence:
 - All queued updates accumulated during backfill are reconciled.
 
 Known limit:
+
 - Current checkpoint implementations are test-environment only.
 - Redis persistence and a production execution procedure
   have not been established.
@@ -128,6 +133,7 @@ Known limit:
 ### G04 — Durable synchronization and ACLs
 
 Required evidence:
+
 - Every required Legacy and Nori write outcome is checked.
 - Failed writes remain retryable and are not acknowledged as
   successfully synchronized.
@@ -136,6 +142,7 @@ Required evidence:
 - Queue acknowledgement occurs only after required durable work.
 
 Known risk:
+
 - ShadowImporter.import! does not currently reject every
   unsuccessful index_class.import! return value.
 - Any such failure must not cause pending indexing work
@@ -144,6 +151,7 @@ Known risk:
 ### G05 — Concurrent mutation safety
 
 Required evidence:
+
 - Delayed and out-of-order writes cannot resurrect deleted
   statuses or restore revoked search permissions.
 - Permission changes during backfill and during a sweep
@@ -154,6 +162,7 @@ Required evidence:
 ### G06 — Full consistency evidence
 
 Required evidence:
+
 - Both search index kinds are covered.
 - PostgreSQL source scopes, Legacy and Nori are exhausted.
 - Missing, extra and stale documents are detected.
@@ -163,6 +172,7 @@ Required evidence:
 - All mismatches are resolved before a GO decision.
 
 Known limit:
+
 - The existing sweep has no shared point-in-time snapshot
   across PostgreSQL and Elasticsearch.
 - Sweep completion therefore cannot certify live parity.
@@ -170,14 +180,16 @@ Known limit:
 ### G07 — Correct search routing
 
 Required evidence:
+
 - Search readers use the explicitly selected generation.
 - text.korean queries are issued only when the selected
   read indices provide that field and analyzer.
-- Combined public/private search preserves the _index-based
+- Combined public/private search preserves the \_index-based
   filtering and searchable_by permission semantics.
 - Cutover cannot partially select incompatible generations.
 
 Known limit:
+
 - SearchQueryTransformer still directly selects the
   existing index classes and their physical names.
 - Nori-specific read cutover is not implemented.
@@ -185,6 +197,7 @@ Known limit:
 ### G08 — Cutover and rollback
 
 Required evidence:
+
 - A production-isolated rehearsal exercises both directions.
 - Concurrent writes, deletions and revocations are covered.
 - A failed cutover stops safely without losing search ACLs.
@@ -194,6 +207,7 @@ Required evidence:
 ### G09 — Operational approval
 
 Required evidence:
+
 - Verified restorable backups and documented recovery steps.
 - Resource, Redis durability, queue health and failure alerts
   meet the operating plan.
@@ -204,16 +218,19 @@ Required evidence:
 ### Remaining work by stage
 
 STEP 78:
+
 - Close the write/retry, concurrent mutation and audit
   completeness gaps required by G03-G06.
 - Validate only the safety-critical paths changed.
 
 STEP 79:
+
 - Implement safe generation-aware search routing.
 - Rehearse cutover, failed cutover and rollback in isolation.
 - Capture G02, G07 and G08 evidence.
 
 STEP 80:
+
 - Refresh all evidence for the final candidate.
 - Complete the operating runbook, backup and resource checks.
 - Issue an explicit GO or NO-GO decision for G01-G09.
