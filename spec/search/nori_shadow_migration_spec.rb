@@ -262,7 +262,7 @@ RSpec.describe 'Nori shadow migration integration', :search do # rubocop:disable
 
     expect(account.reload).to_not be_indexable
     expect(redis.sismember(key, status.id.to_s)).to be false
-    expect(RemoveFromPublicStatusesIndexWorker.jobs.map { |job| job['args'] })
+    expect(RemoveFromPublicStatusesIndexWorker.jobs.pluck('args'))
       .to include([account.id])
 
     RemoveFromPublicStatusesIndexWorker.new.perform(account.id)
