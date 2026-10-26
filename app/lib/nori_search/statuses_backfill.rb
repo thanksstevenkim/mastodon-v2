@@ -41,9 +41,8 @@ module NoriSearch
             .map(&:id)
           ineligible_ids = status_ids - eligible_ids
 
-          if ineligible_ids.any?
-            raise ImportFailed, 'Nori permission reconciliation failed' unless index_class.import!(ineligible_ids, suffix: ShadowImporter::SUFFIX)
-          end
+          reconciliation_failed = ineligible_ids.any? && !index_class.import!(ineligible_ids, suffix: ShadowImporter::SUFFIX)
+          raise ImportFailed, 'Nori permission reconciliation failed' if reconciliation_failed
         end
 
         phase_complete = rows.size <= batch_size
