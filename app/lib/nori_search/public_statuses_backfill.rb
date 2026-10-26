@@ -10,9 +10,10 @@ module NoriSearch
     class ImportFailed < StandardError; end
 
     def self.run!(after_id:, batch_size:)
-      unless Rails.env.test? && ENV['ES_KOREAN_SEARCH_ENABLED'] == 'true' && ShadowImporter.enabled?
-        raise UnsafeEnvironment, 'Nori backfill is restricted to Nori-enabled test environments'
-      end
+      safe_environment = Rails.env.test? &&
+                         ENV['ES_KOREAN_SEARCH_ENABLED'] == 'true' &&
+                         ShadowImporter.enabled?
+      raise UnsafeEnvironment, 'Nori backfill is restricted to Nori-enabled test environments' unless safe_environment
 
       raise ArgumentError, 'Invalid cursor' unless after_id.is_a?(Integer) && after_id >= 0
       raise ArgumentError, 'Invalid batch size' unless batch_size.is_a?(Integer) && batch_size.between?(1, MAX_BATCH_SIZE)
@@ -39,9 +40,8 @@ module NoriSearch
           eligible_ids = index_class.adapter.default_scope.where(id: batch).pluck(:id)
           revoked_ids = batch - eligible_ids
 
-          if revoked_ids.any? && !index_class.import!(revoked_ids, suffix: ShadowImporter::SUFFIX)
-            raise ImportFailed, 'Nori revocation reconciliation failed'
-          end
+          reconciliation_failed = revoked_ids.any? && !index_class.import!(revoked_ids, suffix: ShadowImporter::SUFFIX)
+          raise ImportFailed, 'Nori revocation reconciliation failed' if reconciliation_failed
         end
 
         {
