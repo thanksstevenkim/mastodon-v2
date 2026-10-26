@@ -70,7 +70,7 @@ class FeaturedTag < ApplicationRecord
 
   def reset_data
     self.statuses_count = visible_tagged_account_statuses.count
-    self.last_status_at = visible_tagged_account_statuses.pick(:created_at)
+    self.last_status_at = statuses_count.positive? ? visible_tagged_account_statuses.pick(:created_at) : nil
   end
 
   def validate_featured_tags_limit
