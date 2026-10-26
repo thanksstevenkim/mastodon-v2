@@ -74,6 +74,19 @@ RSpec.describe 'Nori shadow migration integration', :search do # rubocop:disable
     end
   end
 
+  def fail_first_nori_reconciliation_import
+    pending_failure = true
+
+    allow(PublicStatusesIndex).to receive(:import!).and_wrap_original do |original, *args, **options|
+      if pending_failure && options[:suffix] == 'nori_v1' && !account.reload.indexable?
+        pending_failure = false
+        raise IOError, 'Simulated Nori reconciliation failure'
+      end
+
+      original.call(*args, **options)
+    end
+  end
+
   def indexed?(index_name)
     client.indices.refresh(index: index_name)
     client.exists?(index: index_name, id: status.id)
@@ -224,6 +237,31 @@ RSpec.describe 'Nori shadow migration integration', :search do # rubocop:disable
     Scheduler::IndexingScheduler.new.perform
 
     expect(account.reload).to_not be_indexable
+    expect(redis.sismember(key, status.id.to_s)).to be false
+    expect_documents(PublicStatusesIndex, [status.id], present: false)
+  end
+
+  it 'retains queued updates when Nori reconciliation fails and recovers' do
+    expect(status).to be_persisted
+    account.add_to_public_statuses_index!
+    expect_documents(PublicStatusesIndex, [status.id], present: true)
+
+    key = "chewy:queue:#{PublicStatusesIndex.name}"
+    redis.sadd(key, status.id.to_s)
+
+    revoke_before_nori_bulk
+    fail_first_nori_reconciliation_import
+
+    expect do
+      Scheduler::IndexingScheduler.new.perform
+    end.to raise_error(IOError, 'Simulated Nori reconciliation failure')
+
+    expect(account.reload).to_not be_indexable
+    expect(redis.sismember(key, status.id.to_s)).to be true
+    expect(indexed?(PublicStatusesIndex.index_name(suffix: 'nori_v1'))).to be true
+
+    Scheduler::IndexingScheduler.new.perform
+
     expect(redis.sismember(key, status.id.to_s)).to be false
     expect_documents(PublicStatusesIndex, [status.id], present: false)
   end
