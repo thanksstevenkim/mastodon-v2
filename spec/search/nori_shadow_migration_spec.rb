@@ -95,6 +95,19 @@ RSpec.describe 'Nori shadow migration integration', :search do # rubocop:disable
     end
   end
 
+  def fail_first_nori_account_deletion
+    pending_failure = true
+
+    allow(client).to receive(:delete_by_query).and_wrap_original do |original, **options|
+      if pending_failure && options[:index] == PublicStatusesIndex.index_name(suffix: 'nori_v1')
+        pending_failure = false
+        raise IOError, 'Simulated Nori account deletion failure'
+      end
+
+      original.call(**options)
+    end
+  end
+
   def indexed?(index_name)
     client.indices.refresh(index: index_name)
     client.exists?(index: index_name, id: status.id)
@@ -292,6 +305,27 @@ RSpec.describe 'Nori shadow migration integration', :search do # rubocop:disable
     Scheduler::IndexingScheduler.new.perform
 
     expect(redis.sismember(key, status.id.to_s)).to be false
+    expect_documents(PublicStatusesIndex, [status.id], present: false)
+  end
+
+  it 'recovers a partial account deletion when Nori removal fails' do
+    expect(status).to be_persisted
+    account.add_to_public_statuses_index!
+    expect_documents(PublicStatusesIndex, [status.id], present: true)
+
+    account.update!(indexable: false)
+    expect(RemoveFromPublicStatusesIndexWorker.jobs.pluck('args')).to include([account.id])
+    fail_first_nori_account_deletion
+
+    expect do
+      RemoveFromPublicStatusesIndexWorker.new.perform(account.id)
+    end.to raise_error(IOError, 'Simulated Nori account deletion failure')
+
+    expect(account.reload).to_not be_indexable
+    expect(indexed?(PublicStatusesIndex.index_name)).to be false
+    expect(indexed?(PublicStatusesIndex.index_name(suffix: 'nori_v1'))).to be true
+
+    RemoveFromPublicStatusesIndexWorker.new.perform(account.id)
     expect_documents(PublicStatusesIndex, [status.id], present: false)
   end
 
