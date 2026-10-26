@@ -2,6 +2,8 @@
 
 module NoriSearch
   class ShadowImporter
+    extend DatabaseHelper
+
     SUFFIX = 'nori_v1'
 
     class MissingIndex < StandardError; end
@@ -29,6 +31,21 @@ module NoriSearch
       raise MissingIndex, "Nori target unavailable: #{targets.nori}" unless index_class.client.indices.exists(index: targets.nori)
 
       index_class.import!(ids, suffix: SUFFIX)
+      reconcile_public_statuses!(index_class, ids) if index_class == PublicStatusesIndex
+
+      true
+    end
+
+    def self.reconcile_public_statuses!(index_class, ids)
+      with_primary do
+        eligible_ids = index_class.adapter.default_scope.where(id: ids).pluck(:id).map(&:to_s)
+        ineligible_ids = ids.map(&:to_s).uniq - eligible_ids
+
+        if ineligible_ids.any?
+          index_class.import!(ineligible_ids)
+          index_class.import!(ineligible_ids, suffix: SUFFIX)
+        end
+      end
     end
 
     def self.remove_public_account!(account_id)
