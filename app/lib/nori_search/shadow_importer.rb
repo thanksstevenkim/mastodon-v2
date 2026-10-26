@@ -9,6 +9,7 @@ module NoriSearch
     class MissingIndex < StandardError; end
     class UnexpectedTarget < StandardError; end
     class LegacyImportFailed < StandardError; end
+    class ImportFailed < StandardError; end
     class IncompleteDeletion < StandardError; end
 
     def self.enabled?
@@ -30,7 +31,9 @@ module NoriSearch
 
       raise MissingIndex, "Nori target unavailable: #{targets.nori}" unless index_class.client.indices.exists(index: targets.nori)
 
-      index_class.import!(ids, suffix: SUFFIX)
+      imported = index_class.import!(ids, suffix: SUFFIX)
+      raise ImportFailed, 'Nori batch import failed' unless imported
+
       reconcile_public_statuses!(index_class, ids) if index_class == PublicStatusesIndex
 
       true
@@ -42,8 +45,8 @@ module NoriSearch
         ineligible_ids = ids.map(&:to_s).uniq - eligible_ids
 
         if ineligible_ids.any?
-          index_class.import!(ineligible_ids)
-          index_class.import!(ineligible_ids, suffix: SUFFIX)
+          raise LegacyImportFailed, 'Legacy reconciliation failed' unless index_class.import!(ineligible_ids)
+          raise ImportFailed, 'Nori reconciliation failed' unless index_class.import!(ineligible_ids, suffix: SUFFIX)
         end
       end
     end

@@ -16,7 +16,11 @@ class Scheduler::IndexingScheduler
     indexes.each do |type|
       with_redis do |redis|
         redis.sscan_each("chewy:queue:#{type.name}", count: SCAN_BATCH_SIZE).each_slice(IMPORT_BATCH_SIZE) do |ids|
-          type.import!(ids)
+          legacy_imported = type.import!(ids)
+          if NoriSearch::ShadowImporter.enabled? && !legacy_imported
+            raise NoriSearch::ShadowImporter::LegacyImportFailed, "Legacy import failed: #{type.name}"
+          end
+
           NoriSearch::ShadowImporter.import!(type, ids)
 
           redis.srem("chewy:queue:#{type.name}", ids)

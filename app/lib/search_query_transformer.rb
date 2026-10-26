@@ -54,14 +54,22 @@ class SearchQueryTransformer < Parslet::Transform
       clauses_by_operator.fetch(:filter, [])
     end
 
+    def selected_indices
+      @selected_indices ||= if NoriSearch::ReadIndexes.enabled?
+                              [NoriSearch::ReadIndexes::PublicStatusesIndex, NoriSearch::ReadIndexes::StatusesIndex]
+                            else
+                              [PublicStatusesIndex, StatusesIndex]
+                            end
+    end
+
     def indexes
       case @flags['in']
       when 'library'
-        [StatusesIndex]
+        [selected_indices.last]
       when 'public'
-        [PublicStatusesIndex]
+        [selected_indices.first]
       else
-        [PublicStatusesIndex, StatusesIndex]
+        selected_indices
       end
     end
 
@@ -71,7 +79,7 @@ class SearchQueryTransformer < Parslet::Transform
           should: [
             {
               term: {
-                _index: PublicStatusesIndex.index_name,
+                _index: selected_indices.first.index_name,
               },
             },
             {
@@ -79,7 +87,7 @@ class SearchQueryTransformer < Parslet::Transform
                 must: [
                   {
                     term: {
-                      _index: StatusesIndex.index_name,
+                      _index: selected_indices.last.index_name,
                     },
                   },
                   {
@@ -126,7 +134,7 @@ class SearchQueryTransformer < Parslet::Transform
         { match: { tags: { query: @term, operator: 'and' } } }
       else
         fields = %w(text text.stemmed)
-        fields << 'text.korean' if ENV['ES_KOREAN_SEARCH_ENABLED'] == 'true'
+        fields << 'text.korean' if NoriSearch::ReadIndexes.enabled?
 
         { multi_match: { type: 'most_fields', query: @term, fields: fields, operator: 'and' } }
       end

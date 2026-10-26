@@ -16,7 +16,8 @@ module NoriSearch
     class Complete < StandardError; end
 
     def self.step!(kind:, batch_size:)
-      safe_environment = Rails.env.test? &&
+      backfill_allowed = Rails.env.test? || (Rails.env.production? && ENV['ES_NORI_BACKFILL_ENABLED'] == 'true')
+      safe_environment = backfill_allowed &&
                          ENV['ES_KOREAN_SEARCH_ENABLED'] == 'true' &&
                          ShadowImporter.enabled?
       raise UnsafeEnvironment, 'Nori checkpoints require an isolated test environment' unless safe_environment
