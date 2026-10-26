@@ -88,6 +88,61 @@ RSpec.describe FeaturedTag do
     end
   end
 
+  describe 'Featured tag initialization regression cases' do
+    it 'keeps empty stats for a remote account with unrelated tagged statuses' do
+      account = Fabricate(:account, domain: 'remote.example')
+      unrelated_tag = Fabricate(:tag, name: 'unrelated')
+
+      3.times do
+        status = Fabricate(:status, account: account, visibility: :public)
+        status.tags << unrelated_tag
+      end
+
+      featured_tag = Fabricate(:featured_tag, account: account, name: 'missingtag')
+
+      expect(featured_tag).to have_attributes(
+        statuses_count: 0,
+        last_status_at: be_nil
+      )
+    end
+
+    it 'keeps the last status timestamp based on status ID order' do
+      account = Fabricate(:account)
+      tag = Fabricate(:tag, name: 'ordering')
+      lower_id_status = Fabricate(:status, account: account, visibility: :public, created_at: 10.days.ago)
+      lower_id_status.tags << tag
+      higher_id_status = Fabricate(:status, account: account, visibility: :public, created_at: 1.day.ago)
+      higher_id_status.tags << tag
+
+      higher_id_status.update!(created_at: 20.days.ago)
+
+      featured_tag = Fabricate(:featured_tag, account: account, name: 'ordering')
+
+      expect(higher_id_status.id).to be > lower_id_status.id
+      expect(higher_id_status.created_at).to be < lower_id_status.created_at
+      expect(featured_tag).to have_attributes(
+        statuses_count: 2,
+        last_status_at: be_within(0.1).of(higher_id_status.created_at)
+      )
+    end
+
+    it 'excludes non-distributable statuses from initial statistics' do
+      account = Fabricate(:account)
+      tag = Fabricate(:tag, name: 'visibility')
+      public_status = Fabricate(:status, account: account, visibility: :public)
+      private_status = Fabricate(:status, account: account, visibility: :private)
+      public_status.tags << tag
+      private_status.tags << tag
+
+      featured_tag = Fabricate(:featured_tag, account: account, name: 'visibility')
+
+      expect(featured_tag).to have_attributes(
+        statuses_count: 1,
+        last_status_at: be_within(0.1).of(public_status.created_at)
+      )
+    end
+  end
+
   describe '#sign?' do
     it { is_expected.to be_sign }
   end
