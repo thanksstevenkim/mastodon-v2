@@ -19,9 +19,8 @@ RSpec.describe NoriSearch::BackfillCheckpoint, :search do
   end
 
   it 'persists a successful cursor, preserves it on failure, and resumes' do
-    account = Fabricate(:account, indexable: true)
-    first = Fabricate(:status, account: account, visibility: :public)
-    second = Fabricate(:status, account: account, visibility: :public)
+    first = Fabricate(:status, account: Fabricate(:account, indexable: true), visibility: :public)
+    second = Fabricate(:status, account: first.account, visibility: :public)
     key = "#{described_class::KEY_PREFIX}:#{PublicStatusesIndex.index_name(suffix: 'nori_v1')}"
 
     first_result = described_class.step!(kind: 'public_statuses', batch_size: 1)

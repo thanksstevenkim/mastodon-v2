@@ -70,14 +70,16 @@ module NoriSearch
     end
 
     def self.parse(raw, kind, index_uuid)
-      return {
-        'version' => VERSION,
-        'kind' => kind,
-        'index_uuid' => index_uuid,
-        'phase' => kind == 'statuses' ? StatusesBackfill::PHASES.first : nil,
-        'after_id' => 0,
-        'done' => false,
-      } if raw.nil?
+      if raw.nil?
+        return {
+          'version' => VERSION,
+          'kind' => kind,
+          'index_uuid' => index_uuid,
+          'phase' => kind == 'statuses' ? StatusesBackfill::PHASES.first : nil,
+          'after_id' => 0,
+          'done' => false,
+        }
+      end
 
       state = JSON.parse(raw)
       raise InvalidCheckpoint, 'Nori checkpoint is not an object' unless state.is_a?(Hash)
