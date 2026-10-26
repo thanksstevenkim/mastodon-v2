@@ -109,14 +109,17 @@ RSpec.describe FeaturedTag do
     it 'keeps the last status timestamp based on status ID order' do
       account = Fabricate(:account)
       tag = Fabricate(:tag, name: 'ordering')
-      lower_id_status = Fabricate(:status, account: account, visibility: :public, created_at: 1.day.ago)
+      lower_id_status = Fabricate(:status, account: account, visibility: :public, created_at: 10.days.ago)
       lower_id_status.tags << tag
-      higher_id_status = Fabricate(:status, account: account, visibility: :public, created_at: 10.days.ago)
+      higher_id_status = Fabricate(:status, account: account, visibility: :public, created_at: 1.day.ago)
       higher_id_status.tags << tag
+
+      higher_id_status.update!(created_at: 20.days.ago)
 
       featured_tag = Fabricate(:featured_tag, account: account, name: 'ordering')
 
       expect(higher_id_status.id).to be > lower_id_status.id
+      expect(higher_id_status.created_at).to be < lower_id_status.created_at
       expect(featured_tag).to have_attributes(
         statuses_count: 2,
         last_status_at: be_within(0.1).of(higher_id_status.created_at)
