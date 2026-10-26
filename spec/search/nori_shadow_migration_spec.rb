@@ -98,13 +98,15 @@ RSpec.describe 'Nori shadow migration integration', :search do # rubocop:disable
   def fail_first_nori_account_deletion
     pending_failure = true
 
-    allow(client).to receive(:delete_by_query).and_wrap_original do |original, **options|
-      if pending_failure && options[:index] == PublicStatusesIndex.index_name(suffix: 'nori_v1')
+    allow(client).to receive(:delete_by_query).and_wrap_original do |original, *args, **options|
+      request = options.empty? && args.last.is_a?(Hash) ? args.last : options
+
+      if pending_failure && request[:index] == PublicStatusesIndex.index_name(suffix: 'nori_v1')
         pending_failure = false
         raise IOError, 'Simulated Nori account deletion failure'
       end
 
-      original.call(**options)
+      original.call(*args, **options)
     end
   end
 
