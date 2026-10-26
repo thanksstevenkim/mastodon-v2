@@ -87,6 +87,14 @@ RSpec.describe 'Nori shadow migration integration', :search do # rubocop:disable
     end
   end
 
+  def revoke_after_primary_reconciliation
+    allow(NoriSearch::ShadowImporter).to receive(:reconcile_public_statuses!).and_wrap_original do |original, *args|
+      result = original.call(*args)
+      account.update!(indexable: false)
+      result
+    end
+  end
+
   def indexed?(index_name)
     client.indices.refresh(index: index_name)
     client.exists?(index: index_name, id: status.id)
@@ -238,6 +246,27 @@ RSpec.describe 'Nori shadow migration integration', :search do # rubocop:disable
 
     expect(account.reload).to_not be_indexable
     expect(redis.sismember(key, status.id.to_s)).to be false
+    expect_documents(PublicStatusesIndex, [status.id], present: false)
+  end
+
+  it 'processes revocation after primary reconciliation and queue acknowledgement' do
+    expect(status).to be_persisted
+    account.add_to_public_statuses_index!
+    expect_documents(PublicStatusesIndex, [status.id], present: true)
+
+    key = "chewy:queue:#{PublicStatusesIndex.name}"
+    redis.sadd(key, status.id.to_s)
+
+    revoke_after_primary_reconciliation
+    Scheduler::IndexingScheduler.new.perform
+
+    expect(account.reload).to_not be_indexable
+    expect(redis.sismember(key, status.id.to_s)).to be false
+    expect(RemoveFromPublicStatusesIndexWorker.jobs.map { |job| job['args'] })
+      .to include([account.id])
+
+    RemoveFromPublicStatusesIndexWorker.new.perform(account.id)
+
     expect_documents(PublicStatusesIndex, [status.id], present: false)
   end
 
