@@ -40,8 +40,9 @@ RSpec.describe NoriSearch::SweepCheckpoint, :search do
     expect(checkpoint).to eq(saved)
 
     following = { source: 'nori', after_id: 0, scanned: 1, checked: 1, done: false }
-    expect(NoriSearch::IndexSweep).to receive(:step!).with(kind: 'public_statuses', source: 'legacy', after_id: 0, batch_size: 1).and_return(following)
+    allow(NoriSearch::IndexSweep).to receive(:step!).with(kind: 'public_statuses', source: 'legacy', after_id: 0, batch_size: 1).and_return(following)
     expect(described_class.step!(kind: 'public_statuses', batch_size: 1)).to eq(following)
+    expect(NoriSearch::IndexSweep).to have_received(:step!).with(kind: 'public_statuses', source: 'legacy', after_id: 0, batch_size: 1)
   end
 
   it 'rejects a checkpoint bound to a recreated Nori index' do
