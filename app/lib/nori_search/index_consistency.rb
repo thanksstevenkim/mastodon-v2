@@ -5,6 +5,7 @@ module NoriSearch
     extend DatabaseHelper
 
     MAX_IDS = 100
+    FOUND_VALUES = [true, false].freeze
 
     class UnsafeEnvironment < StandardError; end
     class UnsafeTarget < StandardError; end
@@ -57,9 +58,9 @@ module NoriSearch
 
       docs = client.mget(index: name, body: { ids: ids }).body.fetch('docs')
       valid = docs.is_a?(Array) &&
-              docs.map { |doc| doc['_id'] } == ids.map(&:to_s) &&
+              docs.pluck('_id') == ids.map(&:to_s) &&
               docs.all? do |doc|
-                doc['_index'] == name && [true, false].include?(doc['found']) &&
+                doc['_index'] == name && FOUND_VALUES.include?(doc['found']) &&
                   (doc['found'] == false || doc['_source'].is_a?(Hash))
               end
       raise InvalidResponse, "Unexpected Elasticsearch response: #{name}" unless valid
@@ -105,7 +106,7 @@ module NoriSearch
 
     def self.acl_matches?(document, expected)
       actual = document['searchable_by']
-      actual.is_a?(Array) && actual.all? { |id| id.is_a?(Integer) } && actual.sort == expected
+      actual.is_a?(Array) && actual.all?(Integer) && actual.sort == expected
     end
   end
 end
