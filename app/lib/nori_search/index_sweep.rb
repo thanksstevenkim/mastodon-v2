@@ -98,7 +98,7 @@ module NoriSearch
       hits = response.dig('hits', 'hits')
       shards = response['_shards']
       valid = response['timed_out'] == false && shards.is_a?(Hash) &&
-              shards['failed'] == 0 && hits.is_a?(Array)
+              shards['failed'].zero? && hits.is_a?(Array)
       raise InvalidResponse, "Incomplete Elasticsearch scan: #{name}" unless valid
 
       last_id = after_id
