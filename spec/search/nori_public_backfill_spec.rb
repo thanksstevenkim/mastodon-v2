@@ -32,9 +32,7 @@ RSpec.describe 'Nori public statuses backfill', :search do # rubocop:disable RSp
     client.indices.refresh(index: name)
 
     ids.to_h do |id|
-      document = if client.exists?(index: name, id: id)
-                   client.get(index: name, id: id).body['_source']
-                 end
+      document = (client.get(index: name, id: id).body['_source'] if client.exists?(index: name, id: id))
 
       [id, document]
     end
