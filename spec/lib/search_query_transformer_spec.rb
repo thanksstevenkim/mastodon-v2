@@ -224,10 +224,12 @@ RSpec.describe SearchQueryTransformer do
     end
 
     it 'selects Nori concrete indices with the existing account permission filter' do
-      expect(subject.send(:indexes).map(&:index_name)).to eq([
+      expected_indexes = [
         PublicStatusesIndex.index_name(suffix: 'nori_v1'),
         StatusesIndex.index_name(suffix: 'nori_v1'),
-      ])
+      ]
+
+      expect(subject.send(:indexes).map(&:index_name)).to eq(expected_indexes)
 
       filters = subject.send(:default_filter).dig(:bool, :should)
 
