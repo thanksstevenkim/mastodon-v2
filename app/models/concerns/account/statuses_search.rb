@@ -32,7 +32,16 @@ module Account::StatusesSearch
     return unless Chewy.enabled?
 
     statuses.without_reblogs.public_visibility.reorder(nil).find_in_batches do |batch|
-      PublicStatusesIndex.import(batch)
+      success = PublicStatusesIndex.import(batch)
+
+      if NoriSearch::ShadowImporter.enabled?
+        raise NoriSearch::ShadowImporter::LegacyImportFailed, 'Legacy public index import failed' unless success
+
+        NoriSearch::ShadowImporter.import!(
+          PublicStatusesIndex,
+          batch.map(&:id)
+        )
+      end
     end
   end
 
@@ -40,5 +49,6 @@ module Account::StatusesSearch
     return unless Chewy.enabled?
 
     PublicStatusesIndex.filter(term: { account_id: id }).delete_all
+    NoriSearch::ShadowImporter.remove_public_account!(id)
   end
 end
