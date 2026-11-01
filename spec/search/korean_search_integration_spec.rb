@@ -37,7 +37,9 @@ RSpec.describe 'Korean search integration' do # rubocop:disable RSpec/DescribeCl
         )
         Chewy.client.indices.refresh(index: index_class.index_name)
 
-        query = SearchQueryTransformer::TermClause.new(nil, '마스토돈').to_query
+        query = ClimateControl.modify(ES_NORI_READ_ENABLED: 'true', ES_NORI_READ_CUTOVER_ENABLED: 'true') do
+          SearchQueryTransformer::TermClause.new(nil, '마스토돈').to_query
+        end
         result = Chewy.client.search(index: index_class.index_name, body: { query: query })
         ids = result.dig('hits', 'hits').map { |hit| hit.fetch('_id') }
 
