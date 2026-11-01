@@ -152,7 +152,7 @@ RSpec.describe SearchQueryTransformer do
 
   describe 'Nori search queries' do
     around do |example|
-      ClimateControl.modify(ES_KOREAN_SEARCH_ENABLED: 'true') { example.run }
+      ClimateControl.modify(ES_KOREAN_SEARCH_ENABLED: 'true', ES_NORI_READ_ENABLED: 'true', ES_NORI_READ_CUTOVER_ENABLED: 'true') { example.run }
     end
 
     it 'preserves legacy fields when Nori is disabled' do
@@ -213,6 +213,48 @@ RSpec.describe SearchQueryTransformer do
           },
         }
       )
+    end
+  end
+
+  describe 'Nori read index routing' do
+    let(:query) { '마스토돈' }
+
+    around do |example|
+      ClimateControl.modify(ES_KOREAN_SEARCH_ENABLED: 'true', ES_NORI_READ_ENABLED: 'true', ES_NORI_READ_CUTOVER_ENABLED: 'true') { example.run }
+    end
+
+    it 'selects Nori concrete indices with the existing account permission filter' do
+      expect(subject.send(:indexes).map(&:index_name)).to eq([
+        PublicStatusesIndex.index_name(suffix: 'nori_v1'),
+        StatusesIndex.index_name(suffix: 'nori_v1'),
+      ])
+
+      filters = subject.send(:default_filter).dig(:bool, :should)
+
+      expect(filters[0].dig(:term, :_index)).to eq(PublicStatusesIndex.index_name(suffix: 'nori_v1'))
+      expect(filters[1].dig(:bool, :must)[0].dig(:term, :_index)).to eq(StatusesIndex.index_name(suffix: 'nori_v1'))
+      expect(filters[1].dig(:bool, :must)[1].dig(:term, :searchable_by)).to eq(account.id)
+    end
+
+    it 'preserves public and library search scopes' do
+      public_query = described_class.new.apply(SearchQueryParser.new.parse('in:public 마스토돈'), current_account: account)
+      library_query = described_class.new.apply(SearchQueryParser.new.parse('in:library 마스토돈'), current_account: account)
+
+      expect(public_query.send(:indexes).map(&:index_name)).to eq([PublicStatusesIndex.index_name(suffix: 'nori_v1')])
+      expect(library_query.send(:indexes).map(&:index_name)).to eq([StatusesIndex.index_name(suffix: 'nori_v1')])
+    end
+
+    it 'keeps legacy routing when cutover approval is absent' do
+      ClimateControl.modify(ES_NORI_READ_CUTOVER_ENABLED: nil) do
+        expect(subject.send(:indexes).map(&:index_name)).to eq([PublicStatusesIndex.index_name, StatusesIndex.index_name])
+        expect(described_class::TermClause.new(nil, '마스토돈').to_query.dig(:multi_match, :fields)).to eq(%w(text text.stemmed))
+      end
+    end
+
+    it 'keeps legacy routing when the read flag is disabled' do
+      ClimateControl.modify(ES_NORI_READ_ENABLED: 'false') do
+        expect(subject.send(:indexes).map(&:index_name)).to eq([PublicStatusesIndex.index_name, StatusesIndex.index_name])
+      end
     end
   end
 end
