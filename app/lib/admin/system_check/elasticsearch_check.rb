@@ -112,13 +112,46 @@ class Admin::SystemCheck::ElasticsearchCheck < Admin::SystemCheck::BaseCheck
 
   def mismatched_indexes
     @mismatched_indexes ||= INDEXES.filter_map do |klass|
-      klass.base_name if Chewy.client.indices.get_mapping[klass.index_name]&.deep_symbolize_keys != klass.mappings_hash
+      active_index = active_index_for(klass)
+      actual = Chewy.client.indices.get_mapping[active_index.index_name]&.deep_symbolize_keys
+
+      klass.base_name if actual != active_index.mappings_hash
     end
   end
 
   def mismatched_specifications_indexes
     @mismatched_specifications_indexes ||= INDEXES.filter_map do |klass|
-      klass.base_name if klass.specification.changed?
+      active_index = active_index_for(klass)
+      changed = active_index == klass ? klass.specification.changed? : nori_settings_changed?(active_index)
+
+      klass.base_name if changed
+    end
+  end
+
+  def active_index_for(klass)
+    return klass unless NoriSearch::ReadIndexes.enabled?
+
+    return NoriSearch::ReadIndexes::StatusesIndex if klass == StatusesIndex
+    return NoriSearch::ReadIndexes::PublicStatusesIndex if klass == PublicStatusesIndex
+
+    klass
+  end
+
+  def nori_settings_changed?(klass)
+    expected = klass.settings_hash.fetch(:settings).deep_stringify_keys
+    actual = Chewy.client.indices.get_settings(index: klass.index_name)
+      .dig(klass.index_name, 'settings', 'index')
+
+    return true if actual.nil?
+
+    !expected.all? do |key, value|
+      if key == 'analysis'
+        actual['analysis'] == value
+      elsif key == 'index'
+        value.all? { |setting, expected_value| actual[setting].to_s == expected_value.to_s }
+      else
+        actual[key].to_s == value.to_s
+      end
     end
   end
 

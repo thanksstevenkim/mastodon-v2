@@ -129,6 +129,52 @@ RSpec.describe Admin::SystemCheck::ElasticsearchCheck do
     end
   end
 
+  describe 'Nori read index checks' do
+    around do |example|
+      ClimateControl.modify(
+        ES_KOREAN_SEARCH_ENABLED: 'true',
+        ES_NORI_READ_ENABLED: 'true',
+        ES_NORI_READ_CUTOVER_ENABLED: 'true'
+      ) { example.run }
+    end
+
+    before do
+      mappings = described_class::INDEXES.each_with_object({}) do |klass, result|
+        active = if klass == StatusesIndex
+                   NoriSearch::ReadIndexes::StatusesIndex
+                 elsif klass == PublicStatusesIndex
+                   NoriSearch::ReadIndexes::PublicStatusesIndex
+                 else
+                   klass
+                 end
+        result[active.index_name] = active.mappings_hash.deep_stringify_keys
+      end
+
+      settings = [
+        NoriSearch::ReadIndexes::StatusesIndex,
+        NoriSearch::ReadIndexes::PublicStatusesIndex,
+      ].to_h do |klass|
+        expected = klass.settings_hash.fetch(:settings).deep_stringify_keys
+        [klass.index_name, { 'settings' => { 'index' => expected.fetch('index').merge('analysis' => expected.fetch('analysis')) } }]
+      end
+
+      allow(Chewy.client.indices).to receive_messages(get_mapping: mappings, get_settings: settings)
+
+      described_class::INDEXES.each do |klass|
+        allow(klass).to receive(:specification)
+          .and_return(instance_double(Chewy::Index::Specification, changed?: klass == StatusesIndex || klass == PublicStatusesIndex))
+      end
+    end
+
+    it 'validates Nori physical mappings instead of legacy mappings' do
+      expect(check.send(:mismatched_indexes)).to be_empty
+    end
+
+    it 'checks live Nori settings instead of stale legacy specification snapshots' do
+      expect(check.send(:mismatched_specifications_indexes)).to be_empty
+    end
+  end
+
   def stub_elasticsearch_error
     client = instance_double(Elasticsearch::Client)
     allow(client).to receive(:info).and_raise(Elastic::Transport::Transport::Error)
