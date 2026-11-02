@@ -162,7 +162,7 @@ RSpec.describe Admin::SystemCheck::ElasticsearchCheck do
 
       described_class::INDEXES.each do |klass|
         allow(klass).to receive(:specification)
-          .and_return(instance_double(Chewy::Index::Specification, changed?: klass == StatusesIndex || klass == PublicStatusesIndex))
+          .and_return(instance_double(Chewy::Index::Specification, changed?: [StatusesIndex, PublicStatusesIndex].include?(klass)))
       end
     end
 
