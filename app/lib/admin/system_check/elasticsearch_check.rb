@@ -144,13 +144,13 @@ class Admin::SystemCheck::ElasticsearchCheck < Admin::SystemCheck::BaseCheck
 
     return true if actual.nil?
 
-    !expected.all? do |key, value|
+    expected.any? do |key, value|
       if key == 'analysis'
-        actual['analysis'] == value
+        actual['analysis'] != value
       elsif key == 'index'
-        value.all? { |setting, expected_value| actual[setting].to_s == expected_value.to_s }
+        value.any? { |setting, expected_value| actual[setting].to_s != expected_value.to_s }
       else
-        actual[key].to_s == value.to_s
+        actual[key].to_s != value.to_s
       end
     end
   end
